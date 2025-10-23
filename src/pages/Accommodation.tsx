@@ -1,0 +1,166 @@
+import { useEffect, useState } from "react";
+import { Search, Filter } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import AccommodationCard from "@/components/AccommodationCard";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+interface Accommodation {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  city: string;
+  type: string;
+  price_per_night: number;
+  images: string[];
+}
+
+const Accommodation = () => {
+  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCity, setSelectedCity] = useState<string>("all");
+  const [selectedType, setSelectedType] = useState<string>("all");
+  const [cities, setCities] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchAccommodations();
+  }, []);
+
+  const fetchAccommodations = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("accommodations")
+        .select("*")
+        .order("name");
+
+      if (error) throw error;
+      
+      setAccommodations(data || []);
+      
+      // Extract unique cities
+      const uniqueCities = Array.from(
+        new Set(data?.map((acc) => acc.city) || [])
+      ).sort();
+      setCities(uniqueCities);
+    } catch (error) {
+      console.error("Error fetching accommodations:", error);
+      toast.error("Nepodařilo se načíst ubytování");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredAccommodations = accommodations.filter((acc) => {
+    const matchesSearch =
+      acc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      acc.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      acc.city.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCity = selectedCity === "all" || acc.city === selectedCity;
+    const matchesType = selectedType === "all" || acc.type === selectedType;
+    return matchesSearch && matchesCity && matchesType;
+  });
+
+  return (
+    <div className="min-h-screen py-12">
+      <div className="container mx-auto px-4 md:px-6">
+        {/* Header */}
+        <div className="mb-12">
+          <h1 className="mb-4 text-4xl font-bold md:text-5xl">Ubytování</h1>
+          <p className="text-lg text-muted-foreground">
+            Najděte perfektní ubytování v Dánsku
+          </p>
+        </div>
+
+        {/* Filters */}
+        <div className="mb-8 space-y-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Hledat ubytování..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          
+          <div className="flex flex-col gap-4 md:flex-row">
+            <Select value={selectedCity} onValueChange={setSelectedCity}>
+              <SelectTrigger className="w-full md:w-[200px]">
+                <SelectValue placeholder="Město" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Všechna města</SelectItem>
+                {cities.map((city) => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={selectedType} onValueChange={setSelectedType}>
+              <SelectTrigger className="w-full md:w-[200px]">
+                <SelectValue placeholder="Typ ubytování" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Všechny typy</SelectItem>
+                <SelectItem value="hotel">Hotel</SelectItem>
+                <SelectItem value="apartment">Apartmán</SelectItem>
+                <SelectItem value="hostel">Hostel</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Results */}
+        {loading ? (
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {[...Array(9)].map((_, i) => (
+              <div key={i} className="h-96 animate-pulse rounded-lg bg-muted"></div>
+            ))}
+          </div>
+        ) : filteredAccommodations.length > 0 ? (
+          <>
+            <p className="mb-6 text-sm text-muted-foreground">
+              Nalezeno {filteredAccommodations.length} ubytování
+            </p>
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {filteredAccommodations.map((accommodation) => (
+                <AccommodationCard
+                  key={accommodation.id}
+                  id={accommodation.id}
+                  name={accommodation.name}
+                  slug={accommodation.slug}
+                  description={accommodation.description}
+                  city={accommodation.city}
+                  type={accommodation.type}
+                  pricePerNight={accommodation.price_per_night}
+                  images={accommodation.images}
+                />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="rounded-lg bg-muted p-12 text-center">
+            <p className="text-lg text-muted-foreground">
+              Nenalezeno žádné ubytování odpovídající vašemu hledání.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Accommodation;
