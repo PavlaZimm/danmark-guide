@@ -1,174 +1,217 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, MapPin, Building2, Coffee, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import ArticleCard from "@/components/ArticleCard";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
-
-interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  perex: string;
-  image_url: string | null;
-  created_at: string;
-  categories: {
-    name: string;
-  };
-}
+import heroImage from "@/assets/hero-denmark.jpg";
+import countrysideImage from "@/assets/countryside.jpg";
+import hyggeImage from "@/assets/hygge.jpg";
+import designImage from "@/assets/design.jpg";
 
 const Home = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchArticles();
-  }, []);
-
-  const fetchArticles = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("articles")
-        .select(`
-          id,
-          title,
-          slug,
-          perex,
-          image_url,
-          created_at,
-          categories (
-            name
-          )
-        `)
-        .eq("published", true)
-        .order("created_at", { ascending: false })
-        .limit(6);
-
-      if (error) throw error;
-      setArticles(data || []);
-    } catch (error) {
-      console.error("Error fetching articles:", error);
-      toast.error("Nepodařilo se načíst články");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-hero py-20 md:py-32">
-        <div className="container relative z-10 mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-3xl text-center text-white">
-            <h1 className="mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
-              Objevte krásy Dánska
-            </h1>
-            <p className="mb-8 text-lg text-white/90 md:text-xl">
-              Váš průvodce po dánské kultuře, historii, cestování a nejlepších
-              destinacích v zemi викингů a hygge.
+      {/* Hero Section with Full-Width Image */}
+      <section className="relative h-[90vh] min-h-[600px] w-full overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src={heroImage}
+            alt="Barevné Nyhavn v Kodani"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+        </div>
+        
+        <div className="relative z-10 flex h-full items-center">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="max-w-3xl text-white">
+              <h1 className="mb-6 animate-fade-in text-balance">
+                Objevte krásy Dánska
+              </h1>
+              <p className="mb-8 text-xl leading-relaxed text-white/95 md:text-2xl">
+                Zažijte zemi викингů, hygge a moderního designu. Od barevných
+                domů Kodaně po klidnou dánskou přírodu.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link to="/ubytovani">
+                  <Button size="lg" className="h-14 px-8 text-lg shadow-xl hover:scale-105 transition-all">
+                    Najít ubytování
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </Link>
+                <Link to="/o-dansku">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="h-14 border-2 border-white bg-white/10 px-8 text-lg text-white backdrop-blur-sm hover:bg-white hover:text-foreground transition-all"
+                  >
+                    Více o Dánsku
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
+          <div className="h-12 w-8 rounded-full border-2 border-white/50">
+            <div className="mx-auto mt-2 h-3 w-1 animate-pulse rounded-full bg-white/80" />
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Cards */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-balance">Co vás čeká v Dánsku</h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Objevte jedinečnou kombinaci historie, moderního designu a
+              skandinávského životního stylu
             </p>
-            <div className="mx-auto flex max-w-md gap-2">
-              <Input
-                type="search"
-                placeholder="Hledat články..."
-                className="bg-white text-foreground"
-              />
-              <Button size="icon" className="bg-white text-primary hover:bg-white/90">
-                <Search className="h-5 w-5" />
-              </Button>
-            </div>
           </div>
-        </div>
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djJoLTJ2LTJoMnptMC00aDJ2Mmgtdi0yem0wLTR2MmgtMnYtMmgyem0wLTRoMnYyaC0ydi0yem0wLTR2MmgtMnYtMmgyem0tMiAyaC0ydi0yaDJ2MnptLTQgMGgtMnYtMmgydjJ6bS00IDBoLTJ2LTJoMnYyem0tNCAwSDIwdi0yaDJ2MnptLTQgMGgtMnYtMmgydjJ6bS00IDBoLTJ2LTJoMnYyem0tNCAwSDh2LTJoMnYyem0tNCAwSDR2LTJoMnYyem0tNCAwSDB2LTJoMnYyem0yOCAyNGgtMnYtMmgydjJ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-10"></div>
-      </section>
 
-      {/* Latest Articles */}
-      <section className="py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="mb-12 flex items-center justify-between">
-            <div>
-              <h2 className="mb-2 text-3xl font-bold md:text-4xl">Nejnovější články</h2>
-              <p className="text-muted-foreground">
-                Prozkoumejte naše nejnovější příspěvky o Dánsku
-              </p>
-            </div>
-            <Link to="/clanky">
-              <Button variant="outline" className="hidden md:flex">
-                Zobrazit vše
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {/* Countryside Card */}
+            <Link to="/cestovani" className="group">
+              <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={countrysideImage}
+                    alt="Dánská krajina"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <MapPin className="mb-2 h-8 w-8" />
+                    <h3 className="text-2xl font-bold">Cestování</h3>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <p className="text-muted-foreground">
+                    Prozkoumejte malebné vesničky, široké pláže a kouzelnou
+                    dánskou krajinu.
+                  </p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Hygge Card */}
+            <Link to="/kultura" className="group">
+              <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={hyggeImage}
+                    alt="Hygge - dánský životní styl"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <Coffee className="mb-2 h-8 w-8" />
+                    <h3 className="text-2xl font-bold">Hygge & Kultura</h3>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <p className="text-muted-foreground">
+                    Poznejte dánskou filosofii pohodlného života a bohatou
+                    kulturní tradici.
+                  </p>
+                </div>
+              </div>
+            </Link>
+
+            {/* Design Card */}
+            <Link to="/o-dansku" className="group">
+              <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={designImage}
+                    alt="Dánský design"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <Sparkles className="mb-2 h-8 w-8" />
+                    <h3 className="text-2xl font-bold">Moderní Design</h3>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <p className="text-muted-foreground">
+                    Objevte světově proslulý skandinávský minimalismus a
+                    funkční design.
+                  </p>
+                </div>
+              </div>
             </Link>
           </div>
+        </div>
+      </section>
 
-          {loading ? (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-96 animate-pulse rounded-lg bg-muted"></div>
-              ))}
+      {/* Accommodation CTA */}
+      <section className="bg-primary py-24 text-primary-foreground">
+        <div className="container mx-auto px-4 text-center md:px-6">
+          <Building2 className="mx-auto mb-6 h-16 w-16 opacity-90" />
+          <h2 className="mb-6 text-white">Hledáte ubytování?</h2>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-white/95">
+            Najděte perfektní místo pro váš pobyt v Dánsku. Od hotelů v centru
+            Kodaně po útulné apartmány na venkově.
+          </p>
+          <Link to="/ubytovani">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="h-14 px-8 text-lg shadow-xl transition-all hover:scale-105"
+            >
+              Prohlédnout ubytování
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="text-center">
+              <div className="mb-2 text-5xl font-bold text-primary md:text-6xl">
+                5.9M
+              </div>
+              <p className="text-lg text-muted-foreground">Obyvatel</p>
             </div>
-          ) : articles.length > 0 ? (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article) => (
-                <ArticleCard
-                  key={article.id}
-                  id={article.id}
-                  title={article.title}
-                  slug={article.slug}
-                  perex={article.perex}
-                  imageUrl={article.image_url || undefined}
-                  category={article.categories?.name || "Bez kategorie"}
-                  createdAt={article.created_at}
-                />
-              ))}
+            <div className="text-center">
+              <div className="mb-2 text-5xl font-bold text-primary md:text-6xl">
+                400+
+              </div>
+              <p className="text-lg text-muted-foreground">Pojmenovaných ostrovů</p>
             </div>
-          ) : (
-            <div className="rounded-lg bg-muted p-12 text-center">
+            <div className="text-center">
+              <div className="mb-2 text-5xl font-bold text-primary md:text-6xl">
+                #1
+              </div>
               <p className="text-lg text-muted-foreground">
-                Zatím zde nejsou žádné publikované články.
+                Nejšťastnější země světa
               </p>
             </div>
-          )}
-
-          <div className="mt-8 text-center md:hidden">
-            <Link to="/clanky">
-              <Button>
-                Zobrazit vše
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* Featured Categories */}
-      <section className="bg-secondary/30 py-16 md:py-24">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="mb-12 text-center text-3xl font-bold md:text-4xl">
-            Prozkoumejte kategorie
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              { name: "Cestování", emoji: "✈️", path: "/cestovani" },
-              { name: "Kultura", emoji: "🎭", path: "/kultura" },
-              { name: "Historie", emoji: "🏛️", path: "/clanky" },
-              { name: "Gastronomie", emoji: "🍽️", path: "/clanky" },
-              { name: "Lifestyle", emoji: "🌟", path: "/clanky" },
-              { name: "Ubytování", emoji: "🏨", path: "/ubytovani" },
-            ].map((category) => (
-              <Link
-                key={category.name}
-                to={category.path}
-                className="group rounded-lg bg-card p-8 text-center shadow-soft transition-all hover:shadow-medium"
-              >
-                <div className="mb-4 text-5xl">{category.emoji}</div>
-                <h3 className="text-xl font-semibold transition-colors group-hover:text-primary">
-                  {category.name}
-                </h3>
-              </Link>
-            ))}
-          </div>
+      {/* Final CTA */}
+      <section className="bg-gradient-card py-24">
+        <div className="container mx-auto px-4 text-center md:px-6">
+          <h2 className="mb-6">Připraveni objevovat?</h2>
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
+            Začněte plánovat svou cestu do Dánska ještě dnes
+          </p>
+          <Link to="/kontakt">
+            <Button
+              size="lg"
+              className="h-14 px-8 text-lg shadow-medium transition-all hover:scale-105"
+            >
+              Kontaktujte nás
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </section>
     </div>
