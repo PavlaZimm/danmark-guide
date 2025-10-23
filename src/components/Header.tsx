@@ -11,7 +11,6 @@ const Header = () => {
 
   const navItems = [
     { label: "Domů", path: "/" },
-    { label: "Články", path: "/clanky" },
     { label: "O Dánsku", path: "/o-dansku" },
     { label: "Kultura", path: "/kultura" },
     { label: "Cestování", path: "/cestovani" },
