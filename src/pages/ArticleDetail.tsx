@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import { calculateReadingTime, formatReadingTime } from "@/lib/readingTime";
+import AuthorBio from "@/components/AuthorBio";
 
 interface Article {
   id: string;
@@ -249,9 +250,12 @@ const ArticleDetail = () => {
 
             {/* Content */}
             <div
-              className="prose prose-lg max-w-none"
+              className="prose prose-lg max-w-none mb-12"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
+
+            {/* Author Bio */}
+            <AuthorBio />
           </div>
         </div>
       </article>
