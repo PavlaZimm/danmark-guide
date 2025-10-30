@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kastrup.cz - Váš průvodce po Dánsku</title>
+    <link>https://kastrup.cz</link>
+    <description>Komplexní průvodce po Dánsku - kultura, cestování, ubytování a tipy pro návštěvu země vikingů a hygge. Objevte Kodaň, dánský design a nejlepší destinace.</description>
+    <language>cs-CZ</language>
+    <lastBuildDate>Thu, 30 Oct 2025 12:00:00 +0100</lastBuildDate>
+    <atom:link href="https://kastrup.cz/rss.xml" rel="self" type="application/rss+xml" />
+    <managingEditor>info@kastrup.cz (Pavla)</managingEditor>
+    <webMaster>info@kastrup.cz (Pavla)</webMaster>
+    <image>
+      <url>https://kastrup.cz/logo.png</url>
+      <title>Kastrup.cz</title>
+      <link>https://kastrup.cz</link>
+    </image>
+
+    <!-- NOTE: This is a static RSS feed template.
+         For a dynamic RSS feed that automatically updates with new articles,
+         consider implementing a server-side RSS generator or using a build-time
+         static site generation tool.
+
+         Articles should be added here manually or generated automatically during build.
+    -->
+
+    <!-- Example article item (template) -->
+    <!--
+    <item>
+      <title>Article Title</title>
+      <link>https://kastrup.cz/clanek/article-slug</link>
+      <description>Article description or perex</description>
+      <pubDate>Mon, 01 Jan 2025 10:00:00 +0100</pubDate>
+      <guid isPermaLink="true">https://kastrup.cz/clanek/article-slug</guid>
+      <category>Category Name</category>
+      <author>info@kastrup.cz (Pavla)</author>
+    </item>
+    -->
+
+  </channel>
+</rss>
