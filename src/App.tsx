@@ -32,8 +32,6 @@ const App = () => (
                 <Route path="/clanek/:slug" element={<ArticleDetail />} />
                 <Route path="/ubytovani" element={<Accommodation />} />
                 <Route path="/o-dansku" element={<About />} />
-                <Route path="/kultura" element={<Articles />} />
-                <Route path="/cestovani" element={<Articles />} />
                 <Route path="/kontakt" element={<Contact />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

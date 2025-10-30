@@ -18,7 +18,7 @@ const About = () => {
             <div className="mb-12 text-center">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">O Dánsku</h1>
               <p className="text-xl text-muted-foreground">
-                Objevte zemi викингů, moderního designu a hygge
+                Objevte zemi vikingů, moderního designu a hygge
               </p>
             </div>
 
@@ -37,7 +37,7 @@ const About = () => {
               <section className="mb-12">
                 <h2 className="mb-4">Historie a kultura</h2>
                 <p>
-                  Dánsko má bohatou historii sahající až do dob Викингů. Země je
+                  Dánsko má bohatou historii sahající až do dob vikingů. Země je
                   známá svým moderním designem, architekturou a filosofií hygge -
                   umění žít pohodlný a šťastný život.
                 </p>

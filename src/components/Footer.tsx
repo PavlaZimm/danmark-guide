@@ -52,7 +52,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/cestovani"
+                  to="/clanky?kategorie=cestovani"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   Cestování
@@ -60,7 +60,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/kultura"
+                  to="/clanky?kategorie=kultura"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   Kultura

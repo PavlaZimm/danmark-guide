@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Calendar, ArrowLeft, Share2 } from "lucide-react";
+import { Calendar, ArrowLeft, Share2, Clock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import { calculateReadingTime, formatReadingTime } from "@/lib/readingTime";
 
 interface Article {
   id: string;
@@ -87,6 +88,40 @@ const ArticleDetail = () => {
       })
     : "";
 
+  const readingMinutes = article ? calculateReadingTime(article.content) : 0;
+  const readingTime = formatReadingTime(readingMinutes);
+
+  // Create JSON-LD structured data for SEO
+  const structuredData = article ? {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": article.title,
+    "description": article.perex,
+    "image": article.og_image || article.image_url || "",
+    "datePublished": article.created_at,
+    "dateModified": article.created_at,
+    "author": {
+      "@type": "Organization",
+      "name": "Kastrup.cz",
+      "url": "https://kastrup.cz"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Kastrup.cz",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://kastrup.cz/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://kastrup.cz/clanek/${article.slug}`
+    },
+    "articleSection": article.categories?.name,
+    "inLanguage": "cs-CZ",
+    "wordCount": article.content.replace(/<[^>]*>/g, '').split(/\s+/).length
+  } : null;
+
   if (loading) {
     return (
       <div className="min-h-screen py-12">
@@ -145,6 +180,14 @@ const ArticleDetail = () => {
           content={article.og_image || article.image_url || ""}
         />
         <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={article.created_at} />
+        <meta property="article:author" content="Kastrup.cz" />
+        <link rel="canonical" href={`https://kastrup.cz/clanek/${article.slug}`} />
+        {structuredData && (
+          <script type="application/ld+json">
+            {JSON.stringify(structuredData)}
+          </script>
+        )}
       </Helmet>
 
       <article className="min-h-screen py-12">
@@ -166,8 +209,16 @@ const ArticleDetail = () => {
               <div className="mb-4 flex flex-wrap items-center gap-4">
                 <Badge className="bg-primary">{article.categories?.name}</Badge>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <User className="h-4 w-4" />
+                  <span>Kastrup.cz</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   <span>{formattedDate}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="h-4 w-4" />
+                  <span>{readingTime}</span>
                 </div>
                 <Button
                   variant="ghost"
