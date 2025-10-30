@@ -13,6 +13,8 @@ import ArticleDetail from "./pages/ArticleDetail";
 import Accommodation from "./pages/Accommodation";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Archive from "./pages/Archive";
+import AuthorProfile from "./pages/AuthorProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +37,8 @@ const App = () => (
                 <Route path="/ubytovani" element={<Accommodation />} />
                 <Route path="/o-dansku" element={<About />} />
                 <Route path="/kontakt" element={<Contact />} />
+                <Route path="/archiv" element={<Archive />} />
+                <Route path="/autorka" element={<AuthorProfile />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

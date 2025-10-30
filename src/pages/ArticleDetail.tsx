@@ -12,6 +12,7 @@ import AuthorBio from "@/components/AuthorBio";
 import RelatedArticles from "@/components/RelatedArticles";
 import SocialShare from "@/components/SocialShare";
 import Comments from "@/components/Comments";
+import ArticleTags from "@/components/ArticleTags";
 
 interface Article {
   id: string;
@@ -232,6 +233,11 @@ const ArticleDetail = () => {
                 title={article.title}
                 description={article.perex}
               />
+
+              {/* Article Tags */}
+              <div className="mt-6">
+                <ArticleTags tags={["Dánsko", "Kodaň", "Cestování"]} />
+              </div>
             </header>
 
             {/* Featured Image */}

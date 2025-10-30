@@ -43,6 +43,22 @@ const Footer = () => {
                   O Dánsku
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/archiv"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Archiv
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/autorka"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  O autorce
+                </Link>
+              </li>
             </ul>
           </div>
 
