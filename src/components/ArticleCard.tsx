@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import { Calendar } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { calculateReadingTime, formatReadingTime } from "@/lib/readingTime";
 
 interface ArticleCardProps {
   id: string;
@@ -11,6 +12,7 @@ interface ArticleCardProps {
   imageUrl?: string;
   category: string;
   createdAt: string;
+  content?: string;
 }
 
 const ArticleCard = ({
@@ -21,12 +23,17 @@ const ArticleCard = ({
   imageUrl,
   category,
   createdAt,
+  content,
 }: ArticleCardProps) => {
   const formattedDate = new Date(createdAt).toLocaleDateString("cs-CZ", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+
+  // Calculate reading time from perex (approximate)
+  const readingMinutes = calculateReadingTime(content || perex);
+  const readingTime = formatReadingTime(readingMinutes);
 
   return (
     <Link to={`/clanek/${slug}`}>
@@ -57,9 +64,15 @@ const ArticleCard = ({
           <p className="line-clamp-3 text-sm text-muted-foreground">{perex}</p>
         </CardContent>
         <CardFooter className="px-6 pb-6 pt-0">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Calendar className="h-4 w-4" />
-            <span>{formattedDate}</span>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              <span>{formattedDate}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="h-4 w-4" />
+              <span>{readingTime}</span>
+            </div>
           </div>
         </CardFooter>
       </Card>

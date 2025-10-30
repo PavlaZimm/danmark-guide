@@ -1,11 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Calendar, ArrowLeft, Share2 } from "lucide-react";
+import { Calendar, ArrowLeft, Clock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import { calculateReadingTime, formatReadingTime } from "@/lib/readingTime";
+import { sanitizeHtml } from "@/lib/sanitize";
+import AuthorBio from "@/components/AuthorBio";
+import RelatedArticles from "@/components/RelatedArticles";
+import SocialShare from "@/components/SocialShare";
+import Comments from "@/components/Comments";
+import ArticleTags from "@/components/ArticleTags";
 
 interface Article {
   id: string;
@@ -20,6 +27,7 @@ interface Article {
   og_image: string | null;
   categories: {
     name: string;
+    slug: string;
   };
 }
 
@@ -50,7 +58,8 @@ const ArticleDetail = () => {
           meta_description,
           og_image,
           categories (
-            name
+            name,
+            slug
           )
         `)
         .eq("slug", slug)
@@ -67,18 +76,6 @@ const ArticleDetail = () => {
     }
   };
 
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: article?.title,
-        url: window.location.href,
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      toast.success("Odkaz zkopírován do schránky");
-    }
-  };
-
   const formattedDate = article
     ? new Date(article.created_at).toLocaleDateString("cs-CZ", {
         year: "numeric",
@@ -86,6 +83,45 @@ const ArticleDetail = () => {
         day: "numeric",
       })
     : "";
+
+  const readingMinutes = article ? calculateReadingTime(article.content) : 0;
+  const readingTime = formatReadingTime(readingMinutes);
+
+  // Sanitize article content for security
+  const sanitizedContent = useMemo(() => {
+    return article ? sanitizeHtml(article.content) : '';
+  }, [article?.content]);
+
+  // Create JSON-LD structured data for SEO
+  const structuredData = article ? {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": article.title,
+    "description": article.perex,
+    "image": article.og_image || article.image_url || "",
+    "datePublished": article.created_at,
+    "dateModified": article.created_at,
+    "author": {
+      "@type": "Organization",
+      "name": "Kastrup.cz",
+      "url": "https://kastrup.cz"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Kastrup.cz",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://kastrup.cz/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://kastrup.cz/clanek/${article.slug}`
+    },
+    "articleSection": article.categories?.name,
+    "inLanguage": "cs-CZ",
+    "wordCount": article.content.replace(/<[^>]*>/g, '').split(/\s+/).length
+  } : null;
 
   if (loading) {
     return (
@@ -145,6 +181,14 @@ const ArticleDetail = () => {
           content={article.og_image || article.image_url || ""}
         />
         <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={article.created_at} />
+        <meta property="article:author" content="Kastrup.cz" />
+        <link rel="canonical" href={`https://kastrup.cz/clanek/${article.slug}`} />
+        {structuredData && (
+          <script type="application/ld+json">
+            {JSON.stringify(structuredData)}
+          </script>
+        )}
       </Helmet>
 
       <article className="min-h-screen py-12">
@@ -166,23 +210,34 @@ const ArticleDetail = () => {
               <div className="mb-4 flex flex-wrap items-center gap-4">
                 <Badge className="bg-primary">{article.categories?.name}</Badge>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <User className="h-4 w-4" />
+                  <span>Kastrup.cz</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   <span>{formattedDate}</span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleShare}
-                  className="ml-auto"
-                >
-                  <Share2 className="mr-2 h-4 w-4" />
-                  Sdílet
-                </Button>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="h-4 w-4" />
+                  <span>{readingTime}</span>
+                </div>
               </div>
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">
                 {article.title}
               </h1>
-              <p className="text-xl text-muted-foreground">{article.perex}</p>
+              <p className="text-xl text-muted-foreground mb-6">{article.perex}</p>
+
+              {/* Social Share Buttons */}
+              <SocialShare
+                url={`/clanek/${article.slug}`}
+                title={article.title}
+                description={article.perex}
+              />
+
+              {/* Article Tags */}
+              <div className="mt-6">
+                <ArticleTags tags={["Dánsko", "Kodaň", "Cestování"]} />
+              </div>
             </header>
 
             {/* Featured Image */}
@@ -198,8 +253,23 @@ const ArticleDetail = () => {
 
             {/* Content */}
             <div
-              className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: article.content }}
+              className="prose prose-lg max-w-none mb-12"
+              dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+            />
+
+            {/* Author Bio */}
+            <AuthorBio />
+
+            {/* Related Articles */}
+            <RelatedArticles
+              currentArticleId={article.id}
+              categorySlug={article.categories?.slug}
+            />
+
+            {/* Comments */}
+            <Comments
+              articleId={article.id}
+              articleTitle={article.title}
             />
           </div>
         </div>

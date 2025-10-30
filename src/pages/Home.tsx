@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, Building2, Coffee, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
+import Newsletter from "@/components/Newsletter";
+import FeaturedArticles from "@/components/FeaturedArticles";
 import heroImage from "@/assets/hero-denmark.jpg";
 import countrysideImage from "@/assets/countryside.jpg";
 import hyggeImage from "@/assets/hygge.jpg";
@@ -8,7 +11,19 @@ import designImage from "@/assets/design.jpg";
 
 const Home = () => {
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>Kastrup.cz - Váš průvodce po Dánsku | Objevte krásy Skandinávie</title>
+        <meta
+          name="description"
+          content="Komplexní průvodce po Dánsku - kultura, cestování, ubytování a tipy pro návštěvu země vikingů a hygge. Objevte Kodaň, dánský design a nejlepší destinace."
+        />
+        <meta property="og:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
+        <meta property="og:description" content="Komplexní průvodce po Dánsku - kultura, cestování, ubytování a tipy pro návštěvu země vikingů a hygge." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://kastrup.cz/" />
+      </Helmet>
+      <div className="min-h-screen">
       {/* Hero Section with Full-Width Image */}
       <section className="relative h-[90vh] min-h-[600px] w-full overflow-hidden">
         <div className="absolute inset-0">
@@ -27,7 +42,7 @@ const Home = () => {
                 Objevte krásy Dánska
               </h1>
               <p className="mb-8 text-xl leading-relaxed text-white/95 md:text-2xl">
-                Zažijte zemi викингů, hygge a moderního designu. Od barevných
+                Zažijte zemi vikingů, hygge a moderního designu. Od barevných
                 domů Kodaně po klidnou dánskou přírodu.
               </p>
               <div className="flex flex-wrap gap-4">
@@ -72,13 +87,14 @@ const Home = () => {
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Countryside Card */}
-            <Link to="/cestovani" className="group">
+            <Link to="/clanky?kategorie=cestovani" className="group">
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={countrysideImage}
                     alt="Dánská krajina"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -96,13 +112,14 @@ const Home = () => {
             </Link>
 
             {/* Hygge Card */}
-            <Link to="/kultura" className="group">
+            <Link to="/clanky?kategorie=kultura" className="group">
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={hyggeImage}
                     alt="Hygge - dánský životní styl"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -127,6 +144,7 @@ const Home = () => {
                     src={designImage}
                     alt="Dánský design"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -168,6 +186,9 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Featured Articles */}
+      <FeaturedArticles />
+
       {/* Stats Section */}
       <section className="py-24">
         <div className="container mx-auto px-4 md:px-6">
@@ -196,6 +217,9 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Newsletter Section */}
+      <Newsletter />
+
       {/* Final CTA */}
       <section className="bg-gradient-card py-24">
         <div className="container mx-auto px-4 text-center md:px-6">
@@ -214,7 +238,8 @@ const Home = () => {
           </Link>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

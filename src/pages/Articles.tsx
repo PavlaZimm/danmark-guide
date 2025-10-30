@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ArticleCard from "@/components/ArticleCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Helmet } from "react-helmet-async";
 import {
   Select,
   SelectContent,
@@ -33,16 +35,25 @@ interface Category {
 }
 
 const Articles = () => {
+  const [searchParams] = useSearchParams();
+  const categoryFromUrl = searchParams.get("kategorie");
+
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState<string>(categoryFromUrl || "all");
 
   useEffect(() => {
     fetchCategories();
     fetchArticles();
   }, []);
+
+  useEffect(() => {
+    if (categoryFromUrl) {
+      setSelectedCategory(categoryFromUrl);
+    }
+  }, [categoryFromUrl]);
 
   const fetchCategories = async () => {
     try {
@@ -100,8 +111,20 @@ const Articles = () => {
   });
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="container mx-auto px-4 md:px-6">
+    <>
+      <Helmet>
+        <title>Články o Dánsku | Kastrup.cz</title>
+        <meta
+          name="description"
+          content="Prozkoumejte naše články o Dánsku - kultura, cestování, hygge a dánský životní styl. Objevte tipy a inspiraci pro vaši cestu."
+        />
+        <meta property="og:title" content="Články o Dánsku | Kastrup.cz" />
+        <meta property="og:description" content="Prozkoumejte naše články o Dánsku - kultura, cestování, hygge a dánský životní styl." />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href="https://kastrup.cz/clanky" />
+      </Helmet>
+      <div className="min-h-screen py-12">
+        <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="mb-12">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">Články</h1>
@@ -166,8 +189,9 @@ const Articles = () => {
             </p>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

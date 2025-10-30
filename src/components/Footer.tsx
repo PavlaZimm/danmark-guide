@@ -43,6 +43,22 @@ const Footer = () => {
                   O Dánsku
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/archiv"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Archiv
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/autorka"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  O autorce
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -52,7 +68,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/cestovani"
+                  to="/clanky?kategorie=cestovani"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   Cestování
@@ -60,7 +76,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/kultura"
+                  to="/clanky?kategorie=kultura"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   Kultura
