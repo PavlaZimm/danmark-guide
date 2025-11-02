@@ -1,0 +1,159 @@
+-- ========================================
+-- VLOŽENÍ UKÁZKOVÉHO ČLÁNKU
+-- ========================================
+-- Zkopírujte tento celý soubor a vložte do Supabase SQL Editoru
+-- Poté klikněte na RUN (nebo Ctrl+Enter)
+
+DO $$
+DECLARE
+  v_category_id UUID;
+  v_author_id UUID;
+  v_article_id UUID;
+BEGIN
+  -- Získat category_id pro "Cestování"
+  SELECT id INTO v_category_id
+  FROM public.categories
+  WHERE slug = 'cestovani'
+  LIMIT 1;
+
+  -- Získat první admin profil
+  SELECT id INTO v_author_id
+  FROM public.profiles
+  WHERE role = 'admin'
+  LIMIT 1;
+
+  -- Kontrola, zda existuje kategorie
+  IF v_category_id IS NULL THEN
+    RAISE EXCEPTION '❌ Kategorie "Cestování" neexistuje. Spusťte nejdřív základní migrace.';
+  END IF;
+
+  -- Kontrola, zda existuje admin
+  IF v_author_id IS NULL THEN
+    RAISE EXCEPTION '❌ Žádný admin profil nenalezen. Vytvořte admin účet a spusťte:
+    UPDATE profiles SET role = ''admin'' WHERE email = ''vas-email@example.com'';';
+  END IF;
+
+  -- Kontrola, zda článek již neexistuje
+  IF EXISTS (SELECT 1 FROM public.articles WHERE slug = 'co-videt-v-dansku-top-10-destinaci') THEN
+    RAISE NOTICE '⚠️  Článek s tímto slugem již existuje. Přeskakuji vložení.';
+    RETURN;
+  END IF;
+
+  -- Vložit ukázkový článek
+  INSERT INTO public.articles (
+    title,
+    slug,
+    perex,
+    content,
+    category_id,
+    image_url,
+    published,
+    author_id,
+    meta_title,
+    meta_description,
+    focus_keyword
+  ) VALUES (
+    'Co vidět v Dánsku - Top 10 destinací',
+    'co-videt-v-dansku-top-10-destinaci',
+    'Objevte nejkrásnější místa Dánska! Od barevné Kodaně přes malebné Skagen až po historický Ribe. Kompletní průvodce po nejlepších destinacích, které musíte navštívit.',
+    '<h2>Úvod do dánských krás</h2>
+
+<p>Dánsko je malá, ale nesmírně rozmanitá země, která nabízí turistům jedinečnou kombinaci moderní architektury, bohaté historie a nádherné přírody. Ať už jste milovníci městského ruchu, historických památek nebo klidných pobřežních městeček, v Dánsku si určitě přijdete na své.</p>
+
+<h2>1. Kodaň - Hlavní město plné života</h2>
+
+<p>Kodaň je bezesporu must-see destinací. Navštivte:</p>
+
+<ul>
+<li><strong>Nyhavn</strong> - ikonický kanál s barevnými domy a restauracemi</li>
+<li><strong>Malá mořská víla</strong> - nejznámější dánská socha</li>
+<li><strong>Tivoli Gardens</strong> - jeden z nejstarších zábavních parků na světě</li>
+<li><strong>Christiansborg</strong> - sídlo dánského parlamentu</li>
+<li><strong>Freetown Christiania</strong> - alternativní komunita v srdci města</li>
+</ul>
+
+<h2>2. Skagen - Místo, kde se moře potkávají</h2>
+
+<p>Skagen, nejsevernější město Dánska, je proslulé svým jedinečným světlem, které přitahovalo umělce už v 19. století. Hlavní atrakcí je Grenen, místo kde se setkává Severní a Baltské moře. Můžete zde doslova stát s jednou nohou v každém moři!</p>
+
+<h2>3. Aarhus - Kulturní metropole</h2>
+
+<p>Druhé největší dánské město nabízí:</p>
+
+<ul>
+<li><strong>ARoS</strong> - jedno z největších uměleckých muzeí v severní Evropě</li>
+<li><strong>Den Gamle By</strong> - muzeum na otevřeném prostranství s historickými budovami</li>
+<li><strong>Латинская čtvrť</strong> - oblast plná kaváren, barů a obchůdků</li>
+</ul>
+
+<h2>4. Ribe - Nejstarší město Dánska</h2>
+
+<p>Ribe, založené ve 8. století, je jako živé muzeum. Procházka dlážděnými uličkami mezi domy s doškovými střechami vás přenese zpět v čase. Nezapomeňte navštívit katedrálu Ribe a vyšlápnout si na její věž pro úchvatný výhled.</p>
+
+<h2>5. Bornholm - Slunečný ostrov</h2>
+
+<p>Ostrov Bornholm v Baltském moři je ideální pro ty, kdo hledají kombinaci pláží, skal a přírody. Známý je také svou keramikou a tradičním udírným lososem.</p>
+
+<h2>6. Roskilde - Město vikingů</h2>
+
+<p>Historické město Roskilde je domovem:</p>
+
+<ul>
+<li><strong>Muzeum vikingských lodí</strong> - s autentickými vikingovými plavidly</li>
+<li><strong>Katedrála v Roskilde</strong> - UNESCO památka a pohřebiště dánských králů</li>
+<li><strong>Roskilde Festival</strong> - jeden z největších hudebních festivalů v Evropě</li>
+</ul>
+
+<h2>7. Kronborg - Hamletův hrad</h2>
+
+<p>Renesanční hrad Kronborg v Helsingøru je známý jako místo děje Shakespearova Hamleta. UNESCO památka nabízí fascinující pohled do dánské královské historie.</p>
+
+<h2>8. Legoland - Zábava pro celou rodinu</h2>
+
+<p>V Billundu najdete původní Legoland, zábavní park postavený z miliónů kostek LEGO. Ideální výlet pro rodiny s dětmi!</p>
+
+<h2>9. Møns Klint - Bílé útesy</h2>
+
+<p>Tyto dramatické křídové útesy dosahují výšky až 128 metrů a jsou jedním z nejkrásnějších přírodních divů Dánska. Výhled z vrcholu na tyrkysové moře je nezapomenutelný.</p>
+
+<h2>10. Odense - Město H.C. Andersena</h2>
+
+<p>Rodné město slavného pohádkáře nabízí:</p>
+
+<ul>
+<li><strong>H.C. Andersen Museum</strong> - věnované životu a dílu spisovatele</li>
+<li><strong>Fünen Village</strong> - muzeum na otevřeném prostranství</li>
+<li><strong>Egeskov Castle</strong> - nejlépe zachovalý vodní hrad v Evropě</li>
+</ul>
+
+<h2>Praktické tipy pro cestování</h2>
+
+<p><strong>Nejlepší doba návštěvy:</strong> Květen až září, kdy je nejpříjemnější počasí a nejdelší dny.</p>
+
+<p><strong>Doprava:</strong> Dánsko má vynikající vlakové spojení. Copenhagen Card nabízí neomezené cestování a vstupy do mnoha atrakcí.</p>
+
+<p><strong>Cykloturistika:</strong> Dánsko je ráj pro cyklisty s tisíci kilometrů značených cyklostezek.</p>
+
+<p><strong>Jazyk:</strong> Většina Dánů výborně mluví anglicky, takže se domluvíte bez problémů.</p>
+
+<h2>Závěr</h2>
+
+<p>Dánsko je destinace, která překvapí svou rozmanitostí. Ať už vás láká historie vikingů, moderní design, nádherná příroda nebo proslulé dánské hygge, v této skandinávské zemi najdete vše. Každé z těchto deseti míst nabízí unikátní zážitek a společně tvoří nezapomenutelný obraz této kouzelné země.</p>
+
+<p>Nezapomeňte si užít místní speciality jako smørrebrød, flæskesteg nebo tradiční dánské pečivo. A hlavně - užijte si atmosféru hygge, tu dánskou pohodu a útulnost, která dělá z Dánska jednu z nejšťastnějších zemí světa!</p>',
+    v_category_id,
+    'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?w=1200&h=630&fit=crop',
+    true,
+    v_author_id,
+    'Co vidět v Dánsku - Top 10 nejkrásnějších destinací | Kastrup.cz',
+    'Objevte 10 nejlepších míst v Dánsku! Kodaň, Skagen, Aarhus, Ribe a další nádherné destinace. Praktický průvodce s tipy pro vaši cestu.',
+    'co vidět v Dánsku'
+  ) RETURNING id INTO v_article_id;
+
+  RAISE NOTICE '✅ Článek byl úspěšně vytvořen!';
+  RAISE NOTICE '📊 ID článku: %', v_article_id;
+  RAISE NOTICE '🔗 URL: /clanek/co-videt-v-dansku-top-10-destinaci';
+  RAISE NOTICE '';
+  RAISE NOTICE '🎉 Hotovo! Článek je nyní dostupný na vašem webu.';
+
+END $$;
