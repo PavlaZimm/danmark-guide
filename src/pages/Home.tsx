@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin, Building2, Coffee, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Helmet } from "react-helmet-async";
 import heroImage from "@/assets/hero-denmark.jpg";
 import countrysideImage from "@/assets/countryside.jpg";
 import hyggeImage from "@/assets/hygge.jpg";
@@ -8,13 +9,85 @@ import designImage from "@/assets/design.jpg";
 
 const Home = () => {
   return (
-    <div className="min-h-screen">
+    <>
+      <Helmet>
+        <title>Kastrup.cz - Váš průvodce po Dánsku | Cestování, Ubytování, Kultura</title>
+        <meta
+          name="description"
+          content="Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele."
+        />
+        <meta
+          name="keywords"
+          content="Dánsko, Kodaň, cestování, ubytování, hygge, dánská kultura, Skandinávie, dovolená v Dánsku"
+        />
+        <link rel="canonical" href="https://kastrup.cz/" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kastrup.cz/" />
+        <meta property="og:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
+        <meta
+          property="og:description"
+          content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
+        />
+        <meta property="og:image" content="https://kastrup.cz/hero-denmark.jpg" />
+        <meta property="og:locale" content="cs_CZ" />
+        <meta property="og:site_name" content="Kastrup.cz" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://kastrup.cz/" />
+        <meta name="twitter:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
+        <meta
+          name="twitter:description"
+          content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
+        />
+        <meta name="twitter:image" content="https://kastrup.cz/hero-denmark.jpg" />
+
+        {/* JSON-LD Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Kastrup.cz",
+            "description": "Váš průvodce po Dánsku - cestování, ubytování a kultura",
+            "url": "https://kastrup.cz",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://kastrup.cz/clanky?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            }
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Kastrup.cz",
+            "url": "https://kastrup.cz",
+            "logo": "https://kastrup.cz/logo.png",
+            "description": "Průvodce po Dánsku - cestování, kultura a ubytování",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "CZ",
+              "addressLocality": "Praha"
+            },
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "info@kastrup.cz",
+              "contactType": "Customer Service"
+            }
+          })}
+        </script>
+      </Helmet>
+
+      <div className="min-h-screen">
       {/* Hero Section with Full-Width Image */}
       <section className="relative h-[90vh] min-h-[600px] w-full overflow-hidden">
         <div className="absolute inset-0">
           <img
             src={heroImage}
-            alt="Barevné Nyhavn v Kodani"
+            alt="Barevné historické domy v přístavu Nyhavn v Kodani, Dánsko - malebná turistická destinace s lodičkami a restauracemi"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
@@ -77,7 +150,8 @@ const Home = () => {
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={countrysideImage}
-                    alt="Dánská krajina"
+                    alt="Malebná dánská krajina s zelenými poli a tradičními domy - ideální pro objevování venkova"
+                    loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -101,7 +175,8 @@ const Home = () => {
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={hyggeImage}
-                    alt="Hygge - dánský životní styl"
+                    alt="Útulný interiér s horkým nápojem a svíčkami - ukázka dánského konceptu hygge, pohody a pohodlného života"
+                    loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -125,7 +200,8 @@ const Home = () => {
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={designImage}
-                    alt="Dánský design"
+                    alt="Minimalistický skandinávský interiér s elegantním nábytkem - příklad světově proslulého dánského designu"
+                    loading="lazy"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -214,7 +290,8 @@ const Home = () => {
           </Link>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -93,6 +93,20 @@ All colors MUST be HSL.
   p {
     @apply leading-relaxed;
   }
+
+  /* Enhanced focus states for accessibility */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  /* Ensure visible focus for keyboard navigation */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
 }
 
 @layer utilities {
