@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -159,6 +160,59 @@ const Contact = () => {
                     {loading ? "Odesílání..." : "Odeslat zprávu"}
                   </Button>
                 </form>
+              </div>
+            </div>
+
+            {/* Related Links */}
+            <div className="mt-16">
+              <h2 className="mb-6 text-center text-2xl font-bold">
+                Možná vás také zajímá
+              </h2>
+              <div className="grid gap-6 md:grid-cols-3">
+                <Link to="/o-dansku" className="group">
+                  <div className="rounded-lg bg-gradient-card p-6 transition-all hover:shadow-medium">
+                    <h3 className="mb-2 text-lg font-semibold group-hover:text-primary">
+                      O Dánsku
+                    </h3>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Poznejte zemi vikingů, hygge a moderního designu
+                    </p>
+                    <span className="inline-flex items-center text-sm font-medium text-primary">
+                      Zjistit více
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </span>
+                  </div>
+                </Link>
+
+                <Link to="/ubytovani" className="group">
+                  <div className="rounded-lg bg-gradient-card p-6 transition-all hover:shadow-medium">
+                    <h3 className="mb-2 text-lg font-semibold group-hover:text-primary">
+                      Ubytování
+                    </h3>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Najděte perfektní místo pro váš pobyt v Dánsku
+                    </p>
+                    <span className="inline-flex items-center text-sm font-medium text-primary">
+                      Prohlédnout
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </span>
+                  </div>
+                </Link>
+
+                <Link to="/clanky" className="group">
+                  <div className="rounded-lg bg-gradient-card p-6 transition-all hover:shadow-medium">
+                    <h3 className="mb-2 text-lg font-semibold group-hover:text-primary">
+                      Články
+                    </h3>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Čtěte zajímavé články o dánské kultuře a cestování
+                    </p>
+                    <span className="inline-flex items-center text-sm font-medium text-primary">
+                      Číst články
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </span>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>

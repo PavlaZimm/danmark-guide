@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
@@ -85,6 +88,35 @@ const About = () => {
                   <li>Členský stát EU, ale nepoužívá euro</li>
                 </ul>
               </section>
+            </div>
+
+            {/* CTA Section */}
+            <div className="mt-16 grid gap-6 md:grid-cols-2">
+              <div className="rounded-lg bg-gradient-card p-8">
+                <h3 className="mb-4 text-2xl font-bold">Přečtěte si naše články</h3>
+                <p className="mb-6 text-muted-foreground">
+                  Objevte zajímavé články o dánské kultuře, cestování a životním stylu hygge.
+                </p>
+                <Link to="/clanky">
+                  <Button>
+                    Prohlédnout články
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="rounded-lg bg-gradient-card p-8">
+                <h3 className="mb-4 text-2xl font-bold">Najděte ubytování</h3>
+                <p className="mb-6 text-muted-foreground">
+                  Hledáte místo k pobytu? Prozkoumejte naši nabídku hotelů, apartmánů a hostelů.
+                </p>
+                <Link to="/ubytovani">
+                  <Button variant="outline">
+                    Zobrazit ubytování
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
