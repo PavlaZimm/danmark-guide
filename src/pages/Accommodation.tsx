@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import AccommodationCard from "@/components/AccommodationCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Helmet } from "react-helmet-async";
 import {
   Select,
   SelectContent,
@@ -80,8 +81,56 @@ const Accommodation = () => {
   });
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="container mx-auto px-4 md:px-6">
+    <>
+      <Helmet>
+        <title>Ubytování v Dánsku | Hotely, Apartmány, Hostely | Kastrup.cz</title>
+        <meta
+          name="description"
+          content="Najděte perfektní ubytování v Dánsku. Široký výběr hotelů, apartmánů a hostelů v Kodani a dalších městech. Porovnejte ceny a rezervujte online."
+        />
+        <meta
+          name="keywords"
+          content="ubytování Dánsko, hotely Kodaň, apartmány Dánsko, hostel Kodaň, levné ubytování Dánsko"
+        />
+        <link rel="canonical" href="https://kastrup.cz/ubytovani" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kastrup.cz/ubytovani" />
+        <meta property="og:title" content="Ubytování v Dánsku - Kastrup.cz" />
+        <meta
+          property="og:description"
+          content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely v Kodani a dalších městech."
+        />
+        <meta property="og:image" content="https://kastrup.cz/og-accommodation.jpg" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Ubytování v Dánsku - Kastrup.cz" />
+        <meta
+          name="twitter:description"
+          content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely."
+        />
+
+        {/* JSON-LD */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Ubytování v Dánsku",
+            "description": "Kolekce ubytovacích zařízení v Dánsku - hotely, apartmány, hostely",
+            "url": "https://kastrup.cz/ubytovani",
+            "isPartOf": {
+              "@type": "WebSite",
+              "name": "Kastrup.cz",
+              "url": "https://kastrup.cz"
+            }
+          })}
+        </script>
+      </Helmet>
+
+      <div className="min-h-screen py-12">
+        <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="mb-12">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">Ubytování</h1>
@@ -206,8 +255,9 @@ const Accommodation = () => {
             </Button>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

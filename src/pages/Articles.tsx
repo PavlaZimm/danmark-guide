@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import ArticleCard from "@/components/ArticleCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { Helmet } from "react-helmet-async";
 import {
   Select,
   SelectContent,
@@ -109,8 +110,56 @@ const Articles = () => {
   });
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="container mx-auto px-4 md:px-6">
+    <>
+      <Helmet>
+        <title>Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz</title>
+        <meta
+          name="description"
+          content="Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska."
+        />
+        <meta
+          name="keywords"
+          content="články o Dánsku, blog Dánsko, cestování Dánsko, dánská kultura, hygge, Kodaň tipy"
+        />
+        <link rel="canonical" href="https://kastrup.cz/clanky" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kastrup.cz/clanky" />
+        <meta property="og:title" content="Články o Dánsku - Kastrup.cz" />
+        <meta
+          property="og:description"
+          content="Zajímavé články o cestování, kultuře a životě v Dánsku."
+        />
+        <meta property="og:image" content="https://kastrup.cz/og-articles.jpg" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Články o Dánsku - Kastrup.cz" />
+        <meta
+          name="twitter:description"
+          content="Zajímavé články o cestování, kultuře a životě v Dánsku."
+        />
+
+        {/* JSON-LD */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Články o Dánsku",
+            "description": "Kolekce článků o cestování, kultuře a životě v Dánsku",
+            "url": "https://kastrup.cz/clanky",
+            "isPartOf": {
+              "@type": "WebSite",
+              "name": "Kastrup.cz",
+              "url": "https://kastrup.cz"
+            }
+          })}
+        </script>
+      </Helmet>
+
+      <div className="min-h-screen py-12">
+        <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
         <div className="mb-12">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">Články</h1>
@@ -213,8 +262,9 @@ const Articles = () => {
             </Button>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
