@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
@@ -60,6 +62,7 @@ const Articles = () => {
 
   const fetchArticles = async () => {
     try {
+      setError(null);
       let query = supabase
         .from("articles")
         .select(`
@@ -81,8 +84,14 @@ const Articles = () => {
 
       if (error) throw error;
       setArticles(data || []);
+
+      // If no articles, set a friendly message but don't treat as error
+      if (!data || data.length === 0) {
+        console.info("No articles found in database");
+      }
     } catch (error) {
       console.error("Error fetching articles:", error);
+      setError("Nepodařilo se načíst články. Zkontrolujte prosím připojení k internetu.");
       toast.error("Nepodařilo se načíst články");
     } finally {
       setLoading(false);
@@ -144,6 +153,15 @@ const Articles = () => {
               <div key={i} className="h-96 animate-pulse rounded-lg bg-muted"></div>
             ))}
           </div>
+        ) : error ? (
+          <div className="rounded-lg border-2 border-destructive/20 bg-destructive/5 p-12 text-center">
+            <p className="mb-4 text-lg font-semibold text-destructive">
+              {error}
+            </p>
+            <Button onClick={fetchArticles} variant="outline">
+              Zkusit znovu
+            </Button>
+          </div>
         ) : filteredArticles.length > 0 ? (
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredArticles.map((article) => (
@@ -159,11 +177,40 @@ const Articles = () => {
               />
             ))}
           </div>
+        ) : articles.length === 0 ? (
+          <div className="rounded-lg bg-gradient-card p-12 text-center">
+            <h3 className="mb-4 text-2xl font-bold">Zatím zde nejsou žádné články</h3>
+            <p className="mb-6 text-lg text-muted-foreground">
+              Pracujeme na skvělém obsahu o Dánsku. Brzy zde najdete zajímavé články
+              o kultuře, cestování a životě v Dánsku.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to="/o-dansku">
+                <Button variant="default">
+                  Více o Dánsku
+                </Button>
+              </Link>
+              <Link to="/ubytovani">
+                <Button variant="outline">
+                  Prohlédnout ubytování
+                </Button>
+              </Link>
+            </div>
+          </div>
         ) : (
           <div className="rounded-lg bg-muted p-12 text-center">
-            <p className="text-lg text-muted-foreground">
+            <p className="mb-4 text-lg text-muted-foreground">
               Nenalezeny žádné články odpovídající vašemu hledání.
             </p>
+            <Button
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCategory("all");
+              }}
+              variant="outline"
+            >
+              Vymazat filtry
+            </Button>
           </div>
         )}
       </div>

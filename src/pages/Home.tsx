@@ -27,7 +27,7 @@ const Home = () => {
                 Objevte krásy Dánska
               </h1>
               <p className="mb-8 text-xl leading-relaxed text-white/95 md:text-2xl">
-                Zažijte zemi викингů, hygge a moderního designu. Od barevných
+                Zažijte zemi vikingů, hygge a moderního designu. Od barevných
                 domů Kodaně po klidnou dánskou přírodu.
               </p>
               <div className="flex flex-wrap gap-4">

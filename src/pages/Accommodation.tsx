@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Search, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ interface Accommodation {
 const Accommodation = () => {
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCity, setSelectedCity] = useState<string>("all");
   const [selectedType, setSelectedType] = useState<string>("all");
@@ -38,22 +40,29 @@ const Accommodation = () => {
 
   const fetchAccommodations = async () => {
     try {
+      setError(null);
       const { data, error } = await supabase
         .from("accommodations")
         .select("*")
         .order("name");
 
       if (error) throw error;
-      
+
       setAccommodations(data || []);
-      
+
       // Extract unique cities
       const uniqueCities = Array.from(
         new Set(data?.map((acc) => acc.city) || [])
       ).sort();
       setCities(uniqueCities);
+
+      // If no accommodations, set a friendly message but don't treat as error
+      if (!data || data.length === 0) {
+        console.info("No accommodations found in database");
+      }
     } catch (error) {
       console.error("Error fetching accommodations:", error);
+      setError("Nepodařilo se načíst ubytování. Zkontrolujte prosím připojení k internetu.");
       toast.error("Nepodařilo se načíst ubytování");
     } finally {
       setLoading(false);
@@ -130,6 +139,15 @@ const Accommodation = () => {
               <div key={i} className="h-96 animate-pulse rounded-lg bg-muted"></div>
             ))}
           </div>
+        ) : error ? (
+          <div className="rounded-lg border-2 border-destructive/20 bg-destructive/5 p-12 text-center">
+            <p className="mb-4 text-lg font-semibold text-destructive">
+              {error}
+            </p>
+            <Button onClick={fetchAccommodations} variant="outline">
+              Zkusit znovu
+            </Button>
+          </div>
         ) : filteredAccommodations.length > 0 ? (
           <>
             <p className="mb-6 text-sm text-muted-foreground">
@@ -151,11 +169,41 @@ const Accommodation = () => {
               ))}
             </div>
           </>
+        ) : accommodations.length === 0 ? (
+          <div className="rounded-lg bg-gradient-card p-12 text-center">
+            <h3 className="mb-4 text-2xl font-bold">Zatím zde není žádné ubytování</h3>
+            <p className="mb-6 text-lg text-muted-foreground">
+              Pracujeme na přidání nejlepších ubytovacích zařízení v Dánsku.
+              Brzy zde najdete hotely, apartmány a hostely v Kodani a dalších městech.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to="/o-dansku">
+                <Button variant="default">
+                  Více o Dánsku
+                </Button>
+              </Link>
+              <Link to="/clanky">
+                <Button variant="outline">
+                  Přečíst články
+                </Button>
+              </Link>
+            </div>
+          </div>
         ) : (
           <div className="rounded-lg bg-muted p-12 text-center">
-            <p className="text-lg text-muted-foreground">
+            <p className="mb-4 text-lg text-muted-foreground">
               Nenalezeno žádné ubytování odpovídající vašemu hledání.
             </p>
+            <Button
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCity("all");
+                setSelectedType("all");
+              }}
+              variant="outline"
+            >
+              Vymazat filtry
+            </Button>
           </div>
         )}
       </div>
