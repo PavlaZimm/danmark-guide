@@ -1,0 +1,71 @@
+{
+  "name": "Kastrup.cz - Průvodce po Dánsku",
+  "short_name": "Kastrup.cz",
+  "description": "Váš průvodce po Dánsku - cestování, ubytování, kultura a hygge",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "lang": "cs",
+  "dir": "ltr",
+  "categories": ["travel", "lifestyle", "education"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Najít ubytování",
+      "short_name": "Ubytování",
+      "description": "Najděte nejlepší ubytování v Dánsku",
+      "url": "/ubytovani",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Přečíst články",
+      "short_name": "Články",
+      "description": "Prozkoumejte články o Dánsku",
+      "url": "/clanky",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
