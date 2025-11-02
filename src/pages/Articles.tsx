@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Search } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import ArticleCard from "@/components/ArticleCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -36,17 +37,30 @@ interface Category {
 }
 
 const Articles = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    searchParams.get("category") || "all"
+  );
 
   useEffect(() => {
     fetchCategories();
     fetchArticles();
   }, []);
+
+  // Update URL parameters when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.set("search", searchTerm);
+    if (selectedCategory && selectedCategory !== "all") {
+      params.set("category", selectedCategory);
+    }
+    setSearchParams(params, { replace: true });
+  }, [searchTerm, selectedCategory, setSearchParams]);
 
   const fetchCategories = async () => {
     try {
@@ -197,6 +211,48 @@ const Articles = () => {
             </SelectContent>
           </Select>
         </div>
+
+        {/* Active Filters */}
+        {(searchTerm || selectedCategory !== "all") && (
+          <div className="mb-6 flex flex-wrap items-center gap-2">
+            <span className="text-sm text-muted-foreground">Aktivní filtry:</span>
+            {searchTerm && (
+              <Badge variant="secondary" className="gap-1">
+                Hledání: "{searchTerm}"
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="ml-1 rounded-full hover:bg-muted"
+                  aria-label="Zrušit vyhledávání"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            {selectedCategory !== "all" && (
+              <Badge variant="secondary" className="gap-1">
+                Kategorie: {categories.find((c) => c.slug === selectedCategory)?.name}
+                <button
+                  onClick={() => setSelectedCategory("all")}
+                  className="ml-1 rounded-full hover:bg-muted"
+                  aria-label="Zrušit filtr kategorie"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCategory("all");
+              }}
+              className="h-7 text-xs"
+            >
+              Vymazat vše
+            </Button>
+          </div>
+        )}
 
         {/* Articles Grid */}
         {loading ? (

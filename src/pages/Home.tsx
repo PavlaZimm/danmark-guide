@@ -83,38 +83,41 @@ const Home = () => {
 
       <div className="min-h-screen">
       {/* Hero Section with Full-Width Image */}
-      <section className="relative h-[90vh] min-h-[600px] w-full overflow-hidden">
+      <section className="relative h-[75vh] min-h-[500px] w-full overflow-hidden sm:h-[85vh] sm:min-h-[600px] lg:h-[90vh]">
         <div className="absolute inset-0">
           <img
             src={heroImage}
             alt="Barevné historické domy v přístavu Nyhavn v Kodani, Dánsko - malebná turistická destinace s lodičkami a restauracemi"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         </div>
-        
+
         <div className="relative z-10 flex h-full items-center">
           <div className="container mx-auto px-4 md:px-6">
             <div className="max-w-3xl text-white">
-              <h1 className="mb-6 animate-fade-in text-balance">
+              <h1 className="mb-4 animate-fade-in text-balance text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
                 Objevte krásy Dánska
               </h1>
-              <p className="mb-8 text-xl leading-relaxed text-white/95 md:text-2xl">
+              <p className="mb-6 text-base leading-relaxed text-white/95 sm:mb-8 sm:text-lg md:text-xl lg:text-2xl">
                 Zažijte zemi vikingů, hygge a moderního designu. Od barevných
                 domů Kodaně po klidnou dánskou přírodu.
               </p>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
                 <Link to="/ubytovani">
-                  <Button size="lg" className="h-14 px-8 text-lg shadow-xl hover:scale-105 transition-all">
+                  <Button
+                    size="lg"
+                    className="h-12 w-full px-6 text-base shadow-xl transition-all hover:scale-105 sm:h-14 sm:w-auto sm:px-8 sm:text-lg"
+                  >
                     Najít ubytování
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
                   </Button>
                 </Link>
                 <Link to="/o-dansku">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="h-14 border-2 border-white bg-white/10 px-8 text-lg text-white backdrop-blur-sm hover:bg-white hover:text-foreground transition-all"
+                    className="h-12 w-full border-2 border-white bg-white/10 px-6 text-base text-white backdrop-blur-sm transition-all hover:bg-white hover:text-foreground sm:h-14 sm:w-auto sm:px-8 sm:text-lg"
                   >
                     Více o Dánsku
                   </Button>
@@ -124,8 +127,8 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 animate-bounce">
+        {/* Scroll Indicator - Hidden on mobile */}
+        <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 animate-bounce sm:block">
           <div className="h-12 w-8 rounded-full border-2 border-white/50">
             <div className="mx-auto mt-2 h-3 w-1 animate-pulse rounded-full bg-white/80" />
           </div>

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Search, Filter } from "lucide-react";
+import { Link, useSearchParams } from "react-router-dom";
+import { Search, Filter, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import AccommodationCard from "@/components/AccommodationCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -28,17 +29,31 @@ interface Accommodation {
 }
 
 const Accommodation = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCity, setSelectedCity] = useState<string>("all");
-  const [selectedType, setSelectedType] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
+  const [selectedCity, setSelectedCity] = useState<string>(
+    searchParams.get("city") || "all"
+  );
+  const [selectedType, setSelectedType] = useState<string>(
+    searchParams.get("type") || "all"
+  );
   const [cities, setCities] = useState<string[]>([]);
 
   useEffect(() => {
     fetchAccommodations();
   }, []);
+
+  // Update URL parameters when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (searchTerm) params.set("search", searchTerm);
+    if (selectedCity && selectedCity !== "all") params.set("city", selectedCity);
+    if (selectedType && selectedType !== "all") params.set("type", selectedType);
+    setSearchParams(params, { replace: true });
+  }, [searchTerm, selectedCity, selectedType, setSearchParams]);
 
   const fetchAccommodations = async () => {
     try {
@@ -182,7 +197,7 @@ const Accommodation = () => {
               className="pl-10"
             />
           </div>
-          
+
           <div className="flex flex-col gap-4 md:flex-row">
             <Select value={selectedCity} onValueChange={setSelectedCity}>
               <SelectTrigger className="w-full md:w-[200px]">
@@ -211,6 +226,61 @@ const Accommodation = () => {
             </Select>
           </div>
         </div>
+
+        {/* Active Filters */}
+        {(searchTerm || selectedCity !== "all" || selectedType !== "all") && (
+          <div className="mb-6 flex flex-wrap items-center gap-2">
+            <span className="text-sm text-muted-foreground">Aktivní filtry:</span>
+            {searchTerm && (
+              <Badge variant="secondary" className="gap-1">
+                Hledání: "{searchTerm}"
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="ml-1 rounded-full hover:bg-muted"
+                  aria-label="Zrušit vyhledávání"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            {selectedCity !== "all" && (
+              <Badge variant="secondary" className="gap-1">
+                Město: {selectedCity}
+                <button
+                  onClick={() => setSelectedCity("all")}
+                  className="ml-1 rounded-full hover:bg-muted"
+                  aria-label="Zrušit filtr města"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            {selectedType !== "all" && (
+              <Badge variant="secondary" className="gap-1">
+                Typ: {selectedType === "hotel" ? "Hotel" : selectedType === "apartment" ? "Apartmán" : "Hostel"}
+                <button
+                  onClick={() => setSelectedType("all")}
+                  className="ml-1 rounded-full hover:bg-muted"
+                  aria-label="Zrušit filtr typu"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </Badge>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCity("all");
+                setSelectedType("all");
+              }}
+              className="h-7 text-xs"
+            >
+              Vymazat vše
+            </Button>
+          </div>
+        )}
 
         {/* Results */}
         {loading ? (
