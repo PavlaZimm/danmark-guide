@@ -7,6 +7,7 @@ import ArticleCard from "@/components/ArticleCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   Select,
   SelectContent,
@@ -160,6 +161,8 @@ const Articles = () => {
 
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
+        <Breadcrumbs items={[{ label: "Články" }]} />
+
         {/* Header */}
         <div className="mb-12">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">Články</h1>

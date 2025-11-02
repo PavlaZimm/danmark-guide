@@ -7,6 +7,7 @@ import AccommodationCard from "@/components/AccommodationCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   Select,
   SelectContent,
@@ -127,10 +128,40 @@ const Accommodation = () => {
             }
           })}
         </script>
+
+        {/* ItemList Schema for Accommodations */}
+        {filteredAccommodations.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "itemListElement": filteredAccommodations.map((acc, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "item": {
+                  "@type": acc.type === "hotel" ? "Hotel" : "LodgingBusiness",
+                  "@id": `https://kastrup.cz/ubytovani/${acc.slug}`,
+                  "name": acc.name,
+                  "description": acc.description,
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": acc.city,
+                    "addressCountry": "DK"
+                  },
+                  "priceRange": `${acc.price_per_night} DKK`,
+                  "image": acc.images && acc.images.length > 0 ? acc.images[0] : undefined,
+                  "url": `https://kastrup.cz/ubytovani/${acc.slug}`
+                }
+              }))
+            })}
+          </script>
+        )}
       </Helmet>
 
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
+        <Breadcrumbs items={[{ label: "Ubytování" }]} />
+
         {/* Header */}
         <div className="mb-12">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">Ubytování</h1>

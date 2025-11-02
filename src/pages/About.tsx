@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const About = () => {
   return (
@@ -7,13 +8,15 @@ const About = () => {
         <title>O Dánsku | Kastrup.cz</title>
         <meta
           name="description"
-          content="Poznejte Dánsko - zemi викингů, moderního designu a hygge. Kompletní průvodce po dánské kultuře, historii a způsobu života."
+          content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge. Kompletní průvodce po dánské kultuře, historii a způsobu života."
         />
       </Helmet>
 
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-4xl">
+            <Breadcrumbs items={[{ label: "O Dánsku" }]} />
+
             {/* Header */}
             <div className="mb-12 text-center">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">O Dánsku</h1>

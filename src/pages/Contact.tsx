@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import { supabase } from "@/integrations/supabase/client";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -57,6 +58,8 @@ const Contact = () => {
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-5xl">
+            <Breadcrumbs items={[{ label: "Kontakt" }]} />
+
             {/* Header */}
             <div className="mb-12 text-center">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">Kontakt</h1>
