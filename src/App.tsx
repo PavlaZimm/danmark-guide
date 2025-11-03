@@ -22,6 +22,7 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Admin pages
 const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminRegister = lazy(() => import("./pages/admin/AdminRegister"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminArticles = lazy(() => import("./pages/admin/AdminArticles"));
 const ArticleEditor = lazy(() => import("./pages/admin/ArticleEditor"));
@@ -50,6 +51,7 @@ const App = () => (
               <Routes>
                 {/* Admin Routes - without Header/Footer */}
                 <Route path="/tajnedvere" element={<AdminLogin />} />
+                <Route path="/tajnedvere/register" element={<AdminRegister />} />
                 <Route
                   path="/tajnedvere/dashboard"
                   element={

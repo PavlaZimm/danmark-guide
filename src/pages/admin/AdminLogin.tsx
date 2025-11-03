@@ -113,6 +113,18 @@ const AdminLogin = () => {
               <Button type="submit" className="w-full" size="lg" disabled={loading}>
                 {loading ? "Přihlašuji..." : "Přihlásit se"}
               </Button>
+
+              <div className="mt-4 text-center text-sm">
+                <span className="text-muted-foreground">Ještě nemáte účet? </span>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="p-0 h-auto font-semibold"
+                  onClick={() => navigate("/tajnedvere/register")}
+                >
+                  Zaregistrovat se
+                </Button>
+              </div>
             </form>
           </div>
 
