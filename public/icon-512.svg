@@ -1,0 +1,35 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#dc2626" rx="86"/>
+
+  <!-- Castle/Denmark icon -->
+  <g transform="translate(256, 256)">
+    <!-- Flag pole -->
+    <rect x="-5" y="-160" width="10" height="213" fill="white"/>
+
+    <!-- Danish flag -->
+    <rect x="0" y="-133" width="106" height="32" fill="white"/>
+    <rect x="0" y="-91" width="106" height="32" fill="white"/>
+    <rect x="21" y="-133" width="21" height="64" fill="#dc2626"/>
+
+    <!-- Castle base -->
+    <rect x="-106" y="-27" width="213" height="133" fill="white" opacity="0.9"/>
+
+    <!-- Castle towers -->
+    <rect x="-106" y="-80" width="53" height="53" fill="white" opacity="0.9"/>
+    <rect x="53" y="-80" width="53" height="53" fill="white" opacity="0.9"/>
+
+    <!-- Tower tops -->
+    <rect x="-101" y="-85" width="11" height="11" fill="white"/>
+    <rect x="-80" y="-85" width="11" height="11" fill="white"/>
+    <rect x="58" y="-85" width="11" height="11" fill="white"/>
+    <rect x="80" y="-85" width="11" height="11" fill="white"/>
+
+    <!-- Door -->
+    <rect x="-27" y="27" width="53" height="80" fill="#dc2626"/>
+
+    <!-- Windows -->
+    <rect x="-80" y="-13" width="32" height="32" fill="#dc2626"/>
+    <rect x="48" y="-13" width="32" height="32" fill="#dc2626"/>
+  </g>
+</svg>

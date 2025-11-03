@@ -1,14 +1,15 @@
-User-agent: Googlebot
-Allow: /
+# robots.txt for kastrup.cz
 
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# Allow all crawlers
 User-agent: *
 Allow: /
+
+# Disallow admin and API routes (if any in future)
+Disallow: /api/
+Disallow: /admin/
+
+# Crawl delay (optional, prevents overload)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://kastrup.cz/sitemap.xml

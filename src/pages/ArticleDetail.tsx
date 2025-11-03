@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 interface Article {
   id: string;
@@ -135,6 +136,12 @@ const ArticleDetail = () => {
           name="description"
           content={article.meta_description || article.perex}
         />
+        <meta name="keywords" content={`${article.categories?.name}, Dánsko, cestování, kultura`} />
+        <link rel="canonical" href={`https://kastrup.cz/clanek/${article.slug}`} />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://kastrup.cz/clanek/${article.slug}`} />
         <meta property="og:title" content={article.meta_title || article.title} />
         <meta
           property="og:description"
@@ -142,24 +149,96 @@ const ArticleDetail = () => {
         />
         <meta
           property="og:image"
-          content={article.og_image || article.image_url || ""}
+          content={article.og_image || article.image_url || "https://kastrup.cz/og-default.jpg"}
         />
-        <meta property="og:type" content="article" />
+        <meta property="article:published_time" content={article.created_at} />
+        <meta property="article:section" content={article.categories?.name} />
+        <meta property="og:site_name" content="Kastrup.cz" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={article.meta_title || article.title} />
+        <meta
+          name="twitter:description"
+          content={article.meta_description || article.perex}
+        />
+        <meta
+          name="twitter:image"
+          content={article.og_image || article.image_url || "https://kastrup.cz/og-default.jpg"}
+        />
+
+        {/* JSON-LD Article Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": article.title,
+            "description": article.perex,
+            "image": article.image_url || "https://kastrup.cz/og-default.jpg",
+            "datePublished": article.created_at,
+            "dateModified": article.created_at,
+            "author": {
+              "@type": "Organization",
+              "name": "Kastrup.cz",
+              "url": "https://kastrup.cz"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "Kastrup.cz",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://kastrup.cz/logo.png"
+              }
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": `https://kastrup.cz/clanek/${article.slug}`
+            },
+            "articleSection": article.categories?.name,
+            "inLanguage": "cs-CZ",
+            "keywords": `${article.categories?.name}, Dánsko, cestování, kultura`
+          })}
+        </script>
+
+        {/* Breadcrumb Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Domů",
+                "item": "https://kastrup.cz"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Články",
+                "item": "https://kastrup.cz/clanky"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": article.title,
+                "item": `https://kastrup.cz/clanek/${article.slug}`
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <article className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-4xl">
-            {/* Breadcrumb */}
-            <nav className="mb-8">
-              <Link
-                to="/clanky"
-                className="inline-flex items-center text-sm text-muted-foreground transition-colors hover:text-primary"
-              >
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Zpět na články
-              </Link>
-            </nav>
+            {/* Breadcrumbs */}
+            <Breadcrumbs
+              items={[
+                { label: "Články", href: "/clanky" },
+                { label: article.title }
+              ]}
+            />
 
             {/* Header */}
             <header className="mb-8">

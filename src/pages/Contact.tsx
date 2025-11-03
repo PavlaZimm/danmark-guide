@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import { supabase } from "@/integrations/supabase/client";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,12 +22,28 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Submit the contact form to Supabase
+      const { error } = await supabase
+        .from("contact_messages")
+        .insert({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        });
+
+      if (error) {
+        throw error;
+      }
+
       toast.success("Děkujeme za vaši zprávu! Brzy vám odpovíme.");
       setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      toast.error("Nepodařilo se odeslat zprávu. Zkuste to prosím znovu.");
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -40,6 +59,8 @@ const Contact = () => {
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
           <div className="mx-auto max-w-5xl">
+            <Breadcrumbs items={[{ label: "Kontakt" }]} />
+
             {/* Header */}
             <div className="mb-12 text-center">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">Kontakt</h1>
@@ -139,6 +160,59 @@ const Contact = () => {
                     {loading ? "Odesílání..." : "Odeslat zprávu"}
                   </Button>
                 </form>
+              </div>
+            </div>
+
+            {/* Related Links */}
+            <div className="mt-16">
+              <h2 className="mb-6 text-center text-2xl font-bold">
+                Možná vás také zajímá
+              </h2>
+              <div className="grid gap-6 md:grid-cols-3">
+                <Link to="/o-dansku" className="group">
+                  <div className="rounded-lg bg-gradient-card p-6 transition-all hover:shadow-medium">
+                    <h3 className="mb-2 text-lg font-semibold group-hover:text-primary">
+                      O Dánsku
+                    </h3>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Poznejte zemi vikingů, hygge a moderního designu
+                    </p>
+                    <span className="inline-flex items-center text-sm font-medium text-primary">
+                      Zjistit více
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </span>
+                  </div>
+                </Link>
+
+                <Link to="/ubytovani" className="group">
+                  <div className="rounded-lg bg-gradient-card p-6 transition-all hover:shadow-medium">
+                    <h3 className="mb-2 text-lg font-semibold group-hover:text-primary">
+                      Ubytování
+                    </h3>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Najděte perfektní místo pro váš pobyt v Dánsku
+                    </p>
+                    <span className="inline-flex items-center text-sm font-medium text-primary">
+                      Prohlédnout
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </span>
+                  </div>
+                </Link>
+
+                <Link to="/clanky" className="group">
+                  <div className="rounded-lg bg-gradient-card p-6 transition-all hover:shadow-medium">
+                    <h3 className="mb-2 text-lg font-semibold group-hover:text-primary">
+                      Články
+                    </h3>
+                    <p className="mb-4 text-sm text-muted-foreground">
+                      Čtěte zajímavé články o dánské kultuře a cestování
+                    </p>
+                    <span className="inline-flex items-center text-sm font-medium text-primary">
+                      Číst články
+                      <ArrowRight className="ml-1 h-3 w-3" />
+                    </span>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
