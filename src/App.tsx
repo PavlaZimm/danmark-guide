@@ -20,6 +20,15 @@ const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
+// Admin pages
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminArticles = lazy(() => import("./pages/admin/AdminArticles"));
+const ArticleEditor = lazy(() => import("./pages/admin/ArticleEditor"));
+
+// Admin route protection
+import ProtectedRoute from "./components/admin/ProtectedRoute";
+
 const queryClient = new QueryClient();
 
 // Loading fallback component
@@ -37,28 +46,70 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <main id="main-content" className="flex-1">
-                <Suspense fallback={<PageLoader />}>
-                  <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/clanky" element={<Articles />} />
-                    <Route path="/clanek/:slug" element={<ArticleDetail />} />
-                    <Route path="/ubytovani" element={<Accommodation />} />
-                    <Route path="/ubytovani/:slug" element={<AccommodationDetail />} />
-                    <Route path="/o-dansku" element={<About />} />
-                    <Route path="/kultura" element={<Articles />} />
-                    <Route path="/cestovani" element={<Articles />} />
-                    <Route path="/kontakt" element={<Contact />} />
-                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
-              </main>
-              <Footer />
-              <ScrollToTop />
-            </div>
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                {/* Admin Routes - without Header/Footer */}
+                <Route path="/tajnedvere" element={<AdminLogin />} />
+                <Route
+                  path="/tajnedvere/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tajnedvere/articles"
+                  element={
+                    <ProtectedRoute>
+                      <AdminArticles />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tajnedvere/articles/new"
+                  element={
+                    <ProtectedRoute>
+                      <ArticleEditor />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/tajnedvere/articles/edit/:id"
+                  element={
+                    <ProtectedRoute>
+                      <ArticleEditor />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Public Routes - with Header/Footer */}
+                <Route
+                  path="/*"
+                  element={
+                    <div className="flex min-h-screen flex-col">
+                      <Header />
+                      <main id="main-content" className="flex-1">
+                        <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route path="/clanky" element={<Articles />} />
+                          <Route path="/clanek/:slug" element={<ArticleDetail />} />
+                          <Route path="/ubytovani" element={<Accommodation />} />
+                          <Route path="/ubytovani/:slug" element={<AccommodationDetail />} />
+                          <Route path="/o-dansku" element={<About />} />
+                          <Route path="/kultura" element={<Articles />} />
+                          <Route path="/cestovani" element={<Articles />} />
+                          <Route path="/kontakt" element={<Contact />} />
+                          <Route path="*" element={<NotFound />} />
+                        </Routes>
+                      </main>
+                      <Footer />
+                      <ScrollToTop />
+                    </div>
+                  }
+                />
+              </Routes>
+            </Suspense>
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
