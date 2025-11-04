@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
-import { Lock } from "lucide-react";
+import { Lock, Shield } from "lucide-react";
 
 const AdminRegister = () => {
   const navigate = useNavigate();
@@ -14,9 +14,32 @@ const AdminRegister = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [captchaQuestion, setCaptchaQuestion] = useState("");
+  const [captchaAnswer, setCaptchaAnswer] = useState(0);
+  const [captchaInput, setCaptchaInput] = useState("");
+
+  // Generate random math captcha
+  useEffect(() => {
+    generateCaptcha();
+  }, []);
+
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    setCaptchaQuestion(`Kolik je ${num1} + ${num2}?`);
+    setCaptchaAnswer(num1 + num2);
+    setCaptchaInput("");
+  };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate captcha
+    if (parseInt(captchaInput) !== captchaAnswer) {
+      toast.error("Špatná odpověď na bezpečnostní otázku");
+      generateCaptcha(); // Generate new question
+      return;
+    }
 
     if (password !== confirmPassword) {
       toast.error("Hesla se neshodují");
@@ -125,6 +148,27 @@ const AdminRegister = () => {
                 disabled={loading}
                 minLength={6}
               />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="captcha" className="flex items-center gap-2">
+                <Shield className="h-4 w-4 text-primary" />
+                Bezpečnostní otázka
+              </Label>
+              <div className="rounded-lg border bg-muted/50 p-3 mb-2">
+                <p className="text-center font-semibold">{captchaQuestion}</p>
+              </div>
+              <Input
+                id="captcha"
+                type="number"
+                placeholder="Zadejte výsledek"
+                value={captchaInput}
+                onChange={(e) => setCaptchaInput(e.target.value)}
+                required
+                disabled={loading}
+              />
+              <p className="text-xs text-muted-foreground">
+                Pro ověření, že nejste robot, vyřešte prosím tento jednoduchý příklad.
+              </p>
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Registruji..." : "Zaregistrovat se"}

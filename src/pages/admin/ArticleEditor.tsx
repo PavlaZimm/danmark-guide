@@ -18,6 +18,8 @@ import {
   LogOut,
   Save,
   Eye,
+  Code,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,6 +60,8 @@ const ArticleEditor = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
   const [authorId, setAuthorId] = useState("");
+  const [isHtmlMode, setIsHtmlMode] = useState(false);
+  const [htmlContent, setHtmlContent] = useState("");
 
   const editor = useEditor({
     extensions: [
@@ -120,6 +124,7 @@ const ArticleEditor = () => {
       setMetaTitle(data.meta_title || "");
       setMetaDescription(data.meta_description || "");
       setFocusKeyword(data.focus_keyword || "");
+      setHtmlContent(data.content || "");
       editor?.commands.setContent(data.content);
     } catch (error) {
       console.error("Error fetching article:", error);
@@ -143,8 +148,22 @@ const ArticleEditor = () => {
     }
   };
 
+  const toggleHtmlMode = () => {
+    if (!editor) return;
+
+    if (isHtmlMode) {
+      // Switching from HTML to Visual - set HTML content to editor
+      editor.commands.setContent(htmlContent);
+      setIsHtmlMode(false);
+    } else {
+      // Switching from Visual to HTML - get HTML from editor
+      setHtmlContent(editor.getHTML());
+      setIsHtmlMode(true);
+    }
+  };
+
   const handleSave = async (shouldPublish?: boolean) => {
-    if (!title || !slug || !perex || !categoryId || !editor) {
+    if (!title || !slug || !perex || !categoryId || (!editor && !isHtmlMode)) {
       toast.error("Vyplňte prosím všechna povinná pole");
       return;
     }
@@ -152,7 +171,8 @@ const ArticleEditor = () => {
     setLoading(true);
 
     try {
-      const content = editor.getHTML();
+      // Get content from HTML mode or visual editor
+      const content = isHtmlMode ? htmlContent : (editor?.getHTML() || "");
       const articleData = {
         title,
         slug,
@@ -202,7 +222,26 @@ const ArticleEditor = () => {
     if (!editor) return null;
 
     return (
-      <div className="flex flex-wrap gap-1 border-b bg-muted/50 p-2">
+      <div className="flex flex-wrap items-center gap-1 border-b bg-muted/50 p-2">
+        <Button
+          variant={isHtmlMode ? "default" : "ghost"}
+          size="sm"
+          onClick={toggleHtmlMode}
+          className="mr-2"
+        >
+          {isHtmlMode ? (
+            <>
+              <FileText className="mr-1 h-4 w-4" />
+              Visual
+            </>
+          ) : (
+            <>
+              <Code className="mr-1 h-4 w-4" />
+              HTML
+            </>
+          )}
+        </Button>
+        <div className="mx-2 w-px bg-border" />
         <Button
           variant={editor.isActive("heading", { level: 2 }) ? "default" : "ghost"}
           size="sm"
@@ -437,12 +476,23 @@ const ArticleEditor = () => {
                 <div className="border-b p-4">
                   <h3 className="text-xl font-semibold">Obsah článku *</h3>
                   <p className="text-sm text-muted-foreground">
-                    Použijte toolbar pro formátování textu
+                    {isHtmlMode
+                      ? "Zadejte HTML kód přímo. Přepněte na Visual pro WYSIWYG editor."
+                      : "Použijte toolbar pro formátování textu"}
                   </p>
                 </div>
                 <MenuBar />
                 <div className="min-h-[400px]">
-                  <EditorContent editor={editor} />
+                  {isHtmlMode ? (
+                    <Textarea
+                      value={htmlContent}
+                      onChange={(e) => setHtmlContent(e.target.value)}
+                      className="min-h-[400px] font-mono text-sm"
+                      placeholder="<h2>Nadpis článku</h2>&#10;<p>Obsah článku...</p>"
+                    />
+                  ) : (
+                    <EditorContent editor={editor} />
+                  )}
                 </div>
               </div>
 
