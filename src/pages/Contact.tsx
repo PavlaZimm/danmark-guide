@@ -54,6 +54,57 @@ const Contact = () => {
           name="description"
           content="Máte dotaz o Dánsku? Kontaktujte nás a rádi vám pomůžeme s plánováním vaší cesty."
         />
+        <meta
+          name="keywords"
+          content="kontakt Kastrup.cz, dotaz Dánsko, kontaktní formulář, pomoc s cestováním Dánsko"
+        />
+        <link rel="canonical" href="https://kastrup.cz/kontakt" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kastrup.cz/kontakt" />
+        <meta property="og:title" content="Kontakt - Kastrup.cz" />
+        <meta
+          property="og:description"
+          content="Máte dotaz o Dánsku? Kontaktujte nás a rádi vám pomůžeme."
+        />
+        <meta property="og:image" content="https://kastrup.cz/og-contact.jpg" />
+        <meta property="og:locale" content="cs_CZ" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Kontakt - Kastrup.cz" />
+        <meta
+          name="twitter:description"
+          content="Máte dotaz o Dánsku? Kontaktujte nás a rádi vám pomůžeme."
+        />
+        <meta name="twitter:image" content="https://kastrup.cz/og-contact.jpg" />
+
+        {/* JSON-LD Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "name": "Kontakt",
+            "description": "Kontaktní stránka pro Kastrup.cz - průvodce po Dánsku",
+            "url": "https://kastrup.cz/kontakt",
+            "mainEntity": {
+              "@type": "Organization",
+              "name": "Kastrup.cz",
+              "email": "info@kastrup.cz",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Praha",
+                "addressCountry": "CZ"
+              }
+            },
+            "isPartOf": {
+              "@type": "WebSite",
+              "name": "Kastrup.cz",
+              "url": "https://kastrup.cz"
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen py-12">
