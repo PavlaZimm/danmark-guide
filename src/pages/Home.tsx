@@ -16,10 +16,6 @@ const Home = () => {
           name="description"
           content="Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele."
         />
-        <meta
-          name="keywords"
-          content="Dánsko, Kodaň, cestování, ubytování, hygge, dánská kultura, Skandinávie, dovolená v Dánsku"
-        />
         <link rel="canonical" href="https://kastrup.cz/" />
 
         {/* Open Graph / Facebook */}
@@ -30,7 +26,7 @@ const Home = () => {
           property="og:description"
           content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
         />
-        <meta property="og:image" content="https://kastrup.cz/hero-denmark.jpg" />
+        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
         <meta property="og:locale" content="cs_CZ" />
         <meta property="og:site_name" content="Kastrup.cz" />
 
@@ -42,7 +38,7 @@ const Home = () => {
           name="twitter:description"
           content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/hero-denmark.jpg" />
+        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
 
         {/* JSON-LD Structured Data */}
         <script type="application/ld+json">
@@ -65,16 +61,16 @@ const Home = () => {
             "@type": "Organization",
             "name": "Kastrup.cz",
             "url": "https://kastrup.cz",
-            "logo": "https://kastrup.cz/logo.png",
+            "logo": "https://kastrup.cz/icon-512.svg",
             "description": "Průvodce po Dánsku - cestování, kultura a ubytování",
             "address": {
               "@type": "PostalAddress",
               "addressCountry": "CZ",
-              "addressLocality": "Praha"
+              "addressLocality": "Bílina"
             },
             "contactPoint": {
               "@type": "ContactPoint",
-              "email": "info@kastrup.cz",
+              "email": "zimmermannovap@gmail.com",
               "contactType": "Customer Service"
             }
           })}

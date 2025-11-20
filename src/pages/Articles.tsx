@@ -132,10 +132,6 @@ const Articles = () => {
           name="description"
           content="Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska."
         />
-        <meta
-          name="keywords"
-          content="články o Dánsku, blog Dánsko, cestování Dánsko, dánská kultura, hygge, Kodaň tipy"
-        />
         <link rel="canonical" href="https://kastrup.cz/clanky" />
 
         {/* Open Graph */}
@@ -146,7 +142,7 @@ const Articles = () => {
           property="og:description"
           content="Zajímavé články o cestování, kultuře a životě v Dánsku."
         />
-        <meta property="og:image" content="https://kastrup.cz/og-articles.jpg" />
+        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />

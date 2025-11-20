@@ -13,10 +13,6 @@ const About = () => {
           name="description"
           content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge. Kompletní průvodce po dánské kultuře, historii a způsobu života."
         />
-        <meta
-          name="keywords"
-          content="Dánsko, dánská kultura, hygge, skandinávský design, Kodaň, Aarhus, Odense, Skagen, historie Dánska"
-        />
         <link rel="canonical" href="https://kastrup.cz/o-dansku" />
 
         {/* Open Graph */}
@@ -27,7 +23,7 @@ const About = () => {
           property="og:description"
           content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge. Kompletní průvodce po dánské kultuře a historii."
         />
-        <meta property="og:image" content="https://kastrup.cz/og-about.jpg" />
+        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
         <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
@@ -37,7 +33,7 @@ const About = () => {
           name="twitter:description"
           content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/og-about.jpg" />
+        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
 
         {/* JSON-LD Schema */}
         <script type="application/ld+json">

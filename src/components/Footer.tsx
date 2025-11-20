@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Mail, Coffee, Heart } from "lucide-react";
+import { Mail, Coffee, Heart } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -77,26 +77,12 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Contact */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Sledujte nás</h3>
+            <h3 className="mb-4 text-lg font-semibold">Kontakt</h3>
             <div className="flex gap-4">
               <a
-                href="#"
-                className="text-muted-foreground transition-colors hover:text-primary"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-muted-foreground transition-colors hover:text-primary"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a
-                href="mailto:info@kastrup.cz"
+                href="mailto:zimmermannovap@gmail.com"
                 className="text-muted-foreground transition-colors hover:text-primary"
                 aria-label="Email"
               >
