@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import DOMPurify from "dompurify";
 
 interface Article {
   id: string;
@@ -149,7 +150,6 @@ const ArticleDetail = () => {
           name="description"
           content={article.meta_description || article.perex}
         />
-        <meta name="keywords" content={`${article.categories?.name}, Dánsko, cestování, kultura`} />
         <link rel="canonical" href={`https://kastrup.cz/clanek/${article.slug}`} />
 
         {/* Open Graph */}
@@ -162,7 +162,7 @@ const ArticleDetail = () => {
         />
         <meta
           property="og:image"
-          content={article.og_image || article.image_url || "https://kastrup.cz/og-default.jpg"}
+          content={article.og_image || article.image_url || "https://kastrup.cz/icon-512.svg"}
         />
         <meta property="article:published_time" content={article.created_at} />
         <meta property="article:section" content={article.categories?.name} />
@@ -177,7 +177,7 @@ const ArticleDetail = () => {
         />
         <meta
           name="twitter:image"
-          content={article.og_image || article.image_url || "https://kastrup.cz/og-default.jpg"}
+          content={article.og_image || article.image_url || "https://kastrup.cz/icon-512.svg"}
         />
 
         {/* JSON-LD Article Schema */}
@@ -291,7 +291,7 @@ const ArticleDetail = () => {
             {/* Content */}
             <div
               className="article-content prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: article.content }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
             />
           </div>
         </div>
