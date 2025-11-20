@@ -1,0 +1,16 @@
+{
+  "id": "example-article-001",
+  "title": "Příklad článku - Jak psát blogové příspěvky",
+  "slug": "priklad-clanku",
+  "excerpt": "Toto je ukázkový článek, který ukazuje strukturu a formát pro nové blogové příspěvky o Dánsku.",
+  "content": "## Úvod\n\nToto je ukázkový článek. Můžeš kopírovat tento soubor a vytvářet nové články.\n\n### Jak psát články\n\n1. Zkopíruj tento soubor\n2. Přejmenuj ho (např. `kodan-tipy-2025.json`)\n3. Vyplň všechna pole\n4. Obsah (`content`) piš v Markdownu\n\n### Markdown formátování\n\n- **Tučný text** pomocí `**text**`\n- *Kurzíva* pomocí `*text*`\n- Odkazy: `[text](https://url.com)`\n- Obrázky: `![alt text](/images/foto.jpg)`\n\n## Příklad sekce\n\nMůžeš přidávat:\n- Seznamy\n- Citace\n- Nadpisy (##, ###)\n- Odstavce\n\n## Závěr\n\nTakto vypadá ukázkový článek!",
+  "author": "Pavla Zimmermannová",
+  "publishedDate": "2025-01-20",
+  "featuredImage": "/images/20240813_130726.webp",
+  "tags": ["Návod", "Tutorial"],
+  "readingTime": 2,
+  "seo": {
+    "metaDescription": "Ukázkový článek pro blog o Dánsku - jak psát nové příspěvky",
+    "keywords": ["dánsko", "blog", "návod"]
+  }
+}
