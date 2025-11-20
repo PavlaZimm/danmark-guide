@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Calendar, ArrowLeft, Share2, ArrowRight } from "lucide-react";
+import { Calendar, ArrowLeft, Share2, ArrowRight, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -25,16 +25,59 @@ interface Article {
   };
 }
 
+interface TocItem {
+  id: string;
+  text: string;
+  level: number;
+}
+
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
+  const [tableOfContents, setTableOfContents] = useState<TocItem[]>([]);
 
   useEffect(() => {
     if (slug) {
       fetchArticle();
     }
   }, [slug]);
+
+  // Generate table of contents from article headings
+  useEffect(() => {
+    if (article && article.content) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(article.content, 'text/html');
+      const headings = doc.querySelectorAll('h2, h3');
+
+      const toc: TocItem[] = [];
+      headings.forEach((heading, index) => {
+        const text = heading.textContent || '';
+        let id = heading.id || text.toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/^-+|-+$/g, '');
+
+        // Ensure unique IDs
+        if (!id) {
+          id = `heading-${index}`;
+        }
+
+        toc.push({
+          id,
+          text,
+          level: parseInt(heading.tagName.charAt(1))
+        });
+
+        // Add ID to heading in actual content if it doesn't have one
+        if (!heading.id) {
+          heading.id = id;
+        }
+      });
+
+      setTableOfContents(toc);
+    }
+  }, [article]);
 
   // Add lazy loading to images in article content
   useEffect(() => {
@@ -44,6 +87,19 @@ const ArticleDetail = () => {
         img.setAttribute('loading', 'lazy');
         if (!img.getAttribute('alt')) {
           img.setAttribute('alt', article.title);
+        }
+      });
+
+      // Add IDs to headings for anchor links
+      const headings = document.querySelectorAll('.article-content h2, .article-content h3');
+      headings.forEach((heading, index) => {
+        if (!heading.id) {
+          const text = heading.textContent || '';
+          const id = text.toLowerCase()
+            .replace(/[^\w\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/^-+|-+$/g, '') || `heading-${index}`;
+          heading.id = id;
         }
       });
     }
@@ -264,6 +320,28 @@ const ArticleDetail = () => {
                 </p>
               )}
             </header>
+
+            {/* Table of Contents */}
+            {tableOfContents.length > 0 && (
+              <nav className="mb-12 rounded-lg border bg-card p-6 shadow-sm" aria-label="Obsah článku">
+                <div className="mb-4 flex items-center gap-2">
+                  <List className="h-5 w-5 text-primary" />
+                  <h2 className="text-lg font-semibold">Obsah článku</h2>
+                </div>
+                <ul className="grid gap-2 md:grid-cols-2">
+                  {tableOfContents.map((item) => (
+                    <li key={item.id} className={item.level === 3 ? 'ml-4' : ''}>
+                      <a
+                        href={`#${item.id}`}
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        → {item.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
 
             {/* Featured Image */}
             {article.image_url && (
