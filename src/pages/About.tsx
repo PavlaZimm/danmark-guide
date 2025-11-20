@@ -239,6 +239,19 @@ const About = () => {
               </ul>
             </nav>
 
+            {/* Hero Image - Nyhavn */}
+            <div className="mb-12 overflow-hidden rounded-xl shadow-lg">
+              <img
+                src="/images/20240813_130726.jpg"
+                alt="Nyhavn - ikonické barevné domky a kanál v Kodani, Dánsko"
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+              <p className="mt-2 text-center text-sm text-muted-foreground">
+                Nyhavn, Kodaň - jedno z nejikoničtějších míst Dánska
+              </p>
+            </div>
+
             {/* Content */}
             <div className="prose prose-lg max-w-none">
               <section id="fakta" className="mb-12">
@@ -264,10 +277,23 @@ const About = () => {
                   Kombinace bezpečí, udržitelné dopravy, gastronomické scény a rodinných atrakcí
                   dělá z Dánska ideální destinaci na krátké city‑breaky i týdenní roadtrip.
                 </p>
-                <p>
+                <p className="mb-6">
                   Čekají vás křídové útesy, široké pláže, ikonické hrady, moderní muzea i živá
                   města – to vše dostupné vlakem a veřejnou dopravou.
                 </p>
+
+                {/* Image - Møns Klint */}
+                <div className="my-8 overflow-hidden rounded-xl shadow-md">
+                  <img
+                    src="/images/atterseebook.jpg"
+                    alt="Møns Klint - nádherné bílé křídové útesy na ostrově Møn, Dánsko"
+                    className="h-auto w-full object-cover"
+                    loading="lazy"
+                  />
+                  <p className="mt-2 text-center text-sm text-muted-foreground">
+                    Møns Klint - breathtaking křídové útesy na ostrově Møn
+                  </p>
+                </div>
               </section>
 
               <section id="kdy-jet" className="mb-12">
