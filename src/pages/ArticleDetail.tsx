@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { createRoot } from 'react-dom/client';
 import { useParams, Link } from "react-router-dom";
 import { Calendar, ArrowLeft, Share2, ArrowRight, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import DOMPurify from "dompurify";
+import ArticleMap, { MapMarker } from "@/components/ArticleMap";
 
 interface Article {
   id: string;
@@ -31,11 +33,29 @@ interface TocItem {
   level: number;
 }
 
+interface ArticleMapData {
+  id: string;
+  lat: number;
+  lng: number;
+  zoom?: number;
+  markers?: MapMarker[];
+  caption?: string;
+  height?: string;
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [tableOfContents, setTableOfContents] = useState<TocItem[]>([]);
+  const [maps, setMaps] = useState<ArticleMapData[]>([]);
+  const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (slug) {
@@ -102,6 +122,135 @@ const ArticleDetail = () => {
           heading.id = id;
         }
       });
+    }
+  }, [article]);
+
+  // Parse maps from article content
+  useEffect(() => {
+    if (article && article.content) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(article.content, 'text/html');
+      const mapElements = doc.querySelectorAll('[data-map]');
+
+      const parsedMaps: ArticleMapData[] = [];
+
+      mapElements.forEach((el, index) => {
+        const lat = parseFloat(el.getAttribute('lat') || el.getAttribute('data-lat') || '0');
+        const lng = parseFloat(el.getAttribute('lng') || el.getAttribute('data-lng') || '0');
+        const zoom = parseInt(el.getAttribute('zoom') || el.getAttribute('data-zoom') || '13');
+        const caption = el.getAttribute('caption') || el.getAttribute('data-caption') || undefined;
+        const height = el.getAttribute('height') || el.getAttribute('data-height') || '400px';
+
+        let markers: MapMarker[] | undefined;
+        const markersAttr = el.getAttribute('markers') || el.getAttribute('data-markers');
+        if (markersAttr) {
+          try {
+            markers = JSON.parse(markersAttr);
+          } catch (e) {
+            console.error('Failed to parse markers:', e);
+          }
+        }
+
+        if (lat && lng) {
+          parsedMaps.push({
+            id: `map-${index}`,
+            lat,
+            lng,
+            zoom,
+            markers,
+            caption,
+            height
+          });
+
+          // Replace the element with a placeholder
+          const placeholder = doc.createElement('div');
+          placeholder.id = `map-placeholder-${index}`;
+          placeholder.className = 'article-map-placeholder';
+          placeholder.setAttribute('data-map-id', `map-${index}`);
+          el.replaceWith(placeholder);
+        }
+      });
+
+      setMaps(parsedMaps);
+
+      // Update the article content with placeholders
+      if (parsedMaps.length > 0 && contentRef.current) {
+        contentRef.current.innerHTML = DOMPurify.sanitize(doc.body.innerHTML, {
+          ADD_TAGS: ['details', 'summary'],
+          ADD_ATTR: ['open', 'id', 'class', 'data-map-id']
+        });
+      }
+    }
+  }, [article]);
+
+  // Render maps into placeholders
+  useEffect(() => {
+    if (maps.length > 0 && contentRef.current) {
+      const roots: any[] = [];
+
+      maps.forEach((mapData) => {
+        const placeholder = contentRef.current?.querySelector(`#map-placeholder-${mapData.id.replace('map-', '')}`);
+        if (placeholder) {
+          const root = createRoot(placeholder);
+          root.render(
+            <ArticleMap
+              lat={mapData.lat}
+              lng={mapData.lng}
+              zoom={mapData.zoom}
+              markers={mapData.markers}
+              height={mapData.height}
+              caption={mapData.caption}
+            />
+          );
+          roots.push(root);
+        }
+      });
+
+      // Cleanup function
+      return () => {
+        roots.forEach(root => {
+          try {
+            root.unmount();
+          } catch (e) {
+            // Ignore unmount errors
+          }
+        });
+      };
+    }
+  }, [maps]);
+
+  // Parse FAQ from article content for Schema markup
+  useEffect(() => {
+    if (article && article.content) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(article.content, 'text/html');
+      const detailsElements = doc.querySelectorAll('details');
+
+      const faqs: FAQItem[] = [];
+      detailsElements.forEach((details) => {
+        const summary = details.querySelector('summary');
+        if (summary) {
+          const question = summary.textContent?.trim() || '';
+          // Remove the arrow from question text
+          const cleanQuestion = question.replace(/▼/g, '').trim();
+
+          // Get the answer from the details content (excluding summary)
+          const answer = Array.from(details.children)
+            .filter(el => el.tagName !== 'SUMMARY')
+            .map(el => el.textContent?.trim())
+            .filter(Boolean)
+            .join(' ');
+
+          if (cleanQuestion && answer) {
+            faqs.push({
+              question: cleanQuestion,
+              answer: answer
+            });
+          }
+        }
+      });
+
+      setFaqItems(faqs);
     }
   }, [article]);
 
@@ -297,6 +446,24 @@ const ArticleDetail = () => {
             ]
           })}
         </script>
+
+        {/* FAQ Schema - shows FAQ in Google search results */}
+        {faqItems.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": faqItems.map((faq) => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": faq.answer
+                }
+              }))
+            })}
+          </script>
+        )}
       </Helmet>
 
       <div className="min-h-screen py-12">
@@ -356,15 +523,22 @@ const ArticleDetail = () => {
             )}
 
             {/* Content */}
-            <div
-              className="prose prose-lg max-w-none article-content"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(article.content, {
-                  ADD_TAGS: ['details', 'summary'],
-                  ADD_ATTR: ['open']
-                })
-              }}
-            />
+            {maps.length > 0 ? (
+              <div
+                ref={contentRef}
+                className="prose prose-lg max-w-none article-content"
+              />
+            ) : (
+              <div
+                className="prose prose-lg max-w-none article-content"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(article.content, {
+                    ADD_TAGS: ['details', 'summary'],
+                    ADD_ATTR: ['open']
+                  })
+                }}
+              />
+            )}
 
             {/* CTA Section */}
             <div className="mt-16 grid gap-6 md:grid-cols-2">
