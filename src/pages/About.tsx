@@ -13,6 +13,53 @@ const About = () => {
           name="description"
           content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge. Kompletní průvodce po dánské kultuře, historii a způsobu života."
         />
+        <meta
+          name="keywords"
+          content="Dánsko, dánská kultura, hygge, skandinávský design, Kodaň, Aarhus, Odense, Skagen, historie Dánska"
+        />
+        <link rel="canonical" href="https://kastrup.cz/o-dansku" />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://kastrup.cz/o-dansku" />
+        <meta property="og:title" content="O Dánsku - Kastrup.cz" />
+        <meta
+          property="og:description"
+          content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge. Kompletní průvodce po dánské kultuře a historii."
+        />
+        <meta property="og:image" content="https://kastrup.cz/og-about.jpg" />
+        <meta property="og:locale" content="cs_CZ" />
+
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="O Dánsku - Kastrup.cz" />
+        <meta
+          name="twitter:description"
+          content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge."
+        />
+        <meta name="twitter:image" content="https://kastrup.cz/og-about.jpg" />
+
+        {/* JSON-LD Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "name": "O Dánsku",
+            "description": "Poznejte Dánsko - zemi vikingů, moderního designu a hygge",
+            "url": "https://kastrup.cz/o-dansku",
+            "mainEntity": {
+              "@type": "Place",
+              "@id": "https://www.wikidata.org/wiki/Q35",
+              "name": "Dánsko",
+              "description": "Skandinávská země v severní Evropě s bohatou historií a kulturou"
+            },
+            "isPartOf": {
+              "@type": "WebSite",
+              "name": "Kastrup.cz",
+              "url": "https://kastrup.cz"
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen py-12">

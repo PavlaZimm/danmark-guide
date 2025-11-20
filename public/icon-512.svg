@@ -1,35 +1,32 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient background inspired by Danish red -->
+  <defs>
+    <linearGradient id="danishRed512" x1="0" y1="0" x2="512" y2="512">
+      <stop offset="0%" stop-color="#dc2626"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+    <filter id="shadow512">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
   <!-- Background -->
-  <rect width="512" height="512" fill="#dc2626" rx="86"/>
+  <rect width="512" height="512" fill="url(#danishRed512)" rx="112"/>
 
-  <!-- Castle/Denmark icon -->
-  <g transform="translate(256, 256)">
-    <!-- Flag pole -->
-    <rect x="-5" y="-160" width="10" height="213" fill="white"/>
+  <!-- Danish cross pattern (subtle) -->
+  <rect x="0" y="203" width="512" height="106" fill="white" opacity="0.1"/>
+  <rect x="203" y="0" width="106" height="512" fill="white" opacity="0.1"/>
 
-    <!-- Danish flag -->
-    <rect x="0" y="-133" width="106" height="32" fill="white"/>
-    <rect x="0" y="-91" width="106" height="32" fill="white"/>
-    <rect x="21" y="-133" width="21" height="64" fill="#dc2626"/>
+  <!-- Letter K with Danish flag cross integrated -->
+  <g filter="url(#shadow512)">
+    <!-- K letter - modern design (scaled) -->
+    <path d="M 160 160 L 160 352 L 192 352 L 192 256 L 293 352 L 336 352 L 235 256 L 331 160 L 288 160 L 192 251 L 192 160 Z" fill="white"/>
 
-    <!-- Castle base -->
-    <rect x="-106" y="-27" width="213" height="133" fill="white" opacity="0.9"/>
-
-    <!-- Castle towers -->
-    <rect x="-106" y="-80" width="53" height="53" fill="white" opacity="0.9"/>
-    <rect x="53" y="-80" width="53" height="53" fill="white" opacity="0.9"/>
-
-    <!-- Tower tops -->
-    <rect x="-101" y="-85" width="11" height="11" fill="white"/>
-    <rect x="-80" y="-85" width="11" height="11" fill="white"/>
-    <rect x="58" y="-85" width="11" height="11" fill="white"/>
-    <rect x="80" y="-85" width="11" height="11" fill="white"/>
-
-    <!-- Door -->
-    <rect x="-27" y="27" width="53" height="80" fill="#dc2626"/>
-
-    <!-- Windows -->
-    <rect x="-80" y="-13" width="32" height="32" fill="#dc2626"/>
-    <rect x="48" y="-13" width="32" height="32" fill="#dc2626"/>
+    <!-- Small Danish cross accent (scaled) -->
+    <rect x="347" y="155" width="11" height="202" fill="white"/>
+    <rect x="277" y="224" width="149" height="11" fill="white"/>
   </g>
+
+  <!-- Subtle circle decoration (scaled) -->
+  <circle cx="384" cy="128" r="16" fill="white" opacity="0.8"/>
 </svg>

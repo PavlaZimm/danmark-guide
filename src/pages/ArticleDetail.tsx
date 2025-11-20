@@ -35,6 +35,19 @@ const ArticleDetail = () => {
     }
   }, [slug]);
 
+  // Add lazy loading to images in article content
+  useEffect(() => {
+    if (article) {
+      const images = document.querySelectorAll('.article-content img');
+      images.forEach((img) => {
+        img.setAttribute('loading', 'lazy');
+        if (!img.getAttribute('alt')) {
+          img.setAttribute('alt', article.title);
+        }
+      });
+    }
+  }, [article]);
+
   const fetchArticle = async () => {
     try {
       const { data, error } = await supabase
@@ -277,7 +290,7 @@ const ArticleDetail = () => {
 
             {/* Content */}
             <div
-              className="prose prose-lg max-w-none"
+              className="article-content prose prose-lg max-w-none"
               dangerouslySetInnerHTML={{ __html: article.content }}
             />
           </div>

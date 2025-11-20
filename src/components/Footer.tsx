@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Mail } from "lucide-react";
+import { Facebook, Instagram, Mail, Coffee, Heart } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -107,7 +107,22 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Kastrup.cz. Všechna práva vyhrazena.</p>
+          <p className="mb-3">&copy; {new Date().getFullYear()} Kastrup.cz. Všechna práva vyhrazena.</p>
+          <p className="flex items-center justify-center gap-2 text-xs">
+            Vytvořeno s
+            <Heart className="h-3 w-3 fill-red-500 text-red-500 animate-pulse" />
+            a spoustou
+            <Coffee className="h-3 w-3" />
+            kávou •
+            <a
+              href="https://linklady.cz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-primary hover:underline"
+            >
+              LinkLady.cz
+            </a>
+          </p>
         </div>
       </div>
     </footer>

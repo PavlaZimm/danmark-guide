@@ -245,6 +245,7 @@ const AccommodationDetail = () => {
                     src={accommodation.images[0]}
                     alt={accommodation.name}
                     className="h-[400px] w-full rounded-lg object-cover"
+                    loading="eager"
                   />
                   {accommodation.images.length > 1 && (
                     <div className="grid gap-4">
@@ -254,6 +255,7 @@ const AccommodationDetail = () => {
                           src={image}
                           alt={`${accommodation.name} - obrázek ${index + 2}`}
                           className="h-[192px] w-full rounded-lg object-cover"
+                          loading="lazy"
                         />
                       ))}
                     </div>
