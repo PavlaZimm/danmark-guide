@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, List, Plane, Train, Bus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -95,6 +95,66 @@ const About = () => {
               </div>
             </header>
 
+            {/* Table of Contents */}
+            <nav className="mb-12 rounded-lg border bg-card p-6 shadow-sm" aria-label="Obsah článku">
+              <div className="mb-4 flex items-center gap-2">
+                <List className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Obsah článku</h2>
+              </div>
+              <ul className="grid gap-2 md:grid-cols-2">
+                <li>
+                  <a href="#fakta" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Základní fakta o Dánsku
+                  </a>
+                </li>
+                <li>
+                  <a href="#proc-jet" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Proč navštívit Dánsko
+                  </a>
+                </li>
+                <li>
+                  <a href="#kdy-jet" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Kdy jet do Dánska
+                  </a>
+                </li>
+                <li>
+                  <a href="#doprava" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Jak se dostat do Dánska
+                  </a>
+                </li>
+                <li>
+                  <a href="#prakticke" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Praktické informace
+                  </a>
+                </li>
+                <li>
+                  <a href="#kodan" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Kodaň jako výchozí bod
+                  </a>
+                </li>
+                <li>
+                  <a href="#co-videt" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Co vidět v Dánsku
+                  </a>
+                </li>
+                <li>
+                  <a href="#kultura" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Dánská kultura a jídlo
+                  </a>
+                </li>
+                <li>
+                  <a href="#itinerare" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Itineráře: jak si poskládat cestu
+                  </a>
+                </li>
+                <li>
+                  <a href="#faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Často kladené otázky (FAQ)
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
             {/* Content */}
             <div className="prose prose-lg max-w-none">
               <section id="fakta" className="mb-12">
@@ -134,10 +194,203 @@ const About = () => {
                   <strong> podzim (září–listopad)</strong> nabízí barevné krajiny a méně davů,
                   <strong> zima (prosinec–únor)</strong> má silnou sváteční atmosféru a hygge interiéry.
                 </p>
-                <p>
+                <p className="mb-6">
                   Pro outdoor a rodinné parky volte pozdní jaro až léto; pro adventní atmosféru
                   zvažte prosinec s trhy a muzei.
                 </p>
+
+                {/* Tabulka počasí */}
+                <div className="my-8 overflow-x-auto rounded-lg border bg-card shadow-sm">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b bg-muted/50">
+                        <th className="p-3 text-left font-semibold">Měsíc</th>
+                        <th className="p-3 text-center font-semibold">Průměr</th>
+                        <th className="p-3 text-center font-semibold">Min–Max</th>
+                        <th className="p-3 text-center font-semibold">Srážky</th>
+                        <th className="p-3 text-center font-semibold">Slunce</th>
+                        <th className="p-3 text-center font-semibold">Období</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Leden</td>
+                        <td className="p-3 text-center font-semibold text-blue-600 dark:text-blue-400">1°C</td>
+                        <td className="p-3 text-center text-muted-foreground">-2 až 4°C</td>
+                        <td className="p-3 text-center">60 mm</td>
+                        <td className="p-3 text-center">1 h</td>
+                        <td className="p-3 text-center text-sm">Zima ❄️</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Únor</td>
+                        <td className="p-3 text-center font-semibold text-blue-600 dark:text-blue-400">1°C</td>
+                        <td className="p-3 text-center text-muted-foreground">-2 až 4°C</td>
+                        <td className="p-3 text-center">48 mm</td>
+                        <td className="p-3 text-center">2 h</td>
+                        <td className="p-3 text-center text-sm">Zima 🌨️</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Březen</td>
+                        <td className="p-3 text-center font-semibold text-cyan-600 dark:text-cyan-400">3°C</td>
+                        <td className="p-3 text-center text-muted-foreground">-1 až 8°C</td>
+                        <td className="p-3 text-center">58 mm</td>
+                        <td className="p-3 text-center">4 h</td>
+                        <td className="p-3 text-center text-sm">Jaro 🌱</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Duben</td>
+                        <td className="p-3 text-center font-semibold text-teal-600 dark:text-teal-400">7°C</td>
+                        <td className="p-3 text-center text-muted-foreground">2 až 13°C</td>
+                        <td className="p-3 text-center">56 mm</td>
+                        <td className="p-3 text-center">6 h</td>
+                        <td className="p-3 text-center text-sm">Jaro 🌸</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Květen</td>
+                        <td className="p-3 text-center font-bold text-green-700 dark:text-green-400">12°C</td>
+                        <td className="p-3 text-center text-muted-foreground">7 až 18°C</td>
+                        <td className="p-3 text-center">56 mm</td>
+                        <td className="p-3 text-center">8 h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Ideální ✨</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Červen</td>
+                        <td className="p-3 text-center font-bold text-green-700 dark:text-green-400">15°C</td>
+                        <td className="p-3 text-center text-muted-foreground">10 až 21°C</td>
+                        <td className="p-3 text-center">64 mm</td>
+                        <td className="p-3 text-center">9 h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Ideální ☀️</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Červenec</td>
+                        <td className="p-3 text-center font-bold text-green-700 dark:text-green-400">18°C</td>
+                        <td className="p-3 text-center text-muted-foreground">13 až 23°C</td>
+                        <td className="p-3 text-center">74 mm</td>
+                        <td className="p-3 text-center">9 h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Léto 🏖️</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Srpen</td>
+                        <td className="p-3 text-center font-bold text-green-700 dark:text-green-400">17°C</td>
+                        <td className="p-3 text-center text-muted-foreground">12 až 22°C</td>
+                        <td className="p-3 text-center">68 mm</td>
+                        <td className="p-3 text-center">8 h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Léto 🌊</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Září</td>
+                        <td className="p-3 text-center font-semibold text-amber-600 dark:text-amber-400">14°C</td>
+                        <td className="p-3 text-center text-muted-foreground">9 až 19°C</td>
+                        <td className="p-3 text-center">64 mm</td>
+                        <td className="p-3 text-center">6 h</td>
+                        <td className="p-3 text-center text-sm">Podzim 🍂</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Říjen</td>
+                        <td className="p-3 text-center font-semibold text-orange-600 dark:text-orange-400">10°C</td>
+                        <td className="p-3 text-center text-muted-foreground">5 až 15°C</td>
+                        <td className="p-3 text-center">72 mm</td>
+                        <td className="p-3 text-center">3 h</td>
+                        <td className="p-3 text-center text-sm">Podzim 🍁</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Listopad</td>
+                        <td className="p-3 text-center font-semibold text-slate-600 dark:text-slate-400">5°C</td>
+                        <td className="p-3 text-center text-muted-foreground">1 až 10°C</td>
+                        <td className="p-3 text-center">71 mm</td>
+                        <td className="p-3 text-center">1 h</td>
+                        <td className="p-3 text-center text-sm">Zima 🌧️</td>
+                      </tr>
+                      <tr className="hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Prosinec</td>
+                        <td className="p-3 text-center font-semibold text-blue-600 dark:text-blue-400">2°C</td>
+                        <td className="p-3 text-center text-muted-foreground">-2 až 6°C</td>
+                        <td className="p-3 text-center">60 mm</td>
+                        <td className="p-3 text-center">1 h</td>
+                        <td className="p-3 text-center text-sm">Advent 🎄</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <p className="mt-4 text-sm text-muted-foreground italic">
+                  💡 <strong>Nejlepší období:</strong> Květen až srpen (12–18°C průměrně, až 8–9 hodin slunce denně).
+                  Pro zimní atmosféru a adventní trhy navštivte prosinec.
+                </p>
+              </section>
+
+              <section id="doprava" className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Jak se dostat do Dánska</h2>
+                <p className="mb-6">
+                  Z České republiky se do Dánska dostanete třemi hlavními způsoby: letadlem (nejrychlejší),
+                  vlakem (nejpohodlnější) nebo autobusem (nejlevnější). Každá varianta má své výhody.
+                </p>
+
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                  <Plane className="h-6 w-6 text-primary" />
+                  Letadlem (nejrychlejší)
+                </h3>
+                <div className="mb-8 rounded-lg border bg-card p-6">
+                  <h4 className="mb-3 font-semibold">Praha → Kodaň (Kastrup - CPH)</h4>
+                  <ul className="mb-4 space-y-2">
+                    <li><strong>Doba letu:</strong> 1 hodina 20 minut</li>
+                    <li><strong>Frekvence:</strong> 5× denně</li>
+                    <li><strong>Cena:</strong> 210–1100 Kč (levněji při předem objednávce)</li>
+                    <li><strong>Společnosti:</strong> SAS, Norwegian Air, Lufthansa, Wizz Air</li>
+                  </ul>
+
+                  <h4 className="mb-3 font-semibold">Praha → Aalborg (severní Dánsko)</h4>
+                  <ul className="mb-4 space-y-2">
+                    <li><strong>Doba letu:</strong> 1 hodina 25 minut (přímý let)</li>
+                    <li><strong>Cena:</strong> 650–1900 Kč</li>
+                    <li><strong>Výhoda:</strong> Ideální pro severní Jutsko (Skagen, Rubjerg Knude)</li>
+                  </ul>
+
+                  <h4 className="mb-3 font-semibold">Praha → Billund (LEGO Land)</h4>
+                  <ul className="space-y-2">
+                    <li><strong>Doba:</strong> 2 hodiny 15 minut (obvykle s přestupy)</li>
+                    <li><strong>Cena:</strong> 800–1500 Kč</li>
+                    <li><strong>Výhoda:</strong> Přímo k LEGO Landu a LEGO House</li>
+                  </ul>
+                </div>
+
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                  <Train className="h-6 w-6 text-primary" />
+                  Vlakem (nejpohodlnější)
+                </h3>
+                <div className="mb-8 rounded-lg border bg-card p-6">
+                  <h4 className="mb-3 font-semibold">Praha → Kodaň (přes Hamburg)</h4>
+                  <ul className="mb-4 space-y-2">
+                    <li><strong>Doba jízdy:</strong> 15–16 hodin (1 přestup v Hamburku)</li>
+                    <li><strong>Cena:</strong> 600–1200 Kč (Early Bird na ČD e-shopu)</li>
+                    <li><strong>Odjezd:</strong> Praha hlavní nádraží</li>
+                    <li><strong>Příjezd:</strong> København H (centrální nádraží)</li>
+                    <li><strong>Trasa:</strong> Praha → Hamburg (cca 6h) → Kodaň (cca 5–6h)</li>
+                  </ul>
+                  <p className="text-sm text-muted-foreground">
+                    <strong>Výhody:</strong> Pohodlné EuroCity vlaky, možnost spánku, prostor na batožinu,
+                    výhledy krajinou. <strong>Kde koupit:</strong> České dráhy e-shop, ÖBB, Omio, Trainline.
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    <strong>Alternativa přes Berlín:</strong> Praha → Berlín → Hamburg → Kodaň (15 hodin, 2 přestupy)
+                  </p>
+                </div>
+
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                  <Bus className="h-6 w-6 text-primary" />
+                  Autobusem (nejlevnější)
+                </h3>
+                <div className="rounded-lg border bg-card p-6">
+                  <p className="mb-4">
+                    Autobus je nejlevnější varianta, ale nejdelší. Společnosti jako FlixBus nabízejí
+                    spojení Praha → Kodaň s přestupy, obvykle přes Německo.
+                  </p>
+                  <ul className="space-y-2">
+                    <li><strong>Doba jízdy:</strong> 16–20 hodin (dle přestupů)</li>
+                    <li><strong>Cena:</strong> 300–800 Kč (výrazně levnější než letadlo)</li>
+                    <li><strong>Výhoda:</strong> Nízká cena, přímá linka nebo s jedním přestupem</li>
+                  </ul>
+                </div>
               </section>
 
               <section id="prakticke" className="mb-12">
