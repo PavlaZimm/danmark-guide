@@ -48,8 +48,7 @@ const About = () => {
               "@type": "Person",
               "name": "Pavla Zimmermannová",
               "url": "https://kastrup.cz",
-              "jobTitle": "Cestovatelka a průvodkyně po Dánsku",
-              "description": "Expertka na cestování po Dánsku s dlouhodobou zkušeností a láskou k severské kultuře."
+              "email": "zimmermannovap@gmail.com"
             },
             "publisher": {
               "@type": "Organization",
@@ -138,6 +137,23 @@ const About = () => {
                   "text": "Z letiště jezdí metro M2 a vlaky velmi často (každých 10 minut). Cesta do centra Kodaně trvá 15-20 minut. Spojení je rychlé, pohodlné a dobře značené. Jízdenky lze koupit v automatech nebo online."
                 }
               }
+            ]
+          })}
+        </script>
+
+        {/* JSON-LD Schema - Person (Author) */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Pavla Zimmermannová",
+            "url": "https://kastrup.cz",
+            "email": "zimmermannovap@gmail.com",
+            "image": "https://kastrup.cz/images/pavla-author.jpg",
+            "description": "Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry. S láskou k severské kultuře a hygge filosofii přináším praktické tipy a inspiraci pro cesty po Dánsku.",
+            "knowsAbout": ["Dánsko", "Cestování", "Severská kultura", "Hygge", "Kodaň", "Cestovatelské průvodce"],
+            "sameAs": [
+              "https://kastrup.cz"
             ]
           })}
         </script>
@@ -239,6 +255,19 @@ const About = () => {
               </ul>
             </nav>
 
+            {/* Hero Image - Nyhavn */}
+            <div className="mb-12 overflow-hidden rounded-xl shadow-lg">
+              <img
+                src="/images/20240813_130726.jpg"
+                alt="Nyhavn - ikonické barevné domky a kanál v Kodani, Dánsko"
+                className="h-auto w-full object-cover"
+                loading="lazy"
+              />
+              <p className="mt-2 text-center text-sm text-muted-foreground">
+                Nyhavn, Kodaň - jedno z nejikoničtějších míst Dánska
+              </p>
+            </div>
+
             {/* Content */}
             <div className="prose prose-lg max-w-none">
               <section id="fakta" className="mb-12">
@@ -264,10 +293,23 @@ const About = () => {
                   Kombinace bezpečí, udržitelné dopravy, gastronomické scény a rodinných atrakcí
                   dělá z Dánska ideální destinaci na krátké city‑breaky i týdenní roadtrip.
                 </p>
-                <p>
+                <p className="mb-6">
                   Čekají vás křídové útesy, široké pláže, ikonické hrady, moderní muzea i živá
                   města – to vše dostupné vlakem a veřejnou dopravou.
                 </p>
+
+                {/* Image - Møns Klint */}
+                <div className="my-8 overflow-hidden rounded-xl shadow-md">
+                  <img
+                    src="/images/atterseebook.jpg"
+                    alt="Møns Klint - nádherné bílé křídové útesy na ostrově Møn, Dánsko"
+                    className="h-auto w-full object-cover"
+                    loading="lazy"
+                  />
+                  <p className="mt-2 text-center text-sm text-muted-foreground">
+                    Møns Klint - breathtaking křídové útesy na ostrově Møn
+                  </p>
+                </div>
               </section>
 
               <section id="kdy-jet" className="mb-12">
@@ -660,9 +702,6 @@ const About = () => {
                   {/* Author Info */}
                   <div className="flex-1 text-center md:text-left">
                     <h3 className="mb-2 text-2xl font-bold">Pavla Zimmermannová</h3>
-                    <p className="mb-1 text-sm font-medium text-primary">
-                      Cestovatelka & Průvodkyně po Dánsku
-                    </p>
                     <div className="mb-4 h-1 w-16 bg-primary/30 mx-auto md:mx-0"></div>
                     <p className="mb-4 leading-relaxed text-muted-foreground">
                       Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry.
