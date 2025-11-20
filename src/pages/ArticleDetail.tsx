@@ -357,8 +357,13 @@ const ArticleDetail = () => {
 
             {/* Content */}
             <div
-              className="prose prose-lg max-w-none"
-              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
+              className="prose prose-lg max-w-none article-content"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(article.content, {
+                  ADD_TAGS: ['details', 'summary'],
+                  ADD_ATTR: ['open']
+                })
+              }}
             />
 
             {/* CTA Section */}
