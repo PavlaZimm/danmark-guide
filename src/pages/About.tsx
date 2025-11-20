@@ -35,26 +35,110 @@ const About = () => {
         />
         <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
 
-        {/* JSON-LD Schema */}
+        {/* JSON-LD Schema - Article */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": "Dánsko: Kompletní průvodce 2025",
             "description": "Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy.",
+            "datePublished": "2025-01-15",
+            "dateModified": "2025-01-15",
             "author": {
               "@type": "Person",
-              "name": "Pavla Zimmermannová"
+              "name": "Pavla Zimmermannová",
+              "url": "https://kastrup.cz",
+              "jobTitle": "Cestovatelka a průvodkyně po Dánsku",
+              "description": "Expertka na cestování po Dánsku s dlouhodobou zkušeností a láskou k severské kultuře."
             },
             "publisher": {
               "@type": "Organization",
               "name": "Kastrup.cz",
-              "url": "https://kastrup.cz"
+              "url": "https://kastrup.cz",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://kastrup.cz/icon-512.svg"
+              }
             },
             "mainEntityOfPage": {
               "@type": "WebPage",
               "@id": "https://kastrup.cz/o-dansku"
-            }
+            },
+            "image": "https://kastrup.cz/icon-512.svg",
+            "inLanguage": "cs-CZ",
+            "wordCount": 2500
+          })}
+        </script>
+
+        {/* JSON-LD Schema - BreadcrumbList */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Domů",
+                "item": "https://kastrup.cz"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "O Dánsku",
+                "item": "https://kastrup.cz/o-dansku"
+              }
+            ]
+          })}
+        </script>
+
+        {/* JSON-LD Schema - FAQPage */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Kdy je nejlepší doba na návštěvu Dánska?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Léto (červen-srpen) má nejvíce akcí a nejstabilnější počasí s průměrnými teplotami 15-18°C. Jaro a podzim jsou klidnější s menším počtem turistů. Zima láká na advent a hygge atmosféru, zejména v prosinci s vánočními trhy."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Jak se pohybovat po Dánsku?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Využijte vlaky DSB pro delší přesuny mezi městy. Ve městech funguje kvalitní síť metra, vlaků a autobusů. Jízdenky můžete koupit online nebo v automatech. Dánsko má také vynikající cyklistickou infrastrukturu."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Je Dánsko drahé?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ano, Dánsko má celkově vyšší cenovou hladinu než střední Evropa. Šetřit lze volbou ubytování mimo špičku, vlastním vařením, nákupem jízdenek na MHD a kombinací veřejné dopravy s kolem."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Potřebuji vízum do Dánska?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ne, občané EU a Schengenu necestují do Dánska s vízy. Stačí platný doklad totožnosti (občanský průkaz nebo pas)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Jak se dostat z letiště Copenhagen Airport (CPH) do centra?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Z letiště jezdí metro M2 a vlaky velmi často (každých 10 minut). Cesta do centra Kodaně trvá 15-20 minut. Spojení je rychlé, pohodlné a dobře značené. Jízdenky lze koupit v automatech nebo online."
+                }
+              }
+            ]
           })}
         </script>
       </Helmet>
@@ -558,12 +642,50 @@ const About = () => {
                 </details>
               </section>
 
-              <footer className="mt-12 border-t pt-8">
-                <p className="italic text-sm text-muted-foreground">
-                  <strong>Autorka:</strong> Pavla – Dánsko mám ráda a vracím se sem pro kombinaci
-                  klidu, přírody, designu a laskavé atmosféry.
-                </p>
-              </footer>
+              {/* Author Bio */}
+              <div className="mt-12 rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-background to-background p-8 shadow-lg">
+                <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
+                  {/* Author Photo */}
+                  <div className="flex-shrink-0">
+                    <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl">
+                      <img
+                        src="/images/pavla-author.jpg"
+                        alt="Pavla Zimmermannová - autorka průvodce po Dánsku"
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Author Info */}
+                  <div className="flex-1 text-center md:text-left">
+                    <h3 className="mb-2 text-2xl font-bold">Pavla Zimmermannová</h3>
+                    <p className="mb-1 text-sm font-medium text-primary">
+                      Cestovatelka & Průvodkyně po Dánsku
+                    </p>
+                    <div className="mb-4 h-1 w-16 bg-primary/30 mx-auto md:mx-0"></div>
+                    <p className="mb-4 leading-relaxed text-muted-foreground">
+                      Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry.
+                      S láskou k severské kultuře a hygge filosofii vám přináším praktické tipy a inspiraci
+                      pro vaše cesty po Dánsku.
+                    </p>
+                    <div className="flex flex-wrap justify-center gap-3 md:justify-start">
+                      <a
+                        href="mailto:zimmermannovap@gmail.com"
+                        className="inline-flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+                      >
+                        📧 Kontakt
+                      </a>
+                      <Link
+                        to="/clanky"
+                        className="inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
+                      >
+                        📝 Další články
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* CTA Section */}
