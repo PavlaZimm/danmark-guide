@@ -3,9 +3,13 @@ import { ArrowRight, MapPin, Building2, Coffee, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import heroImage from "@/assets/hero-denmark.jpg";
+import heroImageWebP from "@/assets/hero-denmark.webp";
 import countrysideImage from "@/assets/countryside.jpg";
+import countrysideImageWebP from "@/assets/countryside.webp";
 import hyggeImage from "@/assets/hygge.jpg";
+import hyggeImageWebP from "@/assets/hygge.webp";
 import designImage from "@/assets/design.jpg";
+import designImageWebP from "@/assets/design.webp";
 
 const Home = () => {
   return (
@@ -81,11 +85,15 @@ const Home = () => {
       {/* Hero Section with Full-Width Image */}
       <section className="relative h-[75vh] min-h-[500px] w-full overflow-hidden sm:h-[85vh] sm:min-h-[600px] lg:h-[90vh]">
         <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt="Barevné historické domy v přístavu Nyhavn v Kodani, Dánsko - malebná turistická destinace s lodičkami a restauracemi"
-            className="h-full w-full object-cover object-center"
-          />
+          <picture>
+            <source srcSet={heroImageWebP} type="image/webp" />
+            <img
+              src={heroImage}
+              alt="Barevné historické domy v přístavu Nyhavn v Kodani, Dánsko - malebná turistická destinace s lodičkami a restauracemi"
+              className="h-full w-full object-cover object-center"
+              loading="eager"
+            />
+          </picture>
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
         </div>
 
@@ -147,12 +155,15 @@ const Home = () => {
             <Link to="/cestovani" className="group">
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={countrysideImage}
-                    alt="Malebná dánská krajina s zelenými poli a tradičními domy - ideální pro objevování venkova"
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  <picture>
+                    <source srcSet={countrysideImageWebP} type="image/webp" />
+                    <img
+                      src={countrysideImage}
+                      alt="Malebná dánská krajina s zelenými poli a tradičními domy - ideální pro objevování venkova"
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </picture>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <MapPin className="mb-2 h-8 w-8" />
@@ -172,12 +183,15 @@ const Home = () => {
             <Link to="/kultura" className="group">
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={hyggeImage}
-                    alt="Útulný interiér s horkým nápojem a svíčkami - ukázka dánského konceptu hygge, pohody a pohodlného života"
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  <picture>
+                    <source srcSet={hyggeImageWebP} type="image/webp" />
+                    <img
+                      src={hyggeImage}
+                      alt="Útulný interiér s horkým nápojem a svíčkami - ukázka dánského konceptu hygge, pohody a pohodlného života"
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </picture>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <Coffee className="mb-2 h-8 w-8" />
@@ -197,12 +211,15 @@ const Home = () => {
             <Link to="/o-dansku" className="group">
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
-                  <img
-                    src={designImage}
-                    alt="Minimalistický skandinávský interiér s elegantním nábytkem - příklad světově proslulého dánského designu"
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
+                  <picture>
+                    <source srcSet={designImageWebP} type="image/webp" />
+                    <img
+                      src={designImage}
+                      alt="Minimalistický skandinávský interiér s elegantním nábytkem - příklad světově proslulého dánského designu"
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </picture>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <Sparkles className="mb-2 h-8 w-8" />
