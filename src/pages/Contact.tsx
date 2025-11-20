@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
+import { Mail, MapPin, User, Briefcase, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -89,12 +89,13 @@ const Contact = () => {
             "description": "Kontaktní stránka pro Kastrup.cz - průvodce po Dánsku",
             "url": "https://kastrup.cz/kontakt",
             "mainEntity": {
-              "@type": "Organization",
-              "name": "Kastrup.cz",
-              "email": "info@kastrup.cz",
+              "@type": "Person",
+              "name": "Pavla Zimmermannová",
+              "email": "zimmermannovap@gmail.com",
+              "url": "https://www.linklady.cz",
               "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Praha",
+                "addressLocality": "Bílina",
                 "addressCountry": "CZ"
               }
             },
@@ -127,21 +128,37 @@ const Contact = () => {
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <Mail className="h-6 w-6 text-primary" />
+                      <User className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="mb-1 font-semibold">Email</h3>
-                      <p className="text-muted-foreground">info@kastrup.cz</p>
+                      <h3 className="mb-1 font-semibold">Provozovatel</h3>
+                      <p className="text-muted-foreground">Pavla Zimmermannová</p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <Phone className="h-6 w-6 text-primary" />
+                      <Mail className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="mb-1 font-semibold">Telefon</h3>
-                      <p className="text-muted-foreground">+420 XXX XXX XXX</p>
+                      <h3 className="mb-1 font-semibold">Email</h3>
+                      <a
+                        href="mailto:zimmermannovap@gmail.com"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        zimmermannovap@gmail.com
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                      <Briefcase className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="mb-1 font-semibold">IČO</h3>
+                      <p className="text-muted-foreground">04352041</p>
+                      <p className="text-sm text-muted-foreground/80">Vedena u ŽÚ v Bílině</p>
                     </div>
                   </div>
 
@@ -150,10 +167,25 @@ const Contact = () => {
                       <MapPin className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="mb-1 font-semibold">Adresa</h3>
-                      <p className="text-muted-foreground">
-                        Praha, Česká republika
-                      </p>
+                      <h3 className="mb-1 font-semibold">Město</h3>
+                      <p className="text-muted-foreground">Bílina, Česká republika</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                      <Globe className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="mb-1 font-semibold">Web</h3>
+                      <a
+                        href="https://www.linklady.cz"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                      >
+                        www.linklady.cz
+                      </a>
                     </div>
                   </div>
                 </div>

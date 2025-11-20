@@ -9,6 +9,7 @@ import { ThemeProvider } from "next-themes";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import CookieConsent from "./components/CookieConsent";
 
 // Lazy load pages for better performance
 const Home = lazy(() => import("./pages/Home"));
@@ -112,6 +113,7 @@ const App = () => (
                 />
               </Routes>
             </Suspense>
+            <CookieConsent />
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>
