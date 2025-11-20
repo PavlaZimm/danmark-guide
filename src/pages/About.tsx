@@ -134,9 +134,114 @@ const About = () => {
                   <strong> podzim (září–listopad)</strong> nabízí barevné krajiny a méně davů,
                   <strong> zima (prosinec–únor)</strong> má silnou sváteční atmosféru a hygge interiéry.
                 </p>
-                <p>
+                <p className="mb-6">
                   Pro outdoor a rodinné parky volte pozdní jaro až léto; pro adventní atmosféru
                   zvažte prosinec s trhy a muzei.
+                </p>
+
+                {/* Tabulka počasí */}
+                <div className="my-8 overflow-x-auto rounded-lg border bg-card">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b bg-muted/50">
+                        <th className="p-3 text-left font-semibold">Měsíc</th>
+                        <th className="p-3 text-center font-semibold">Teplota (°C)</th>
+                        <th className="p-3 text-center font-semibold">Srážky (mm)</th>
+                        <th className="p-3 text-center font-semibold">Denní světlo</th>
+                        <th className="p-3 text-center font-semibold">Doporučení</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Leden</td>
+                        <td className="p-3 text-center">-1 až 3</td>
+                        <td className="p-3 text-center">46</td>
+                        <td className="p-3 text-center">7h</td>
+                        <td className="p-3 text-center text-sm">Hygge ❄️</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Únor</td>
+                        <td className="p-3 text-center">-1 až 3</td>
+                        <td className="p-3 text-center">32</td>
+                        <td className="p-3 text-center">9h</td>
+                        <td className="p-3 text-center text-sm">Zima 🌨️</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Březen</td>
+                        <td className="p-3 text-center">1 až 6</td>
+                        <td className="p-3 text-center">39</td>
+                        <td className="p-3 text-center">12h</td>
+                        <td className="p-3 text-center text-sm">Jaro 🌱</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Duben</td>
+                        <td className="p-3 text-center">4 až 11</td>
+                        <td className="p-3 text-center">39</td>
+                        <td className="p-3 text-center">15h</td>
+                        <td className="p-3 text-center text-sm">Příjemné 🌸</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Květen</td>
+                        <td className="p-3 text-center">8 až 16</td>
+                        <td className="p-3 text-center">44</td>
+                        <td className="p-3 text-center">17h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Ideální ✨</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Červen</td>
+                        <td className="p-3 text-center">12 až 20</td>
+                        <td className="p-3 text-center">51</td>
+                        <td className="p-3 text-center">18h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Ideální ☀️</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Červenec</td>
+                        <td className="p-3 text-center">14 až 22</td>
+                        <td className="p-3 text-center">66</td>
+                        <td className="p-3 text-center">17h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Ideální 🏖️</td>
+                      </tr>
+                      <tr className="border-b bg-green-50/50 dark:bg-green-950/20 hover:bg-green-100/50 dark:hover:bg-green-900/30 transition-colors">
+                        <td className="p-3 font-medium">Srpen</td>
+                        <td className="p-3 text-center">14 až 22</td>
+                        <td className="p-3 text-center">62</td>
+                        <td className="p-3 text-center">15h</td>
+                        <td className="p-3 text-center text-sm font-semibold text-green-700 dark:text-green-400">Ideální 🌊</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Září</td>
+                        <td className="p-3 text-center">11 až 18</td>
+                        <td className="p-3 text-center">61</td>
+                        <td className="p-3 text-center">13h</td>
+                        <td className="p-3 text-center text-sm">Podzim 🍂</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Říjen</td>
+                        <td className="p-3 text-center">8 až 13</td>
+                        <td className="p-3 text-center">66</td>
+                        <td className="p-3 text-center">10h</td>
+                        <td className="p-3 text-center text-sm">Chladnější 🍁</td>
+                      </tr>
+                      <tr className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Listopad</td>
+                        <td className="p-3 text-center">4 až 8</td>
+                        <td className="p-3 text-center">56</td>
+                        <td className="p-3 text-center">8h</td>
+                        <td className="p-3 text-center text-sm">Zima začíná 🌧️</td>
+                      </tr>
+                      <tr className="hover:bg-muted/20 transition-colors">
+                        <td className="p-3 font-medium">Prosinec</td>
+                        <td className="p-3 text-center">1 až 4</td>
+                        <td className="p-3 text-center">55</td>
+                        <td className="p-3 text-center">7h</td>
+                        <td className="p-3 text-center text-sm">Advent 🎄</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <p className="mt-4 text-sm text-muted-foreground italic">
+                  💡 Nejlepší měsíce pro návštěvu Dánska jsou květen až srpen s průměrnými teplotami 16–22°C a dlouhými dny. Pro adventní atmosféru navštivte prosinec.
                 </p>
               </section>
 
