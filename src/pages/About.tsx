@@ -3,6 +3,7 @@ import { ArrowRight, List, Plane, Train, Bus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import ArticleMap from "@/components/ArticleMap";
 
 const About = () => {
   return (
@@ -288,6 +289,47 @@ const About = () => {
                   Hygge, dánský styl pohody a blízkosti, prostupuje kavárnami, interiéry i komunitním
                   životem a je skvělou esencí zdejšího cestování.
                 </p>
+
+                {/* Mapa Dánska */}
+                <ArticleMap
+                  lat={56.2639}
+                  lng={9.5018}
+                  zoom={7}
+                  markers={[
+                    {
+                      lat: 55.6761,
+                      lng: 12.5683,
+                      title: "Kodaň",
+                      description: "Hlavní město Dánska - design, historie, hygge"
+                    },
+                    {
+                      lat: 56.1629,
+                      lng: 10.2039,
+                      title: "Aarhus",
+                      description: "Druhé největší město - kultura a mladá energie"
+                    },
+                    {
+                      lat: 55.4038,
+                      lng: 10.4024,
+                      title: "Odense",
+                      description: "Rodiště H.C. Andersena"
+                    },
+                    {
+                      lat: 55.3282,
+                      lng: 8.7640,
+                      title: "Ribe",
+                      description: "Nejstarší město v Dánsku (rok 705)"
+                    },
+                    {
+                      lat: 57.7209,
+                      lng: 10.5797,
+                      title: "Skagen",
+                      description: "Severní cíp - místo kde se potkávají dvě moře"
+                    }
+                  ]}
+                  caption="Mapa Dánska s hlavními městy a zajímavostmi"
+                  height="500px"
+                />
               </section>
 
               <section id="proc-jet" className="mb-12">
