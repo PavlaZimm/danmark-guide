@@ -8,30 +8,30 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>O Dánsku | Kastrup.cz</title>
+        <title>Dánsko: Kompletní průvodce 2025 | Kastrup.cz</title>
         <meta
           name="description"
-          content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge. Kompletní průvodce po dánské kultuře, historii a způsobu života."
+          content="Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet."
         />
         <link rel="canonical" href="https://kastrup.cz/o-dansku" />
 
         {/* Open Graph */}
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content="article" />
         <meta property="og:url" content="https://kastrup.cz/o-dansku" />
-        <meta property="og:title" content="O Dánsku - Kastrup.cz" />
+        <meta property="og:title" content="Dánsko: Kompletní průvodce 2025" />
         <meta
           property="og:description"
-          content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge. Kompletní průvodce po dánské kultuře a historii."
+          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy."
         />
         <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
         <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="O Dánsku - Kastrup.cz" />
+        <meta name="twitter:title" content="Dánsko: Kompletní průvodce 2025" />
         <meta
           name="twitter:description"
-          content="Poznejte Dánsko - zemi vikingů, moderního designu a hygge."
+          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge."
         />
         <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
 
@@ -39,20 +39,21 @@ const About = () => {
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "AboutPage",
-            "name": "O Dánsku",
-            "description": "Poznejte Dánsko - zemi vikingů, moderního designu a hygge",
-            "url": "https://kastrup.cz/o-dansku",
-            "mainEntity": {
-              "@type": "Place",
-              "@id": "https://www.wikidata.org/wiki/Q35",
-              "name": "Dánsko",
-              "description": "Skandinávská země v severní Evropě s bohatou historií a kulturou"
+            "@type": "Article",
+            "headline": "Dánsko: Kompletní průvodce 2025",
+            "description": "Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy.",
+            "author": {
+              "@type": "Person",
+              "name": "Pavla Zimmermannová"
             },
-            "isPartOf": {
-              "@type": "WebSite",
+            "publisher": {
+              "@type": "Organization",
               "name": "Kastrup.cz",
               "url": "https://kastrup.cz"
+            },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://kastrup.cz/o-dansku"
             }
           })}
         </script>
@@ -60,77 +61,256 @@ const About = () => {
 
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-4xl">
+          <article className="mx-auto max-w-4xl">
             <Breadcrumbs items={[{ label: "O Dánsku" }]} />
 
             {/* Header */}
-            <div className="mb-12 text-center">
-              <h1 className="mb-6 text-4xl font-bold md:text-5xl">O Dánsku</h1>
-              <p className="text-xl text-muted-foreground">
-                Objevte zemi vikingů, moderního designu a hygge
+            <header className="mb-12">
+              <h1 className="mb-6 text-4xl font-bold md:text-5xl">
+                Dánsko: Kompletní průvodce 2025
+              </h1>
+              <p className="mb-6 text-xl leading-relaxed text-muted-foreground">
+                Dánsko je kompaktní severská země, kde se setkává krása pobřeží, historické hrady,
+                moderní design a příjemná filozofie hygge. Plánování je snadné, doprava spolehlivá
+                a atmosféra přívětivá jak pro solo cestovatelky, tak pro rodiny.
               </p>
-            </div>
+              <div className="rounded-lg border bg-muted/50 p-6">
+                <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+                  Klíčové body
+                </h2>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span><strong>Proč jet:</strong> příroda, hrady, design, hygge, rodinné atrakce</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span><strong>Kdy jet:</strong> jaro–léto pro venek; advent pro zimní pohodu</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span><strong>Prakticky:</strong> skvělé vlaky DSB, bezkontaktní platby, výborná angličtina</span>
+                  </li>
+                </ul>
+              </div>
+            </header>
 
             {/* Content */}
-            <div className="prose prose-lg mx-auto max-w-none">
-              <section className="mb-12">
-                <h2 className="mb-4">Základní informace</h2>
+            <div className="prose prose-lg max-w-none">
+              <section id="fakta" className="mb-12">
+                <h2 className="mb-4 text-2xl font-bold">Základní fakta o Dánsku</h2>
+                <p className="mb-4">
+                  Dánsko leží v severní Evropě, je součástí Skandinávie a tvoří ho Jutský poloostrov
+                  a více než 400 ostrovů (např. Fyn a Sjælland). Hlavní město je Kodaň, oficiální
+                  jazyk dánština, měna dánská koruna (DKK).
+                </p>
+                <p className="mb-4">
+                  Oficiální turistický portál nabízí přehled regionů, inspiraci na itineráře
+                  a praktické informace pro plánování.
+                </p>
                 <p>
-                  Dánsko je skandinávská země nacházející se v severní Evropě.
-                  Skládá se z poloostrova Jutsko a více než 400 pojmenovaných
-                  ostrovů. Hlavním městem je Kodaň, která je centrem kultury,
-                  obchodu a designu.
+                  Hygge, dánský styl pohody a blízkosti, prostupuje kavárnami, interiéry i komunitním
+                  životem a je skvělou esencí zdejšího cestování.
                 </p>
               </section>
 
-              <section className="mb-12">
-                <h2 className="mb-4">Historie a kultura</h2>
+              <section id="proc-jet" className="mb-12">
+                <h2 className="mb-4 text-2xl font-bold">Proč navštívit Dánsko</h2>
+                <p className="mb-4">
+                  Kombinace bezpečí, udržitelné dopravy, gastronomické scény a rodinných atrakcí
+                  dělá z Dánska ideální destinaci na krátké city‑breaky i týdenní roadtrip.
+                </p>
                 <p>
-                  Dánsko má bohatou historii sahající až do dob Vikingů. Země je
-                  známá svým moderním designem, architekturou a filosofií hygge -
-                  umění žít pohodlný a šťastný život.
+                  Čekají vás křídové útesy, široké pláže, ikonické hrady, moderní muzea i živá
+                  města – to vše dostupné vlakem a veřejnou dopravou.
                 </p>
               </section>
 
-              <section className="mb-12">
-                <h2 className="mb-4">Život v Dánsku</h2>
+              <section id="kdy-jet" className="mb-12">
+                <h2 className="mb-4 text-2xl font-bold">Kdy jet do Dánska</h2>
+                <p className="mb-4">
+                  <strong>Jaro (březen–květen)</strong> je mírné a klidnější,
+                  <strong> léto (červen–srpen)</strong> nejživější a ideální pro pobřeží a festivaly,
+                  <strong> podzim (září–listopad)</strong> nabízí barevné krajiny a méně davů,
+                  <strong> zima (prosinec–únor)</strong> má silnou sváteční atmosféru a hygge interiéry.
+                </p>
                 <p>
-                  Dánsko je pravidelně hodnoceno jako jedna z nejšťastnějších zemí
-                  světa. Důraz na work-life balance, kvalitní veřejné služby a
-                  silný sociální systém přispívají k vysoké kvalitě života.
+                  Pro outdoor a rodinné parky volte pozdní jaro až léto; pro adventní atmosféru
+                  zvažte prosinec s trhy a muzei.
                 </p>
               </section>
 
-              <section className="mb-12">
-                <h2 className="mb-4">Turistické destinace</h2>
-                <ul>
-                  <li>
-                    <strong>Kodaň</strong> - hlavní město plné kultury, designu a
-                    historie
-                  </li>
-                  <li>
-                    <strong>Aarhus</strong> - druhé největší město s bohatou
-                    kulturní scénou
-                  </li>
-                  <li>
-                    <strong>Odense</strong> - rodné město Hanse Christiana Andersena
-                  </li>
-                  <li>
-                    <strong>Skagen</strong> - malebné rybářské městečko na severu
-                  </li>
+              <section id="prakticke" className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Praktické informace</h2>
+
+                <h3 className="mb-3 text-xl font-semibold">Vstup, bezpečnost, zdraví</h3>
+                <p className="mb-6">
+                  Dánsko je v EU/Schengenu; cestování z ČR je bezvízové s platným dokladem.
+                  Země patří k bezpečným, zdravotní péče je na vysoké úrovni.
+                </p>
+
+                <h3 className="mb-3 text-xl font-semibold">Peníze a platby</h3>
+                <p className="mb-6">
+                  Měna je DKK; bezkontaktní karty jsou široce přijímány. Počítejte s vyšší
+                  cenovou hladinou než ve střední Evropě.
+                </p>
+
+                <h3 className="mb-3 text-xl font-semibold">Jazyk a komunikace</h3>
+                <p className="mb-6">
+                  Dominuje dánština, ale angličtina je běžně výborná – domluva je snadná
+                  v dopravě, ubytování i gastronomii.
+                </p>
+
+                <h3 className="mb-3 text-xl font-semibold">Doprava po zemi</h3>
+                <p className="mb-4">
+                  Vnitrostátní železnice DSB spolehlivě propojuje města a regiony; jízdní
+                  řády a nákup jízdenek online.
+                </p>
+                <p className="mb-6">
+                  Ve městech funguje kombinace metra, vlaků a autobusů; cyklistika je
+                  populární a infrastruktura kvalitní.
+                </p>
+
+                <h3 className="mb-3 text-xl font-semibold">Příjezd letecky</h3>
+                <p>
+                  Hlavní bránou je Copenhagen Airport (CPH); do centra jezdí metro i vlaky
+                  v krátkých intervalech, s jasným značením.
+                </p>
+              </section>
+
+              <section id="kodan" className="mb-12">
+                <h2 className="mb-4 text-2xl font-bold">Kodaň jako hlavní výchozí bod</h2>
+                <p className="mb-4">
+                  Kodaň je moderní, udržitelná metropole s přátelskou atmosférou, excelentní
+                  gastronomií a královskými památkami; z hlediska logistiky je nejlepším
+                  startem/koncem cesty po Dánsku.
+                </p>
+                <p>
+                  Mezi největší „must‑see" patří Nyhavn, Tivoli, Amalienborg, Christiansborg,
+                  Rosenborg, Rundetårn a kulturní čtvrti s kavárnami a designem – detailní
+                  průvodce Kodaní vyjde jako samostatný článek a z tohoto na něj odkážeme.
+                </p>
+              </section>
+
+              <section id="co-videt" className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Co vidět v Dánsku (mimo Kodaň)</h2>
+
+                <h3 className="mb-4 text-xl font-semibold">Přírodní krásy</h3>
+                <ul className="mb-6 space-y-2">
+                  <li><strong>Møns Klint</strong> – křídové útesy s vyhlídkami a stezkami po pobřeží</li>
+                  <li><strong>Stevns Klint</strong> – dramatické útesy a geologická lokalita s příběhem doby ledové</li>
+                  <li><strong>Rubjerg Knude</strong> – putující duna a maják vysoko nad mořem</li>
+                  <li><strong>Severozápadní Jutsko</strong> – duny, pláže, setkání moří u Skagenu</li>
+                </ul>
+
+                <h3 className="mb-4 text-xl font-semibold">Historie a památky</h3>
+                <ul className="mb-6 space-y-2">
+                  <li><strong>Frederiksborg</strong> – renesanční zámek se zahradami v Hillerødu</li>
+                  <li><strong>Kronborg</strong> – „Hamletův hrad" v Helsingoøru, pevnost UNESCO</li>
+                  <li><strong>Egeskov</strong> – vodní hrad na Fynu, ideální i pro rodiny</li>
+                  <li><strong>Ribe</strong> – nejstarší město v Dánsku s vikingským dědictvím</li>
+                </ul>
+
+                <h3 className="mb-4 text-xl font-semibold">Rodina a zábava</h3>
+                <ul className="space-y-2">
+                  <li><strong>LEGOLAND Billund</strong> – tematický park pro všechny věkové kategorie</li>
+                  <li><strong>LEGO House</strong> – interaktivní centrum kreativity v Billundu</li>
+                  <li><strong>Lalandia Billund</strong> – aquapark a rekreační areál</li>
                 </ul>
               </section>
 
-              <section className="mb-12">
-                <h2 className="mb-4">Zajímavosti</h2>
-                <ul>
-                  <li>Dánština je úředním jazykem</li>
-                  <li>Měna: Dánská koruna (DKK)</li>
-                  <li>Časové pásmo: CET (UTC+1)</li>
-                  <li>Obyvatelstvo: přibližně 5,9 milionu</li>
-                  <li>Členský stát EU, ale nepoužívá euro</li>
-                </ul>
+              <section id="kultura" className="mb-12">
+                <h2 className="mb-4 text-2xl font-bold">Dánská kultura, hygge a jídlo</h2>
+                <p className="mb-4">
+                  Hygge vystihuje pohodlí, klid a blízkost – často u stolu s přáteli, kávou
+                  a svíčkami; je to silná součást zážitku z cestování po Dánsku.
+                </p>
+                <p>
+                  Ochutnejte smørrebrød (otevřené sendviče), frikadeller (karbanátky)
+                  a wienerbrød; kavárny a pekárny jsou tu radostný rituál.
+                </p>
               </section>
+
+              <section id="itinerare" className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Itineráře: jak si poskládat cestu</h2>
+
+                <h3 className="mb-3 text-xl font-semibold">3–4 dny s Kodaní jako základem</h3>
+                <p className="mb-6">
+                  Den 1–2 Kodaň, poté Billund (LEGOLAND/LEGO House) a jeden přírodní highlight
+                  (Møns či Stevns Klint) – vyvážený mix města, rodinné zábavy a přírody.
+                </p>
+
+                <h3 className="mb-3 text-xl font-semibold">Týden v Dánsku</h3>
+                <p>
+                  Okruh: Kodaň → severní Sjælland (Kronborg/Frederiksborg) → Fyn (Egeskov, Odense)
+                  → západní Jutsko (duny, pláže, Skagen) → návrat; kombinace hradů, přírody a měst.
+                </p>
+              </section>
+
+              <section id="faq" className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Často kladené otázky (FAQ)</h2>
+
+                <details className="group mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md">
+                  <summary className="cursor-pointer font-semibold text-lg list-none flex items-center justify-between">
+                    <span>Kdy je nejlepší doba na návštěvu?</span>
+                    <span className="text-primary transition-transform group-open:rotate-180">▼</span>
+                  </summary>
+                  <p className="mt-4 text-muted-foreground">
+                    Léto má nejvíce akcí a nejstabilnější počasí, jaro a podzim jsou klidnější,
+                    zima láká na advent a hygge.
+                  </p>
+                </details>
+
+                <details className="group mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md">
+                  <summary className="cursor-pointer font-semibold text-lg list-none flex items-center justify-between">
+                    <span>Jak se pohybovat po Dánsku?</span>
+                    <span className="text-primary transition-transform group-open:rotate-180">▼</span>
+                  </summary>
+                  <p className="mt-4 text-muted-foreground">
+                    Využijte vlaky DSB pro delší přesuny, ve městech metro/busy/vlaky; jízdenky
+                    pořídíte online a v automatech.
+                  </p>
+                </details>
+
+                <details className="group mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md">
+                  <summary className="cursor-pointer font-semibold text-lg list-none flex items-center justify-between">
+                    <span>Je Dánsko drahé?</span>
+                    <span className="text-primary transition-transform group-open:rotate-180">▼</span>
+                  </summary>
+                  <p className="mt-4 text-muted-foreground">
+                    Celkově vyšší cenová hladina; šetřit lze volbou mimo špičku, vařením,
+                    kartami na MHD a kombinací vlak+kolo.
+                  </p>
+                </details>
+
+                <details className="group mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md">
+                  <summary className="cursor-pointer font-semibold text-lg list-none flex items-center justify-between">
+                    <span>Potřebuji vízum?</span>
+                    <span className="text-primary transition-transform group-open:rotate-180">▼</span>
+                  </summary>
+                  <p className="mt-4 text-muted-foreground">
+                    Občané EU/Schengenu necestují do Dánska s vízy, stačí platný doklad totožnosti.
+                  </p>
+                </details>
+
+                <details className="group mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md">
+                  <summary className="cursor-pointer font-semibold text-lg list-none flex items-center justify-between">
+                    <span>Jak z letiště CPH do centra?</span>
+                    <span className="text-primary transition-transform group-open:rotate-180">▼</span>
+                  </summary>
+                  <p className="mt-4 text-muted-foreground">
+                    Metro M2 a vlaky jezdí často, cesta je rychlá a dobře značená; jízdenky
+                    v automatech i online.
+                  </p>
+                </details>
+              </section>
+
+              <footer className="mt-12 border-t pt-8">
+                <p className="italic text-sm text-muted-foreground">
+                  <strong>Autorka:</strong> Pavla – Dánsko mám ráda a vracím se sem pro kombinaci
+                  klidu, přírody, designu a laskavé atmosféry.
+                </p>
+              </footer>
             </div>
 
             {/* CTA Section */}
@@ -161,7 +341,7 @@ const About = () => {
                 </Link>
               </div>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </>
