@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, List, Plane, Train, Bus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -94,6 +94,66 @@ const About = () => {
                 </ul>
               </div>
             </header>
+
+            {/* Table of Contents */}
+            <nav className="mb-12 rounded-lg border bg-card p-6 shadow-sm" aria-label="Obsah článku">
+              <div className="mb-4 flex items-center gap-2">
+                <List className="h-5 w-5 text-primary" />
+                <h2 className="text-lg font-semibold">Obsah článku</h2>
+              </div>
+              <ul className="grid gap-2 md:grid-cols-2">
+                <li>
+                  <a href="#fakta" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Základní fakta o Dánsku
+                  </a>
+                </li>
+                <li>
+                  <a href="#proc-jet" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Proč navštívit Dánsko
+                  </a>
+                </li>
+                <li>
+                  <a href="#kdy-jet" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Kdy jet do Dánska
+                  </a>
+                </li>
+                <li>
+                  <a href="#doprava" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Jak se dostat do Dánska
+                  </a>
+                </li>
+                <li>
+                  <a href="#prakticke" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Praktické informace
+                  </a>
+                </li>
+                <li>
+                  <a href="#kodan" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Kodaň jako výchozí bod
+                  </a>
+                </li>
+                <li>
+                  <a href="#co-videt" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Co vidět v Dánsku
+                  </a>
+                </li>
+                <li>
+                  <a href="#kultura" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Dánská kultura a jídlo
+                  </a>
+                </li>
+                <li>
+                  <a href="#itinerare" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Itineráře: jak si poskládat cestu
+                  </a>
+                </li>
+                <li>
+                  <a href="#faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Často kladené otázky (FAQ)
+                  </a>
+                </li>
+              </ul>
+            </nav>
 
             {/* Content */}
             <div className="prose prose-lg max-w-none">
@@ -257,6 +317,80 @@ const About = () => {
                   💡 <strong>Nejlepší období:</strong> Květen až srpen (12–18°C průměrně, až 8–9 hodin slunce denně).
                   Pro zimní atmosféru a adventní trhy navštivte prosinec.
                 </p>
+              </section>
+
+              <section id="doprava" className="mb-12">
+                <h2 className="mb-6 text-2xl font-bold">Jak se dostat do Dánska</h2>
+                <p className="mb-6">
+                  Z České republiky se do Dánska dostanete třemi hlavními způsoby: letadlem (nejrychlejší),
+                  vlakem (nejpohodlnější) nebo autobusem (nejlevnější). Každá varianta má své výhody.
+                </p>
+
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                  <Plane className="h-6 w-6 text-primary" />
+                  Letadlem (nejrychlejší)
+                </h3>
+                <div className="mb-8 rounded-lg border bg-card p-6">
+                  <h4 className="mb-3 font-semibold">Praha → Kodaň (Kastrup - CPH)</h4>
+                  <ul className="mb-4 space-y-2">
+                    <li><strong>Doba letu:</strong> 1 hodina 20 minut</li>
+                    <li><strong>Frekvence:</strong> 5× denně</li>
+                    <li><strong>Cena:</strong> 210–1100 Kč (levněji při předem objednávce)</li>
+                    <li><strong>Společnosti:</strong> SAS, Norwegian Air, Lufthansa, Wizz Air</li>
+                  </ul>
+
+                  <h4 className="mb-3 font-semibold">Praha → Aalborg (severní Dánsko)</h4>
+                  <ul className="mb-4 space-y-2">
+                    <li><strong>Doba letu:</strong> 1 hodina 25 minut (přímý let)</li>
+                    <li><strong>Cena:</strong> 650–1900 Kč</li>
+                    <li><strong>Výhoda:</strong> Ideální pro severní Jutsko (Skagen, Rubjerg Knude)</li>
+                  </ul>
+
+                  <h4 className="mb-3 font-semibold">Praha → Billund (LEGO Land)</h4>
+                  <ul className="space-y-2">
+                    <li><strong>Doba:</strong> 2 hodiny 15 minut (obvykle s přestupy)</li>
+                    <li><strong>Cena:</strong> 800–1500 Kč</li>
+                    <li><strong>Výhoda:</strong> Přímo k LEGO Landu a LEGO House</li>
+                  </ul>
+                </div>
+
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                  <Train className="h-6 w-6 text-primary" />
+                  Vlakem (nejpohodlnější)
+                </h3>
+                <div className="mb-8 rounded-lg border bg-card p-6">
+                  <h4 className="mb-3 font-semibold">Praha → Kodaň (přes Hamburg)</h4>
+                  <ul className="mb-4 space-y-2">
+                    <li><strong>Doba jízdy:</strong> 15–16 hodin (1 přestup v Hamburku)</li>
+                    <li><strong>Cena:</strong> 600–1200 Kč (Early Bird na ČD e-shopu)</li>
+                    <li><strong>Odjezd:</strong> Praha hlavní nádraží</li>
+                    <li><strong>Příjezd:</strong> København H (centrální nádraží)</li>
+                    <li><strong>Trasa:</strong> Praha → Hamburg (cca 6h) → Kodaň (cca 5–6h)</li>
+                  </ul>
+                  <p className="text-sm text-muted-foreground">
+                    <strong>Výhody:</strong> Pohodlné EuroCity vlaky, možnost spánku, prostor na batožinu,
+                    výhledy krajinou. <strong>Kde koupit:</strong> České dráhy e-shop, ÖBB, Omio, Trainline.
+                  </p>
+                  <p className="mt-3 text-sm text-muted-foreground">
+                    <strong>Alternativa přes Berlín:</strong> Praha → Berlín → Hamburg → Kodaň (15 hodin, 2 přestupy)
+                  </p>
+                </div>
+
+                <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                  <Bus className="h-6 w-6 text-primary" />
+                  Autobusem (nejlevnější)
+                </h3>
+                <div className="rounded-lg border bg-card p-6">
+                  <p className="mb-4">
+                    Autobus je nejlevnější varianta, ale nejdelší. Společnosti jako FlixBus nabízejí
+                    spojení Praha → Kodaň s přestupy, obvykle přes Německo.
+                  </p>
+                  <ul className="space-y-2">
+                    <li><strong>Doba jízdy:</strong> 16–20 hodin (dle přestupů)</li>
+                    <li><strong>Cena:</strong> 300–800 Kč (výrazně levnější než letadlo)</li>
+                    <li><strong>Výhoda:</strong> Nízká cena, přímá linka nebo s jedním přestupem</li>
+                  </ul>
+                </div>
               </section>
 
               <section id="prakticke" className="mb-12">
