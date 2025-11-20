@@ -163,7 +163,7 @@ const ArticleEditor = () => {
   };
 
   const handleSave = async (shouldPublish?: boolean) => {
-    if (!title || !slug || !perex || !categoryId || (!editor && !isHtmlMode)) {
+    if (!title || !slug || !categoryId || (!editor && !isHtmlMode)) {
       toast.error("Vyplňte prosím všechna povinná pole");
       return;
     }

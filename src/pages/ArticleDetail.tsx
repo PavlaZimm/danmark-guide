@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Calendar, ArrowLeft, Share2 } from "lucide-react";
+import { Calendar, ArrowLeft, Share2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -191,9 +191,10 @@ const ArticleDetail = () => {
             "datePublished": article.created_at,
             "dateModified": article.created_at,
             "author": {
-              "@type": "Organization",
-              "name": "Kastrup.cz",
-              "url": "https://kastrup.cz"
+              "@type": "Person",
+              "name": "Pavla Zimmermannová",
+              "url": "https://kastrup.cz",
+              "email": "zimmermannovap@gmail.com"
             },
             "publisher": {
               "@type": "Organization",
@@ -228,7 +229,7 @@ const ArticleDetail = () => {
               {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "Články",
+                "name": "Průvodce",
                 "item": "https://kastrup.cz/clanky"
               },
               {
@@ -242,60 +243,122 @@ const ArticleDetail = () => {
         </script>
       </Helmet>
 
-      <article className="min-h-screen py-12">
+      <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-4xl">
-            {/* Breadcrumbs */}
+          <article className="mx-auto max-w-4xl">
             <Breadcrumbs
               items={[
-                { label: "Články", href: "/clanky" },
+                { label: "Průvodce", href: "/clanky" },
                 { label: article.title }
               ]}
             />
 
             {/* Header */}
-            <header className="mb-8">
-              <div className="mb-4 flex flex-wrap items-center gap-4">
-                <Badge className="bg-primary">{article.categories?.name}</Badge>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
-                  <span>{formattedDate}</span>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleShare}
-                  className="ml-auto"
-                >
-                  <Share2 className="mr-2 h-4 w-4" />
-                  Sdílet
-                </Button>
-              </div>
+            <header className="mb-12">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">
                 {article.title}
               </h1>
-              <p className="text-xl text-muted-foreground">{article.perex}</p>
+              {article.perex && (
+                <p className="mb-6 text-xl leading-relaxed text-muted-foreground">
+                  {article.perex}
+                </p>
+              )}
             </header>
 
             {/* Featured Image */}
             {article.image_url && (
-              <div className="mb-12 aspect-video overflow-hidden rounded-lg">
+              <div className="mb-12 overflow-hidden rounded-xl shadow-lg">
                 <img
                   src={article.image_url}
                   alt={article.title}
-                  className="h-full w-full object-cover"
+                  className="h-auto w-full object-cover"
+                  loading="eager"
                 />
               </div>
             )}
 
             {/* Content */}
             <div
-              className="article-content prose prose-lg max-w-none"
+              className="prose prose-lg max-w-none"
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
             />
-          </div>
+
+            {/* CTA Section */}
+            <div className="mt-16 grid gap-6 md:grid-cols-2">
+              <div className="rounded-lg bg-gradient-card p-8">
+                <h3 className="mb-4 text-2xl font-bold">Přečtěte si další průvodce</h3>
+                <p className="mb-6 text-muted-foreground">
+                  Objevte další zajímavé průvodce o Dánsku, dánské kultuře a cestování.
+                </p>
+                <Link to="/clanky">
+                  <Button>
+                    Prohlédnout průvodce
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+
+              <div className="rounded-lg bg-gradient-card p-8">
+                <h3 className="mb-4 text-2xl font-bold">Najděte ubytování</h3>
+                <p className="mb-6 text-muted-foreground">
+                  Hledáte místo k pobytu? Prozkoumejte naši nabídku hotelů, apartmánů a hostelů.
+                </p>
+                <Link to="/ubytovani">
+                  <Button variant="outline">
+                    Zobrazit ubytování
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Author Bio */}
+            <div className="mt-12 rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-background to-background p-8 shadow-lg">
+              <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
+                {/* Author Photo */}
+                <div className="flex-shrink-0">
+                  <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl">
+                    <picture>
+                      <source srcSet="/images/pavla-author.webp" type="image/webp" />
+                      <img
+                        src="/images/pavla-author.jpg"
+                        alt="Pavla Zimmermannová - autorka průvodce po Dánsku"
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </picture>
+                  </div>
+                </div>
+
+                {/* Author Info */}
+                <div className="flex-1 text-center md:text-left">
+                  <h3 className="mb-2 text-2xl font-bold">Pavla Zimmermannová</h3>
+                  <div className="mb-4 h-1 w-16 bg-primary/30 mx-auto md:mx-0"></div>
+                  <p className="mb-4 leading-relaxed text-muted-foreground">
+                    Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry.
+                    S láskou k severské kultuře a hygge filosofii vám přináším praktické tipy a inspiraci
+                    pro vaše cesty po Dánsku.
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-3 md:justify-start">
+                    <a
+                      href="mailto:zimmermannovap@gmail.com"
+                      className="inline-flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
+                    >
+                      📧 Kontakt
+                    </a>
+                    <Link
+                      to="/clanky"
+                      className="inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
+                    >
+                      📝 Další průvodce
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
-      </article>
+      </div>
     </>
   );
 };
