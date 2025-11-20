@@ -1,50 +1,9 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, User, Briefcase, Globe, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
-import { supabase } from "@/integrations/supabase/client";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      // Submit the contact form to Supabase
-      const { error } = await supabase
-        .from("contact_messages")
-        .insert({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-        });
-
-      if (error) {
-        throw error;
-      }
-
-      toast.success("Děkujeme za vaši zprávu! Brzy vám odpovíme.");
-      setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error("Error submitting contact form:", error);
-      toast.error("Nepodařilo se odeslat zprávu. Zkuste to prosím znovu.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <>
@@ -52,11 +11,11 @@ const Contact = () => {
         <title>Kontakt | Kastrup.cz</title>
         <meta
           name="description"
-          content="Máte dotaz o Dánsku? Kontaktujte nás a rádi vám pomůžeme s plánováním vaší cesty."
+          content="Kontaktní údaje Kastrup.cz - Váš průvodce po Dánsku. Pavla Zimmermannová, Bílina."
         />
         <meta
           name="keywords"
-          content="kontakt Kastrup.cz, dotaz Dánsko, kontaktní formulář, pomoc s cestováním Dánsko"
+          content="kontakt Kastrup.cz, Pavla Zimmermannová, Bílina, průvodce Dánsko"
         />
         <link rel="canonical" href="https://kastrup.cz/kontakt" />
 
@@ -66,7 +25,7 @@ const Contact = () => {
         <meta property="og:title" content="Kontakt - Kastrup.cz" />
         <meta
           property="og:description"
-          content="Máte dotaz o Dánsku? Kontaktujte nás a rádi vám pomůžeme."
+          content="Kontaktní údaje Kastrup.cz - Pavla Zimmermannová, Bílina."
         />
         <meta property="og:image" content="https://kastrup.cz/og-contact.jpg" />
         <meta property="og:locale" content="cs_CZ" />
@@ -76,7 +35,7 @@ const Contact = () => {
         <meta name="twitter:title" content="Kontakt - Kastrup.cz" />
         <meta
           name="twitter:description"
-          content="Máte dotaz o Dánsku? Kontaktujte nás a rádi vám pomůžeme."
+          content="Kontaktní údaje Kastrup.cz - Pavla Zimmermannová, Bílina."
         />
         <meta name="twitter:image" content="https://kastrup.cz/og-contact.jpg" />
 
@@ -117,132 +76,76 @@ const Contact = () => {
             <div className="mb-12 text-center">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">Kontakt</h1>
               <p className="text-xl text-muted-foreground">
-                Máte dotaz? Rádi vám pomůžeme!
+                Máte dotaz? Napište mi na email!
               </p>
             </div>
 
-            <div className="grid gap-12 lg:grid-cols-2">
-              {/* Contact Info */}
-              <div>
-                <h2 className="mb-6 text-2xl font-semibold">Kontaktní údaje</h2>
-                <div className="space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <User className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Provozovatel</h3>
-                      <p className="text-muted-foreground">Pavla Zimmermannová</p>
-                    </div>
+            {/* Contact Info - Centered Single Column */}
+            <div className="mx-auto max-w-2xl">
+              <h2 className="mb-8 text-center text-2xl font-semibold">Kontaktní údaje</h2>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                    <User className="h-6 w-6 text-primary" />
                   </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <Mail className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Email</h3>
-                      <a
-                        href="mailto:zimmermannovap@gmail.com"
-                        className="text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        zimmermannovap@gmail.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <Briefcase className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">IČO</h3>
-                      <p className="text-muted-foreground">04352041</p>
-                      <p className="text-sm text-muted-foreground/80">Vedena u ŽÚ v Bílině</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <MapPin className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Město</h3>
-                      <p className="text-muted-foreground">Bílina, Česká republika</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <Globe className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="mb-1 font-semibold">Web</h3>
-                      <a
-                        href="https://www.linklady.cz"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-primary transition-colors"
-                      >
-                        www.linklady.cz
-                      </a>
-                    </div>
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Provozovatel</h3>
+                    <p className="text-muted-foreground">Pavla Zimmermannová</p>
                   </div>
                 </div>
-              </div>
 
-              {/* Contact Form */}
-              <div>
-                <h2 className="mb-6 text-2xl font-semibold">
-                  Napište nám zprávu
-                </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <Label htmlFor="name">Jméno *</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) =>
-                        setFormData({ ...formData, name: e.target.value })
-                      }
-                      className="mt-2"
-                    />
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                    <Mail className="h-6 w-6 text-primary" />
                   </div>
-
                   <div>
-                    <Label htmlFor="email">Email *</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="mt-2"
-                    />
+                    <h3 className="mb-1 text-sm font-semibold">Email</h3>
+                    <a
+                      href="mailto:zimmermannovap@gmail.com"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      zimmermannovap@gmail.com
+                    </a>
                   </div>
+                </div>
 
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                    <Briefcase className="h-6 w-6 text-primary" />
+                  </div>
                   <div>
-                    <Label htmlFor="message">Zpráva *</Label>
-                    <Textarea
-                      id="message"
-                      required
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
-                      }
-                      rows={6}
-                      className="mt-2"
-                    />
+                    <h3 className="mb-1 text-sm font-semibold">IČO</h3>
+                    <p className="text-muted-foreground">04352041</p>
+                    <p className="text-sm text-muted-foreground/80">Vedena u ŽÚ v Bílině</p>
                   </div>
+                </div>
 
-                  <Button type="submit" disabled={loading} className="w-full">
-                    {loading ? "Odesílání..." : "Odeslat zprávu"}
-                  </Button>
-                </form>
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                    <MapPin className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Město</h3>
+                    <p className="text-muted-foreground">Bílina, Česká republika</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
+                    <Globe className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="mb-1 text-sm font-semibold">Web</h3>
+                    <a
+                      href="https://www.linklady.cz"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      www.linklady.cz
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
 
