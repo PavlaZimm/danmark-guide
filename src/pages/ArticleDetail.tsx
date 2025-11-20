@@ -43,12 +43,18 @@ interface ArticleMapData {
   height?: string;
 }
 
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
 const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
   const [tableOfContents, setTableOfContents] = useState<TocItem[]>([]);
   const [maps, setMaps] = useState<ArticleMapData[]>([]);
+  const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -212,6 +218,41 @@ const ArticleDetail = () => {
       };
     }
   }, [maps]);
+
+  // Parse FAQ from article content for Schema markup
+  useEffect(() => {
+    if (article && article.content) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(article.content, 'text/html');
+      const detailsElements = doc.querySelectorAll('details');
+
+      const faqs: FAQItem[] = [];
+      detailsElements.forEach((details) => {
+        const summary = details.querySelector('summary');
+        if (summary) {
+          const question = summary.textContent?.trim() || '';
+          // Remove the arrow from question text
+          const cleanQuestion = question.replace(/▼/g, '').trim();
+
+          // Get the answer from the details content (excluding summary)
+          const answer = Array.from(details.children)
+            .filter(el => el.tagName !== 'SUMMARY')
+            .map(el => el.textContent?.trim())
+            .filter(Boolean)
+            .join(' ');
+
+          if (cleanQuestion && answer) {
+            faqs.push({
+              question: cleanQuestion,
+              answer: answer
+            });
+          }
+        }
+      });
+
+      setFaqItems(faqs);
+    }
+  }, [article]);
 
   const fetchArticle = async () => {
     try {
@@ -405,6 +446,24 @@ const ArticleDetail = () => {
             ]
           })}
         </script>
+
+        {/* FAQ Schema - shows FAQ in Google search results */}
+        {faqItems.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": faqItems.map((faq) => ({
+                "@type": "Question",
+                "name": faq.question,
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": faq.answer
+                }
+              }))
+            })}
+          </script>
+        )}
       </Helmet>
 
       <div className="min-h-screen py-12">

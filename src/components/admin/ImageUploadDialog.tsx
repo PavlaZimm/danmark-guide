@@ -206,6 +206,33 @@ const ImageUploadDialog = ({ open, onOpenChange, onImageInsert }: ImageUploadDia
                 </div>
               </div>
 
+              {/* Image URL */}
+              <div>
+                <Label htmlFor="image-url">URL obrázku</Label>
+                <div className="mt-2 flex gap-2">
+                  <Input
+                    id="image-url"
+                    value={uploadedUrl}
+                    readOnly
+                    className="font-mono text-sm"
+                    onClick={(e) => e.currentTarget.select()}
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(uploadedUrl);
+                      toast.success("URL zkopírováno!");
+                    }}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Můžete zkopírovat URL pro manuální použití v článku
+                </p>
+              </div>
+
               {/* Alt Text */}
               <div>
                 <Label htmlFor="alt-text">
