@@ -271,4 +271,106 @@ All colors MUST be HSL.
   .ProseMirror blockquote {
     @apply my-4 border-l-4 border-primary pl-4 italic;
   }
+
+  /* Article Content Styles - Match About page styling */
+  .prose img {
+    @apply my-8 w-full rounded-xl shadow-md;
+  }
+
+  .prose h2 {
+    @apply mb-4 mt-12 text-2xl font-bold;
+  }
+
+  .prose h3 {
+    @apply mb-4 mt-8 text-xl font-semibold;
+  }
+
+  .prose h4 {
+    @apply mb-3 mt-6 text-lg font-semibold;
+  }
+
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+
+  .prose ul {
+    @apply mb-6 space-y-2;
+  }
+
+  .prose ol {
+    @apply mb-6 space-y-2;
+  }
+
+  .prose li {
+    @apply leading-relaxed;
+  }
+
+  .prose a {
+    @apply text-primary transition-colors hover:text-primary-hover;
+  }
+
+  .prose strong {
+    @apply font-semibold;
+  }
+
+  .prose table {
+    @apply my-8 w-full overflow-x-auto rounded-lg border bg-card text-sm shadow-sm;
+  }
+
+  .prose thead {
+    @apply border-b bg-muted/50;
+  }
+
+  .prose th {
+    @apply p-3 text-left font-semibold;
+  }
+
+  .prose td {
+    @apply p-3;
+  }
+
+  .prose tr {
+    @apply border-b transition-colors hover:bg-muted/20;
+  }
+
+  .prose blockquote {
+    @apply my-6 border-l-4 border-primary pl-6 italic text-muted-foreground;
+  }
+
+  .prose code {
+    @apply rounded bg-muted px-2 py-1 font-mono text-sm;
+  }
+
+  /* Lead box styling */
+  .prose .lead-box {
+    @apply mb-6 rounded-lg border bg-muted/50 p-6;
+  }
+
+  /* Table of contents styling */
+  .prose .toc {
+    @apply mb-12 rounded-lg border bg-card p-6 shadow-sm;
+  }
+
+  /* FAQ styling */
+  .prose details {
+    @apply mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md;
+  }
+
+  .prose summary {
+    @apply flex cursor-pointer list-none items-center justify-between text-lg font-semibold;
+  }
+
+  .prose details[open] summary {
+    @apply mb-4;
+  }
+
+  /* Image captions */
+  .prose figcaption {
+    @apply mt-2 text-center text-sm text-muted-foreground;
+  }
+
+  /* Sections spacing */
+  .prose section {
+    @apply mb-12;
+  }
 }
