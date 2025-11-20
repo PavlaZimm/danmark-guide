@@ -14,6 +14,7 @@ import {
   Heading3,
   Link as LinkIcon,
   Image as ImageIcon,
+  Upload,
   Home,
   LogOut,
   Save,
@@ -36,6 +37,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import ImageUploadDialog from "@/components/admin/ImageUploadDialog";
 
 interface Category {
   id: string;
@@ -62,6 +64,7 @@ const ArticleEditor = () => {
   const [authorId, setAuthorId] = useState("");
   const [isHtmlMode, setIsHtmlMode] = useState(false);
   const [htmlContent, setHtmlContent] = useState("");
+  const [imageUploadOpen, setImageUploadOpen] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -218,6 +221,16 @@ const ArticleEditor = () => {
     navigate("/tajnedvere");
   };
 
+  const handleImageInsert = (html: string) => {
+    if (isHtmlMode) {
+      // Insert into HTML mode
+      setHtmlContent(prev => prev + '\n\n' + html);
+    } else if (editor) {
+      // Insert into visual editor
+      editor.chain().focus().insertContent(html).run();
+    }
+  };
+
   const MenuBar = () => {
     if (!editor) return null;
 
@@ -302,12 +315,21 @@ const ArticleEditor = () => {
         <Button
           variant="ghost"
           size="sm"
+          onClick={() => setImageUploadOpen(true)}
+          title="Nahrát optimalizovaný obrázek"
+        >
+          <Upload className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={() => {
             const url = window.prompt("URL obrázku:");
             if (url) {
               editor.chain().focus().setImage({ src: url }).run();
             }
           }}
+          title="Vložit obrázek z URL"
         >
           <ImageIcon className="h-4 w-4" />
         </Button>
@@ -567,6 +589,13 @@ const ArticleEditor = () => {
           </div>
         </main>
       </div>
+
+      {/* Image Upload Dialog */}
+      <ImageUploadDialog
+        open={imageUploadOpen}
+        onOpenChange={setImageUploadOpen}
+        onImageInsert={handleImageInsert}
+      />
     </>
   );
 };
