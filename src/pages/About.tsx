@@ -257,12 +257,15 @@ const About = () => {
 
             {/* Hero Image - Nyhavn */}
             <div className="mb-12 overflow-hidden rounded-xl shadow-lg">
-              <img
-                src="/images/20240813_130726.jpg"
-                alt="Nyhavn - ikonické barevné domky a kanál v Kodani, Dánsko"
-                className="h-auto w-full object-cover"
-                loading="lazy"
-              />
+              <picture>
+                <source srcSet="/images/20240813_130726.webp" type="image/webp" />
+                <img
+                  src="/images/20240813_130726.jpg"
+                  alt="Nyhavn - ikonické barevné domky a kanál v Kodani, Dánsko"
+                  className="h-auto w-full object-cover"
+                  loading="eager"
+                />
+              </picture>
               <p className="mt-2 text-center text-sm text-muted-foreground">
                 Nyhavn, Kodaň - jedno z nejikoničtějších míst Dánska
               </p>
@@ -300,12 +303,15 @@ const About = () => {
 
                 {/* Image - Møns Klint */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
-                  <img
-                    src="/images/atterseebook.jpg"
-                    alt="Møns Klint - nádherné bílé křídové útesy na ostrově Møn, Dánsko"
-                    className="h-auto w-full object-cover"
-                    loading="lazy"
-                  />
+                  <picture>
+                    <source srcSet="/images/atterseebook.webp" type="image/webp" />
+                    <img
+                      src="/images/atterseebook.jpg"
+                      alt="Møns Klint - nádherné bílé křídové útesy na ostrově Møn, Dánsko"
+                      className="h-auto w-full object-cover"
+                      loading="lazy"
+                    />
+                  </picture>
                   <p className="mt-2 text-center text-sm text-muted-foreground">
                     Møns Klint - breathtaking křídové útesy na ostrově Møn
                   </p>
@@ -552,12 +558,15 @@ const About = () => {
 
                 {/* Image - Train Station */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
-                  <img
-                    src="/images/IMG_20230712_091836.jpg"
-                    alt="Hlavní vlakové nádraží v Kodani - historická architektura"
-                    className="h-auto w-full object-cover"
-                    loading="lazy"
-                  />
+                  <picture>
+                    <source srcSet="/images/IMG_20230712_091836.webp" type="image/webp" />
+                    <img
+                      src="/images/IMG_20230712_091836.jpg"
+                      alt="Hlavní vlakové nádraží v Kodani - historická architektura"
+                      className="h-auto w-full object-cover"
+                      loading="lazy"
+                    />
+                  </picture>
                   <p className="mt-2 text-center text-sm text-muted-foreground">
                     Historické vlakové nádraží v Kodani - krásná architektura a skvělé spojení
                   </p>
@@ -580,12 +589,15 @@ const About = () => {
 
                 {/* Image - Little Mermaid */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
-                  <img
-                    src="/images/IMG_20230711_085341.jpg"
-                    alt="Malá mořská víla - ikonická socha v Kodani, Dánsko"
-                    className="h-auto w-full object-cover"
-                    loading="lazy"
-                  />
+                  <picture>
+                    <source srcSet="/images/IMG_20230711_085341.webp" type="image/webp" />
+                    <img
+                      src="/images/IMG_20230711_085341.jpg"
+                      alt="Malá mořská víla - ikonická socha v Kodani, Dánsko"
+                      className="h-auto w-full object-cover"
+                      loading="lazy"
+                    />
+                  </picture>
                   <p className="mt-2 text-center text-sm text-muted-foreground">
                     Malá mořská víla - symbol Kodaně
                   </p>
@@ -611,12 +623,15 @@ const About = () => {
 
                 {/* Image - Troll */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
-                  <img
-                    src="/images/20240811_160639.jpg"
-                    alt="Dřevěný troll - kouzelná zahradní socha v Dánsku"
-                    className="h-auto w-full object-cover"
-                    loading="lazy"
-                  />
+                  <picture>
+                    <source srcSet="/images/20240811_160639.webp" type="image/webp" />
+                    <img
+                      src="/images/20240811_160639.jpg"
+                      alt="Dřevěný troll - kouzelná zahradní socha v Dánsku"
+                      className="h-auto w-full object-cover"
+                      loading="lazy"
+                    />
+                  </picture>
                   <p className="mt-2 text-center text-sm text-muted-foreground">
                     Magický dřevěný troll - unikátní dánská zahradní umění
                   </p>
@@ -639,12 +654,15 @@ const About = () => {
 
                 {/* Image - LEGO */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
-                  <img
-                    src="/images/IMG_20230711_114209.jpg"
-                    alt="LEGO Friends postavičky v LEGO House, Billund, Dánsko"
-                    className="h-auto w-full object-cover"
-                    loading="lazy"
-                  />
+                  <picture>
+                    <source srcSet="/images/IMG_20230711_114209.webp" type="image/webp" />
+                    <img
+                      src="/images/IMG_20230711_114209.jpg"
+                      alt="LEGO Friends postavičky v LEGO House, Billund, Dánsko"
+                      className="h-auto w-full object-cover"
+                      loading="lazy"
+                    />
+                  </picture>
                   <p className="mt-2 text-center text-sm text-muted-foreground">
                     LEGO Friends v LEGO House - interaktivní zážitek v Billundu
                   </p>
@@ -743,12 +761,15 @@ const About = () => {
                   {/* Author Photo */}
                   <div className="flex-shrink-0">
                     <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl">
-                      <img
-                        src="/images/pavla-author.jpg"
-                        alt="Pavla Zimmermannová - autorka průvodce po Dánsku"
-                        className="h-full w-full object-cover"
-                        loading="lazy"
-                      />
+                      <picture>
+                        <source srcSet="/images/pavla-author.webp" type="image/webp" />
+                        <img
+                          src="/images/pavla-author.jpg"
+                          alt="Pavla Zimmermannová - autorka průvodce po Dánsku"
+                          className="h-full w-full object-cover"
+                          loading="lazy"
+                        />
+                      </picture>
                     </div>
                   </div>
 
