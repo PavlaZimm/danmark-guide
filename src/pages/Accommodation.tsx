@@ -104,10 +104,6 @@ const Accommodation = () => {
           name="description"
           content="Najděte perfektní ubytování v Dánsku. Široký výběr hotelů, apartmánů a hostelů v Kodani a dalších městech. Porovnejte ceny a rezervujte online."
         />
-        <meta
-          name="keywords"
-          content="ubytování Dánsko, hotely Kodaň, apartmány Dánsko, hostel Kodaň, levné ubytování Dánsko"
-        />
         <link rel="canonical" href="https://kastrup.cz/ubytovani" />
 
         {/* Open Graph */}
@@ -118,7 +114,7 @@ const Accommodation = () => {
           property="og:description"
           content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely v Kodani a dalších městech."
         />
-        <meta property="og:image" content="https://kastrup.cz/og-accommodation.jpg" />
+        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
