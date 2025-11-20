@@ -550,6 +550,19 @@ const About = () => {
                   populární a infrastruktura kvalitní.
                 </p>
 
+                {/* Image - Train Station */}
+                <div className="my-8 overflow-hidden rounded-xl shadow-md">
+                  <img
+                    src="/images/IMG_20230712_091836.jpg"
+                    alt="Hlavní vlakové nádraží v Kodani - historická architektura"
+                    className="h-auto w-full object-cover"
+                    loading="lazy"
+                  />
+                  <p className="mt-2 text-center text-sm text-muted-foreground">
+                    Historické vlakové nádraží v Kodani - krásná architektura a skvělé spojení
+                  </p>
+                </div>
+
                 <h3 className="mb-3 text-xl font-semibold">Příjezd letecky</h3>
                 <p>
                   Hlavní bránou je Copenhagen Airport (CPH); do centra jezdí metro i vlaky
@@ -564,6 +577,20 @@ const About = () => {
                   gastronomií a královskými památkami; z hlediska logistiky je nejlepším
                   startem/koncem cesty po Dánsku.
                 </p>
+
+                {/* Image - Little Mermaid */}
+                <div className="my-8 overflow-hidden rounded-xl shadow-md">
+                  <img
+                    src="/images/IMG_20230711_085341.jpg"
+                    alt="Malá mořská víla - ikonická socha v Kodani, Dánsko"
+                    className="h-auto w-full object-cover"
+                    loading="lazy"
+                  />
+                  <p className="mt-2 text-center text-sm text-muted-foreground">
+                    Malá mořská víla - symbol Kodaně
+                  </p>
+                </div>
+
                 <p>
                   Mezi největší „must‑see" patří Nyhavn, Tivoli, Amalienborg, Christiansborg,
                   Rosenborg, Rundetårn a kulturní čtvrti s kavárnami a designem – detailní
@@ -582,6 +609,19 @@ const About = () => {
                   <li><strong>Severozápadní Jutsko</strong> – duny, pláže, setkání moří u Skagenu</li>
                 </ul>
 
+                {/* Image - Troll */}
+                <div className="my-8 overflow-hidden rounded-xl shadow-md">
+                  <img
+                    src="/images/20240811_160639.jpg"
+                    alt="Dřevěný troll - kouzelná zahradní socha v Dánsku"
+                    className="h-auto w-full object-cover"
+                    loading="lazy"
+                  />
+                  <p className="mt-2 text-center text-sm text-muted-foreground">
+                    Magický dřevěný troll - unikátní dánská zahradní umění
+                  </p>
+                </div>
+
                 <h3 className="mb-4 text-xl font-semibold">Historie a památky</h3>
                 <ul className="mb-6 space-y-2">
                   <li><strong>Frederiksborg</strong> – renesanční zámek se zahradami v Hillerødu</li>
@@ -591,11 +631,24 @@ const About = () => {
                 </ul>
 
                 <h3 className="mb-4 text-xl font-semibold">Rodina a zábava</h3>
-                <ul className="space-y-2">
+                <ul className="mb-6 space-y-2">
                   <li><strong>LEGOLAND Billund</strong> – tematický park pro všechny věkové kategorie</li>
                   <li><strong>LEGO House</strong> – interaktivní centrum kreativity v Billundu</li>
                   <li><strong>Lalandia Billund</strong> – aquapark a rekreační areál</li>
                 </ul>
+
+                {/* Image - LEGO */}
+                <div className="my-8 overflow-hidden rounded-xl shadow-md">
+                  <img
+                    src="/images/IMG_20230711_114209.jpg"
+                    alt="LEGO Friends postavičky v LEGO House, Billund, Dánsko"
+                    className="h-auto w-full object-cover"
+                    loading="lazy"
+                  />
+                  <p className="mt-2 text-center text-sm text-muted-foreground">
+                    LEGO Friends v LEGO House - interaktivní zážitek v Billundu
+                  </p>
+                </div>
               </section>
 
               <section id="kultura" className="mb-12">
