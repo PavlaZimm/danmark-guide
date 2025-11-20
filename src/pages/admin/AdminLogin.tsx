@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Lock, Mail } from "lucide-react";
+import { Lock, Mail, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,9 +13,28 @@ const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Rate limiting - blokovat po 5 neúspěšných pokusech
+    if (isBlocked) {
+      toast.error("Příliš mnoho neúspěšných pokusů. Zkuste to za 5 minut.");
+      return;
+    }
+
+    if (loginAttempts >= 5) {
+      setIsBlocked(true);
+      toast.error("Příliš mnoho neúspěšných pokusů. Účet byl dočasně zablokován na 5 minut.");
+      setTimeout(() => {
+        setIsBlocked(false);
+        setLoginAttempts(0);
+      }, 5 * 60 * 1000); // 5 minut
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -25,9 +44,13 @@ const AdminLogin = () => {
         password,
       });
 
-      if (authError) throw authError;
+      if (authError) {
+        setLoginAttempts(prev => prev + 1);
+        throw authError;
+      }
 
       if (!authData.user) {
+        setLoginAttempts(prev => prev + 1);
         throw new Error("Nepodařilo se přihlásit");
       }
 
@@ -38,19 +61,30 @@ const AdminLogin = () => {
         .eq("id", authData.user.id)
         .single();
 
-      if (profileError) throw profileError;
+      if (profileError) {
+        setLoginAttempts(prev => prev + 1);
+        throw profileError;
+      }
 
       if (profile?.role !== "admin") {
         await supabase.auth.signOut();
+        setLoginAttempts(prev => prev + 1);
         toast.error("Nemáte oprávnění k přístupu do administrace");
         return;
       }
 
+      // Úspěšné přihlášení - reset počítadla
+      setLoginAttempts(0);
       toast.success("Úspěšně přihlášen!");
       navigate("/tajnedvere/dashboard");
     } catch (error: any) {
       console.error("Login error:", error);
-      toast.error(error.message || "Nepodařilo se přihlásit");
+      const remainingAttempts = 5 - loginAttempts - 1;
+      if (remainingAttempts > 0) {
+        toast.error(`Špatné přihlašovací údaje. Zbývá ${remainingAttempts} ${remainingAttempts === 1 ? 'pokus' : remainingAttempts < 5 ? 'pokusy' : 'pokusů'}.`);
+      } else {
+        toast.error(error.message || "Nepodařilo se přihlásit");
+      }
     } finally {
       setLoading(false);
     }
@@ -110,27 +144,33 @@ const AdminLogin = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full" size="lg" disabled={loading}>
-                {loading ? "Přihlašuji..." : "Přihlásit se"}
+              <Button type="submit" className="w-full" size="lg" disabled={loading || isBlocked}>
+                {loading ? "Přihlašuji..." : isBlocked ? "Zablokováno" : "Přihlásit se"}
               </Button>
 
-              <div className="mt-4 text-center text-sm">
-                <span className="text-muted-foreground">Ještě nemáte účet? </span>
-                <Button
-                  type="button"
-                  variant="link"
-                  className="p-0 h-auto font-semibold"
-                  onClick={() => navigate("/tajnedvere/register")}
-                >
-                  Zaregistrovat se
-                </Button>
-              </div>
+              {loginAttempts > 0 && !isBlocked && (
+                <div className="mt-4 rounded-lg border border-yellow-500/50 bg-yellow-500/10 p-3">
+                  <div className="flex items-center gap-2 text-sm text-yellow-700 dark:text-yellow-400">
+                    <Shield className="h-4 w-4" />
+                    <span>Varování: {5 - loginAttempts} {(5 - loginAttempts) === 1 ? 'pokus zbývá' : 'pokusy zbývají'}</span>
+                  </div>
+                </div>
+              )}
+
+              {isBlocked && (
+                <div className="mt-4 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
+                  <div className="flex items-center gap-2 text-sm text-red-700 dark:text-red-400">
+                    <Lock className="h-4 w-4" />
+                    <span>Účet dočasně zablokován kvůli bezpečnosti (5 minut)</span>
+                  </div>
+                </div>
+              )}
             </form>
           </div>
 
           {/* Footer */}
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Pro přístup do administrace musíte mít účet s rolí admin.
+            🔒 Chráněno proti brute-force útokům. Maximálně 5 pokusů.
           </p>
         </div>
       </div>
