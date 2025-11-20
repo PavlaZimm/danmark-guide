@@ -353,7 +353,7 @@ All colors MUST be HSL.
 
   /* FAQ styling */
   .prose details {
-    @apply group mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md;
+    @apply mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md;
   }
 
   .prose summary {
