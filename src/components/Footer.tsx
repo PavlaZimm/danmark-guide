@@ -46,21 +46,21 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Article Categories */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Kategorie</h3>
+            <h3 className="mb-4 text-lg font-semibold">Kategorie článků</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/cestovani"
+                  to="/clanky?category=mesta"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Cestování
+                  Města
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/kultura"
+                  to="/clanky?category=kultura"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   Kultura
@@ -68,10 +68,10 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/kontakt"
+                  to="/clanky?category=tipy"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Kontakt
+                  Tipy
                 </Link>
               </li>
             </ul>
