@@ -151,6 +151,11 @@ const ArticleEditor = () => {
     }
   };
 
+  const handleSlugChange = (value: string) => {
+    // Always sanitize slug to ensure URL-friendly format
+    setSlug(generateSlug(value));
+  };
+
   const toggleHtmlMode = () => {
     if (!editor) return;
 
@@ -419,12 +424,15 @@ const ArticleEditor = () => {
                     <Input
                       id="slug"
                       value={slug}
-                      onChange={(e) => setSlug(e.target.value)}
+                      onChange={(e) => handleSlugChange(e.target.value)}
                       placeholder="10-nejlepsich-restauraci-v-kodani"
                       className="mt-2"
                     />
                     <p className="mt-1 text-sm text-muted-foreground">
                       URL: /clanek/{slug || "url-adresa"}
+                    </p>
+                    <p className="mt-1 text-xs text-amber-600">
+                      💡 Slug se automaticky převede na URL-friendly formát (malá písmena, pomlčky místo mezer)
                     </p>
                   </div>
 
