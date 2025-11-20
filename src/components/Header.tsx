@@ -13,7 +13,7 @@ const Header = () => {
   const navItems = [
     { label: "Domů", path: "/" },
     { label: "O Dánsku", path: "/o-dansku" },
-    { label: "Články", path: "/clanky" },
+    { label: "Průvodce", path: "/clanky" },
     { label: "Ubytování", path: "/ubytovani" },
     { label: "Kontakt", path: "/kontakt" },
   ];

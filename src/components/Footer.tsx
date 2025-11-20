@@ -46,9 +46,9 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Article Categories */}
+          {/* Guide Categories */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Kategorie článků</h3>
+            <h3 className="mb-4 text-lg font-semibold">Kategorie průvodců</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
