@@ -168,14 +168,21 @@ const Articles = () => {
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={pageMeta.canonical} />
+        <meta property="og:site_name" content="Kastrup.cz" />
         <meta property="og:title" content={pageMeta.ogTitle} />
         <meta property="og:description" content={pageMeta.description} />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content="https://kastrup.cz/images/20240813_130726.jpg" />
+        <meta property="og:image:width" content="1920" />
+        <meta property="og:image:height" content="1080" />
+        <meta property="og:image:alt" content="Nyhavn - barevné historické domy v Kodani, Dánsko" />
+        <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageMeta.ogTitle} />
         <meta name="twitter:description" content={pageMeta.description} />
+        <meta name="twitter:image" content="https://kastrup.cz/images/20240813_130726.jpg" />
+        <meta name="twitter:image:alt" content="Nyhavn - barevné historické domy v Kodani, Dánsko" />
 
         {/* JSON-LD */}
         <script type="application/ld+json">

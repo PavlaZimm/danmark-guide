@@ -112,17 +112,23 @@ const Accommodation = () => {
         <meta property="og:title" content="Ubytování v Dánsku - Kastrup.cz" />
         <meta
           property="og:description"
-          content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely v Kodani a dalších městech."
+          content="Najděte perfektní ubytování v Dánsku. Široký výběr hotelů, apartmánů a hostelů v Kodani a dalších městech. Porovnejte ceny a rezervujte online."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content="https://kastrup.cz/images/20240813_130726.jpg" />
+        <meta property="og:image:width" content="1920" />
+        <meta property="og:image:height" content="1080" />
+        <meta property="og:image:alt" content="Nyhavn - barevné historické domy v Kodani" />
+        <meta property="og:locale" content="cs_CZ" />
+        <meta property="og:site_name" content="Kastrup.cz" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Ubytování v Dánsku - Kastrup.cz" />
         <meta
           name="twitter:description"
-          content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely."
+          content="Najděte perfektní ubytování v Dánsku. Široký výběr hotelů, apartmánů a hostelů v Kodani a dalších městech."
         />
+        <meta name="twitter:image:alt" content="Nyhavn - barevné historické domy v Kodani" />
 
         {/* JSON-LD */}
         <script type="application/ld+json">

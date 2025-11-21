@@ -12,19 +12,23 @@ const About = () => {
         <title>Dánsko: Kompletní průvodce 2025 | Kastrup.cz</title>
         <meta
           name="description"
-          content="Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet."
+          content="Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge a dánský lifestyle. Praktické informace, itineráře, doprava a tipy kdy jet do Skandinávie."
         />
         <link rel="canonical" href="https://kastrup.cz/o-dansku" />
 
         {/* Open Graph */}
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://kastrup.cz/o-dansku" />
+        <meta property="og:site_name" content="Kastrup.cz" />
         <meta property="og:title" content="Dánsko: Kompletní průvodce 2025" />
         <meta
           property="og:description"
-          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy."
+          content="Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge a dánský lifestyle. Praktické informace, itineráře a tipy kdy jet."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content="https://kastrup.cz/images/20240813_130726.jpg" />
+        <meta property="og:image:width" content="1920" />
+        <meta property="og:image:height" content="1080" />
+        <meta property="og:image:alt" content="Nyhavn - ikonické barevné domy v Kodani, Dánsko" />
         <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
@@ -32,9 +36,10 @@ const About = () => {
         <meta name="twitter:title" content="Dánsko: Kompletní průvodce 2025" />
         <meta
           name="twitter:description"
-          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge."
+          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace a tipy."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta name="twitter:image" content="https://kastrup.cz/images/20240813_130726.jpg" />
+        <meta name="twitter:image:alt" content="Nyhavn - ikonické barevné domy v Kodani, Dánsko" />
 
         {/* JSON-LD Schema - Article */}
         <script type="application/ld+json">

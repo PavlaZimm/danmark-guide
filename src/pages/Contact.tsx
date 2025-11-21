@@ -11,19 +11,23 @@ const Contact = () => {
         <title>Kontakt | Kastrup.cz</title>
         <meta
           name="description"
-          content="Kontaktní údaje Kastrup.cz - Váš průvodce po Dánsku. Pavla Zimmermannová, Bílina."
+          content="Kontaktní údaje Kastrup.cz - Váš průvodce po Dánsku. Napište mi s dotazy o cestování do Dánska, Kodaně nebo severské kultury. Pavla Zimmermannová, Bílina."
         />
         <link rel="canonical" href="https://kastrup.cz/kontakt" />
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kastrup.cz/kontakt" />
+        <meta property="og:site_name" content="Kastrup.cz" />
         <meta property="og:title" content="Kontakt - Kastrup.cz" />
         <meta
           property="og:description"
-          content="Kontaktní údaje Kastrup.cz - Pavla Zimmermannová, Bílina."
+          content="Kontaktní údaje Kastrup.cz - Váš průvodce po Dánsku. Pavla Zimmermannová, Bílina."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content="https://kastrup.cz/images/pavla-author.jpg" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="800" />
+        <meta property="og:image:alt" content="Pavla Zimmermannová - autorka průvodce po Dánsku" />
         <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
@@ -31,9 +35,10 @@ const Contact = () => {
         <meta name="twitter:title" content="Kontakt - Kastrup.cz" />
         <meta
           name="twitter:description"
-          content="Kontaktní údaje Kastrup.cz - Pavla Zimmermannová, Bílina."
+          content="Kontaktní údaje Kastrup.cz - Váš průvodce po Dánsku. Pavla Zimmermannová, Bílina."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta name="twitter:image" content="https://kastrup.cz/images/pavla-author.jpg" />
+        <meta name="twitter:image:alt" content="Pavla Zimmermannová - autorka průvodce po Dánsku" />
 
         {/* JSON-LD Schema */}
         <script type="application/ld+json">

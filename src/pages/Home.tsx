@@ -18,7 +18,7 @@ const Home = () => {
         <title>Kastrup.cz - Váš průvodce po Dánsku | Cestování, Ubytování, Kultura</title>
         <meta
           name="description"
-          content="Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele."
+          content="Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele po Dánsku."
         />
         <link rel="canonical" href="https://kastrup.cz/" />
 
@@ -28,9 +28,12 @@ const Home = () => {
         <meta property="og:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
         <meta
           property="og:description"
-          content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
+          content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content="https://kastrup.cz/images/20240813_130726.jpg" />
+        <meta property="og:image:width" content="1920" />
+        <meta property="og:image:height" content="1080" />
+        <meta property="og:image:alt" content="Nyhavn - barevné historické domy v Kodani, Dánsko" />
         <meta property="og:locale" content="cs_CZ" />
         <meta property="og:site_name" content="Kastrup.cz" />
 
@@ -42,7 +45,8 @@ const Home = () => {
           name="twitter:description"
           content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta name="twitter:image" content="https://kastrup.cz/images/20240813_130726.jpg" />
+        <meta name="twitter:image:alt" content="Nyhavn - barevné historické domy v Kodani, Dánsko" />
 
         {/* JSON-LD Structured Data */}
         <script type="application/ld+json">
