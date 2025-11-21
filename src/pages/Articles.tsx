@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -37,6 +37,7 @@ interface Category {
 }
 
 const Articles = () => {
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -46,6 +47,39 @@ const Articles = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>(
     searchParams.get("category") || "all"
   );
+
+  // Dynamic meta tags based on current path
+  const getPageMeta = () => {
+    const path = location.pathname;
+
+    if (path === "/kultura") {
+      return {
+        title: "Dánská kultura a tradice | Kastrup.cz",
+        description: "Objevte dánskou kulturu, tradice, hygge a životní styl. Články o dánském designu, architektuře, umění a způsobu života v Dánsku.",
+        canonical: "https://kastrup.cz/kultura",
+        ogTitle: "Dánská kultura - Kastrup.cz",
+        heading: "Dánská kultura a tradice"
+      };
+    } else if (path === "/cestovani") {
+      return {
+        title: "Cestování po Dánsku | Tipy a průvodce | Kastrup.cz",
+        description: "Praktické tipy pro cestování po Dánsku. Kam jet, co vidět, kde spát a jíst. Itineráře, doprava a rady pro vaši cestu do Dánska.",
+        canonical: "https://kastrup.cz/cestovani",
+        ogTitle: "Cestování po Dánsku - Kastrup.cz",
+        heading: "Cestování po Dánsku"
+      };
+    } else {
+      return {
+        title: "Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz",
+        description: "Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska.",
+        canonical: "https://kastrup.cz/clanky",
+        ogTitle: "Články o Dánsku - Kastrup.cz",
+        heading: "Články o Dánsku"
+      };
+    }
+  };
+
+  const pageMeta = getPageMeta();
 
   useEffect(() => {
     fetchCategories();
@@ -127,39 +161,30 @@ const Articles = () => {
   return (
     <>
       <Helmet>
-        <title>Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz</title>
-        <meta
-          name="description"
-          content="Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska."
-        />
-        <link rel="canonical" href="https://kastrup.cz/clanky" />
+        <title>{pageMeta.title}</title>
+        <meta name="description" content={pageMeta.description} />
+        <link rel="canonical" href={pageMeta.canonical} />
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://kastrup.cz/clanky" />
-        <meta property="og:title" content="Články o Dánsku - Kastrup.cz" />
-        <meta
-          property="og:description"
-          content="Zajímavé články o cestování, kultuře a životě v Dánsku."
-        />
+        <meta property="og:url" content={pageMeta.canonical} />
+        <meta property="og:title" content={pageMeta.ogTitle} />
+        <meta property="og:description" content={pageMeta.description} />
         <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Články o Dánsku - Kastrup.cz" />
-        <meta
-          name="twitter:description"
-          content="Zajímavé články o cestování, kultuře a životě v Dánsku."
-        />
+        <meta name="twitter:title" content={pageMeta.ogTitle} />
+        <meta name="twitter:description" content={pageMeta.description} />
 
         {/* JSON-LD */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            "name": "Články o Dánsku",
-            "description": "Kolekce článků o cestování, kultuře a životě v Dánsku",
-            "url": "https://kastrup.cz/clanky",
+            "name": pageMeta.heading,
+            "description": pageMeta.description,
+            "url": pageMeta.canonical,
             "isPartOf": {
               "@type": "WebSite",
               "name": "Kastrup.cz",
@@ -171,13 +196,17 @@ const Articles = () => {
 
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
-        <Breadcrumbs items={[{ label: "Články" }]} />
+        <Breadcrumbs items={[{ label: pageMeta.heading }]} />
 
         {/* Header */}
         <div className="mb-12">
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl">Články</h1>
+          <h1 className="mb-4 text-4xl font-bold md:text-5xl">{pageMeta.heading}</h1>
           <p className="text-lg text-muted-foreground">
-            Prozkoumejte naše články o Dánsku
+            {location.pathname === "/kultura"
+              ? "Objevte dánskou kulturu, tradice a životní styl"
+              : location.pathname === "/cestovani"
+              ? "Praktické tipy a inspirace pro vaši cestu do Dánska"
+              : "Prozkoumejte naše články o Dánsku"}
           </p>
         </div>
 
