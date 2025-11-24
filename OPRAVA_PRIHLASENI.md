@@ -21,7 +21,7 @@ Nemůžete se přihlásit do admin panelu na `/tajnedvere`? Tento návod vám po
 **Tato migrace opravuje bezpečnostní díru!**
 
 1. Jděte do **Supabase Dashboard**: https://supabase.com/dashboard
-2. Vyberte projekt: **danmark-guide** (ID: `acgrypwfevndvqcwhcld`)
+2. Vyberte projekt: **kastrup** (ID: `acgrypwfevndvqcwhcld`)
 3. V levém menu klikněte na **SQL Editor**
 4. Klikněte **New query**
 5. Zkopírujte a vložte obsah souboru: `supabase/migrations/20251123_fix_profiles_rls_security.sql`
