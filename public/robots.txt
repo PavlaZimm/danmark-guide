@@ -4,9 +4,16 @@
 User-agent: *
 Allow: /
 
-# Disallow admin and API routes (if any in future)
-Disallow: /api/
-Disallow: /admin/
+# Disallow admin routes (correct path!)
+Disallow: /tajnedvere/
+
+# Allow CSS, JS, and images (important for rendering!)
+Allow: /*.js
+Allow: /*.css
+Allow: /*.svg
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.webp
 
 # Crawl delay (optional, prevents overload)
 Crawl-delay: 1
