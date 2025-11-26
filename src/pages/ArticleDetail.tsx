@@ -10,6 +10,7 @@ import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import DOMPurify from "dompurify";
 import ArticleMap, { MapMarker } from "@/components/ArticleMap";
+import { optimizeTitle, optimizeDescription, calculateReadingTime } from "@/lib/seo-helpers";
 
 interface Article {
   id: string;
@@ -347,23 +348,28 @@ const ArticleDetail = () => {
     );
   }
 
+  // SEO-optimized meta tags with validation
+  const pageTitle = optimizeTitle(article.meta_title || article.title);
+  const pageDescription = optimizeDescription(article.meta_description || article.perex);
+  const readingTime = calculateReadingTime(article.content);
+
   return (
     <>
       <Helmet>
-        <title>{article.meta_title || article.title} | Kastrup.cz</title>
+        <title>{pageTitle}</title>
         <meta
           name="description"
-          content={article.meta_description || article.perex}
+          content={pageDescription}
         />
         <link rel="canonical" href={`https://kastrup.cz/clanek/${article.slug}`} />
 
         {/* Open Graph */}
         <meta property="og:type" content="article" />
         <meta property="og:url" content={`https://kastrup.cz/clanek/${article.slug}`} />
-        <meta property="og:title" content={article.meta_title || article.title} />
+        <meta property="og:title" content={pageTitle} />
         <meta
           property="og:description"
-          content={article.meta_description || article.perex}
+          content={pageDescription}
         />
         <meta
           property="og:image"
@@ -375,10 +381,10 @@ const ArticleDetail = () => {
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={article.meta_title || article.title} />
+        <meta name="twitter:title" content={pageTitle} />
         <meta
           name="twitter:description"
-          content={article.meta_description || article.perex}
+          content={pageDescription}
         />
         <meta
           name="twitter:image"
