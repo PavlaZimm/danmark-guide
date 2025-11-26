@@ -24,10 +24,10 @@ const AdminLogin = () => {
 
     try {
       console.log('🔄 Sending password reset email to:', resetEmail);
-      console.log('🔗 Redirect URL:', `${window.location.origin}/tajnedvere`);
+      console.log('🔗 Redirect URL:', `${window.location.origin}/tajnedvere/reset-password`);
 
       const { data, error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: `${window.location.origin}/tajnedvere`,
+        redirectTo: `${window.location.origin}/tajnedvere/reset-password`,
       });
 
       console.log('📧 Supabase response:', { data, error });
