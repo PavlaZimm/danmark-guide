@@ -1,13 +1,36 @@
-import { createClient } from '@supabase/supabase-js';
-import { writeFileSync } from 'fs';
+const { createClient } = require('@supabase/supabase-js');
+const { writeFileSync, readFileSync, existsSync } = require('fs');
+const { join } = require('path');
 
-// Load environment variables
+// Load environment variables from .env file (simple parser)
+function loadEnv() {
+  const envPath = join(process.cwd(), '.env');
+  if (existsSync(envPath)) {
+    const envFile = readFileSync(envPath, 'utf8');
+    envFile.split('\n').forEach(line => {
+      const match = line.match(/^([^=:#]+)=(.*)$/);
+      if (match) {
+        const key = match[1].trim();
+        const value = match[2].trim().replace(/^["']|["']$/g, '');
+        process.env[key] = value;
+      }
+    });
+  }
+}
+
+loadEnv();
+
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY;
+const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('❌ Error: Missing Supabase credentials');
-  console.error('Make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set');
+  console.error('Create a .env file in the project root with:');
+  console.error('');
+  console.error('VITE_SUPABASE_URL=your_supabase_url');
+  console.error('VITE_SUPABASE_PUBLISHABLE_KEY=your_anon_key');
+  console.error('');
+  console.error('See .env.example for template');
   process.exit(1);
 }
 
