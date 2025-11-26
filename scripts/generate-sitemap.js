@@ -23,12 +23,13 @@ loadEnv();
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Missing Supabase credentials in .env');
-  process.exit(1);
-}
+let supabase = null;
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+if (!supabaseUrl || !supabaseKey) {
+  console.warn('⚠️  Missing Supabase credentials - will generate sitemap with static pages only');
+} else {
+  supabase = createClient(supabaseUrl, supabaseKey);
+}
 
 async function generateSitemap() {
   console.log('Generating sitemap...');
@@ -36,35 +37,48 @@ async function generateSitemap() {
   const baseUrl = 'https://kastrup.cz';
   const today = new Date().toISOString().split('T')[0];
 
-  try {
-    const { data: articles, error: articlesError } = await supabase
-      .from('articles')
-      .select('slug, created_at, updated_at')
-      .eq('published', true)
-      .order('created_at', { ascending: false });
+  const staticPages = [
+    { loc: '/', priority: '1.0', changefreq: 'daily' },
+    { loc: '/clanky', priority: '0.9', changefreq: 'daily' },
+    { loc: '/ubytovani', priority: '0.9', changefreq: 'daily' },
+    { loc: '/o-dansku', priority: '0.8', changefreq: 'monthly' },
+    { loc: '/kultura', priority: '0.7', changefreq: 'weekly' },
+    { loc: '/cestovani', priority: '0.7', changefreq: 'weekly' },
+    { loc: '/kontakt', priority: '0.6', changefreq: 'monthly' },
+  ];
 
-    if (articlesError) {
-      console.error('Error fetching articles:', articlesError);
-      process.exit(1);
+  let articles = [];
+  let accommodations = [];
+
+  try {
+    // Only fetch from Supabase if credentials are available
+    if (supabase) {
+      const { data: articlesData, error: articlesError } = await supabase
+        .from('articles')
+        .select('slug, created_at, updated_at')
+        .eq('published', true)
+        .order('created_at', { ascending: false });
+
+      if (articlesError) {
+        console.warn('⚠️  Error fetching articles:', articlesError.message);
+      } else {
+        articles = articlesData || [];
+      }
+
+      const { data: accommodationsData, error: accommodationsError } = await supabase
+        .from('accommodations')
+        .select('slug, updated_at')
+        .eq('published', true);
+
+      if (accommodationsError) {
+        console.warn('⚠️  Error fetching accommodations:', accommodationsError.message);
+      } else {
+        accommodations = accommodationsData || [];
+      }
     }
 
-    const { data: accommodations } = await supabase
-      .from('accommodations')
-      .select('slug, updated_at')
-      .eq('published', true);
-
-    console.log('Found ' + (articles?.length || 0) + ' articles');
-    console.log('Found ' + (accommodations?.length || 0) + ' accommodations');
-
-    const staticPages = [
-      { loc: '/', priority: '1.0', changefreq: 'daily' },
-      { loc: '/clanky', priority: '0.9', changefreq: 'daily' },
-      { loc: '/ubytovani', priority: '0.9', changefreq: 'daily' },
-      { loc: '/o-dansku', priority: '0.8', changefreq: 'monthly' },
-      { loc: '/kultura', priority: '0.7', changefreq: 'weekly' },
-      { loc: '/cestovani', priority: '0.7', changefreq: 'weekly' },
-      { loc: '/kontakt', priority: '0.6', changefreq: 'monthly' },
-    ];
+    console.log('Found ' + articles.length + ' articles');
+    console.log('Found ' + accommodations.length + ' accommodations');
 
     let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
@@ -112,8 +126,26 @@ async function generateSitemap() {
     console.log('Output: public/sitemap.xml');
 
   } catch (error) {
-    console.error('Error generating sitemap:', error);
-    process.exit(1);
+    console.warn('⚠️  Error generating sitemap:', error.message);
+    console.log('Generating fallback sitemap with static pages only...');
+
+    // Generate minimal sitemap with just static pages
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+    staticPages.forEach(page => {
+      xml += '  <url>\n';
+      xml += '    <loc>' + baseUrl + page.loc + '</loc>\n';
+      xml += '    <lastmod>' + today + '</lastmod>\n';
+      xml += '    <changefreq>' + page.changefreq + '</changefreq>\n';
+      xml += '    <priority>' + page.priority + '</priority>\n';
+      xml += '  </url>\n';
+    });
+
+    xml += '</urlset>';
+
+    writeFileSync('public/sitemap.xml', xml);
+    console.log('Fallback sitemap generated with ' + staticPages.length + ' static pages');
   }
 }
 
