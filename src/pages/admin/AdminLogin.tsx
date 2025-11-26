@@ -23,18 +23,31 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      console.log('🔄 Sending password reset email to:', resetEmail);
+      console.log('🔗 Redirect URL:', `${window.location.origin}/tajnedvere`);
+
+      const { data, error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
         redirectTo: `${window.location.origin}/tajnedvere`,
       });
 
-      if (error) throw error;
+      console.log('📧 Supabase response:', { data, error });
 
-      toast.success("Email s odkazem na reset hesla byl odeslán. Zkontrolujte schránku!");
+      if (error) {
+        console.error('❌ Supabase error:', error);
+        throw error;
+      }
+
+      console.log('✅ Password reset email sent successfully!');
+      toast.success("Email s odkazem na reset hesla byl odeslán. Zkontrolujte schránku (i SPAM)!", {
+        duration: 6000,
+      });
       setShowResetPassword(false);
       setResetEmail("");
     } catch (error: any) {
       console.error("Reset password error:", error);
-      toast.error(error.message || "Nepodařilo se odeslat email");
+      toast.error(error.message || "Nepodařilo se odeslat email. Zkontrolujte konzoli pro detaily.", {
+        duration: 5000,
+      });
     } finally {
       setLoading(false);
     }
