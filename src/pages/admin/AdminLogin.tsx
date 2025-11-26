@@ -15,6 +15,30 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isBlocked, setIsBlocked] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/tajnedvere`,
+      });
+
+      if (error) throw error;
+
+      toast.success("Email s odkazem na reset hesla byl odeslán. Zkontrolujte schránku!");
+      setShowResetPassword(false);
+      setResetEmail("");
+    } catch (error: any) {
+      console.error("Reset password error:", error);
+      toast.error(error.message || "Nepodařilo se odeslat email");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,6 +134,7 @@ const AdminLogin = () => {
 
           {/* Login Form */}
           <div className="rounded-2xl border bg-card p-8 shadow-xl">
+            {!showResetPassword ? (
             <form onSubmit={handleLogin} className="space-y-6">
               <div>
                 <Label htmlFor="email">Email</Label>
@@ -166,6 +191,60 @@ const AdminLogin = () => {
                 </div>
               )}
             </form>
+            ) : (
+            <form onSubmit={handleResetPassword} className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Zapomenuté heslo</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Zadejte svůj email a odešleme vám odkaz na resetování hesla.
+                </p>
+                <Label htmlFor="reset-email">Email</Label>
+                <div className="relative mt-2">
+                  <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    id="reset-email"
+                    type="email"
+                    placeholder="admin@kastrup.cz"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    className="pl-10"
+                    required
+                    autoFocus
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => {
+                    setShowResetPassword(false);
+                    setResetEmail("");
+                  }}
+                  disabled={loading}
+                >
+                  Zpět
+                </Button>
+                <Button type="submit" className="flex-1" disabled={loading}>
+                  {loading ? "Odesílám..." : "Odeslat email"}
+                </Button>
+              </div>
+            </form>
+            )}
+
+            {!showResetPassword && (
+              <div className="mt-4 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowResetPassword(true)}
+                  className="text-sm text-muted-foreground hover:text-primary underline"
+                >
+                  Zapomenuté heslo?
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Footer */}
