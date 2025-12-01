@@ -18,9 +18,10 @@ interface ImageUploadDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onImageInsert: (html: string) => void;
+  onUrlGenerated?: (url: string) => void;
 }
 
-const ImageUploadDialog = ({ open, onOpenChange, onImageInsert }: ImageUploadDialogProps) => {
+const ImageUploadDialog = ({ open, onOpenChange, onImageInsert, onUrlGenerated }: ImageUploadDialogProps) => {
   const [uploading, setUploading] = useState(false);
   const [uploadedUrl, setUploadedUrl] = useState("");
   const [altText, setAltText] = useState("");
@@ -67,6 +68,12 @@ const ImageUploadDialog = ({ open, onOpenChange, onImageInsert }: ImageUploadDia
         .getPublicUrl(filePath);
 
       setUploadedUrl(publicUrl);
+
+      // Call the callback with the URL if provided
+      if (onUrlGenerated) {
+        onUrlGenerated(publicUrl);
+      }
+
       toast.success("Obrázek nahrán!");
     } catch (error: any) {
       console.error('Error uploading image:', error);

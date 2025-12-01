@@ -469,13 +469,24 @@ const ArticleEditor = () => {
 
                   <div>
                     <Label htmlFor="image">URL hlavního obrázku</Label>
-                    <Input
-                      id="image"
-                      value={imageUrl}
-                      onChange={(e) => setImageUrl(e.target.value)}
-                      placeholder="https://images.unsplash.com/photo-..."
-                      className="mt-2"
-                    />
+                    <div className="mt-2 flex gap-2">
+                      <Input
+                        id="image"
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
+                        placeholder="https://images.unsplash.com/photo-..."
+                        className="flex-1"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setImageUploadOpen(true)}
+                        title="Nahrát obrázek z počítače"
+                      >
+                        <Upload className="mr-2 h-4 w-4" />
+                        Nahrát
+                      </Button>
+                    </div>
                     {imageUrl && (
                       <img
                         src={imageUrl}
@@ -603,6 +614,7 @@ const ArticleEditor = () => {
         open={imageUploadOpen}
         onOpenChange={setImageUploadOpen}
         onImageInsert={handleImageInsert}
+        onUrlGenerated={(url) => setImageUrl(url)}
       />
     </>
   );
