@@ -243,7 +243,7 @@ const AccommodationDetail = () => {
                 <div className="grid gap-4 md:grid-cols-2">
                   <img
                     src={accommodation.images[0]}
-                    alt={accommodation.name}
+                    alt={`${accommodation.name} - ${getTypeLabel(accommodation.type)} v ${accommodation.city}, Dánsko - hlavní fotografie`}
                     className="h-[400px] w-full rounded-lg object-cover"
                     loading="eager"
                   />
@@ -253,7 +253,7 @@ const AccommodationDetail = () => {
                         <img
                           key={index}
                           src={image}
-                          alt={`${accommodation.name} - obrázek ${index + 2}`}
+                          alt={`${accommodation.name} - ${getTypeLabel(accommodation.type)} v ${accommodation.city}, fotografie ${index + 2}`}
                           className="h-[192px] w-full rounded-lg object-cover"
                           loading="lazy"
                         />
