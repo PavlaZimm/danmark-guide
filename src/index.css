@@ -272,45 +272,95 @@ All colors MUST be HSL.
     @apply my-4 border-l-4 border-primary pl-4 italic;
   }
 
-  /* Article Content Styles - Match About page styling */
-  .prose img {
-    @apply my-8 w-full rounded-xl shadow-md;
+  /* Article Content Styles - Enhanced Beautiful Typography */
+
+  /* First paragraph - larger and more prominent */
+  .prose > p:first-of-type {
+    @apply text-lg font-medium leading-relaxed text-foreground/90 mb-6;
+    font-size: 1.15rem;
   }
 
+  /* Images - beautiful rounded corners and shadows */
+  .prose img {
+    @apply my-8 w-full rounded-2xl shadow-lg transition-all hover:shadow-xl;
+  }
+
+  .prose figure {
+    @apply my-10;
+  }
+
+  .prose figure img {
+    @apply mb-3 w-full rounded-2xl shadow-lg;
+  }
+
+  /* Headings - beautiful spacing and style */
   .prose h2 {
-    @apply mb-4 mt-12 text-2xl font-bold;
+    @apply mb-6 mt-16 scroll-mt-20 text-3xl font-bold text-foreground border-b pb-3 border-border/50;
+  }
+
+  .prose h2:first-child {
+    @apply mt-0;
   }
 
   .prose h3 {
-    @apply mb-4 mt-8 text-xl font-semibold;
+    @apply mb-4 mt-10 scroll-mt-20 text-2xl font-semibold text-foreground;
   }
 
   .prose h4 {
-    @apply mb-3 mt-6 text-lg font-semibold;
+    @apply mb-3 mt-8 text-xl font-semibold text-foreground/90;
   }
 
+  /* Paragraphs - perfect spacing */
   .prose p {
-    @apply mb-4 leading-relaxed;
+    @apply mb-6 leading-relaxed text-foreground/80;
+    font-size: 1.0625rem;
+    line-height: 1.75;
   }
 
+  /* Lists - beautiful markers and spacing */
   .prose ul {
-    @apply mb-6 space-y-2;
+    @apply mb-8 space-y-3 pl-6;
   }
 
   .prose ol {
-    @apply mb-6 space-y-2;
+    @apply mb-8 space-y-3 pl-6;
   }
 
   .prose li {
-    @apply leading-relaxed;
+    @apply leading-relaxed text-foreground/80;
+    font-size: 1.0625rem;
   }
 
+  .prose ul > li {
+    @apply relative pl-2;
+  }
+
+  .prose ul > li::marker {
+    @apply text-primary;
+    font-size: 1.2em;
+  }
+
+  .prose ol > li::marker {
+    @apply font-semibold text-primary;
+  }
+
+  /* Links - beautiful hover effect */
   .prose a {
-    @apply text-primary transition-colors hover:text-primary-hover;
+    @apply font-medium text-primary underline decoration-primary/30 underline-offset-2 transition-all hover:decoration-primary;
   }
 
+  .prose a:hover {
+    @apply text-primary-hover decoration-2;
+  }
+
+  /* Strong - proper weight */
   .prose strong {
-    @apply font-semibold;
+    @apply font-bold text-foreground;
+  }
+
+  /* Emphasis */
+  .prose em {
+    @apply italic text-foreground/90;
   }
 
   .prose table {
@@ -388,4 +438,100 @@ All colors MUST be HSL.
   .prose section {
     @apply mb-12;
   }
+
+  /* SPECIAL ELEMENTS - Info boxes, tips, warnings */
+
+  /* Info box - use <div class="info-box"> */
+  .prose .info-box,
+  .prose .tip-box,
+  .prose .warning-box {
+    @apply my-8 rounded-xl border-l-4 p-6 shadow-sm;
+  }
+
+  .prose .info-box {
+    @apply border-blue-500 bg-blue-50 dark:bg-blue-950/30;
+  }
+
+  .prose .info-box p:last-child {
+    @apply mb-0;
+  }
+
+  .prose .tip-box {
+    @apply border-green-500 bg-green-50 dark:bg-green-950/30;
+  }
+
+  .prose .tip-box p:last-child {
+    @apply mb-0;
+  }
+
+  .prose .warning-box {
+    @apply border-yellow-500 bg-yellow-50 dark:bg-yellow-950/30;
+  }
+
+  .prose .warning-box p:last-child {
+    @apply mb-0;
+  }
+
+  /* Highlight text - use <mark> */
+  .prose mark {
+    @apply bg-yellow-200 px-1 dark:bg-yellow-900/50;
+  }
+
+  /* Pull quote - use <aside class="pull-quote"> */
+  .prose .pull-quote {
+    @apply my-10 border-l-4 border-primary pl-6 text-xl font-medium italic text-foreground/90;
+  }
+
+  /* Video wrapper - responsive */
+  .prose .video-wrapper {
+    @apply relative my-8 overflow-hidden rounded-xl shadow-lg;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  }
+
+  .prose .video-wrapper iframe {
+    @apply absolute left-0 top-0 h-full w-full;
+  }
+
+  /* Gallery grid - use <div class="gallery-grid"> */
+  .prose .gallery-grid {
+    @apply my-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .prose .gallery-grid img {
+    @apply my-0 h-64 w-full rounded-xl object-cover shadow-md transition-all hover:shadow-xl;
+  }
+
+  /* Two column layout - use <div class="two-columns"> */
+  .prose .two-columns {
+    @apply my-8 gap-8 md:columns-2;
+  }
+
+  /* Keyboard shortcut - use <kbd> */
+  .prose kbd {
+    @apply rounded border border-border bg-muted px-2 py-1 font-mono text-sm shadow-sm;
+  }
+
+  /* Better horizontal rule */
+  .prose hr {
+    @apply my-12 border-t-2 border-border/50;
+  }
+
+  /* Article metadata (reading time, date) */
+  .prose .article-meta {
+    @apply mb-8 flex flex-wrap gap-4 text-sm text-muted-foreground;
+  }
+
+  /* Call to action box */
+  .prose .cta-box {
+    @apply my-12 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 p-8 text-center shadow-lg;
+  }
+
+  .prose .cta-box h3 {
+    @apply mb-4 mt-0 text-2xl;
+  }
+
+  .prose .cta-box p:last-child {
+    @apply mb-0;
+  }
 }
+

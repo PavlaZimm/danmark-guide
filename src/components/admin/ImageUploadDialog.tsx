@@ -135,10 +135,21 @@ const ImageUploadDialog = ({ open, onOpenChange, onImageInsert, onUrlGenerated }
   };
 
   const handleInsert = () => {
+    if (!uploadedUrl) {
+      toast.error("Nejdřív nahrajte obrázek!");
+      return;
+    }
+
+    if (!altText) {
+      toast.error("Alt text je povinný!");
+      return;
+    }
+
     const html = generateOptimizedHTML();
     if (html) {
       onImageInsert(html);
       handleClose();
+      toast.success("Obrázek vložen do článku!");
     }
   };
 
@@ -151,6 +162,7 @@ const ImageUploadDialog = ({ open, onOpenChange, onImageInsert, onUrlGenerated }
   };
 
   const handleClose = () => {
+    // Reset all state
     setUploadedUrl("");
     setAltText("");
     setCaption("");
@@ -158,8 +170,17 @@ const ImageUploadDialog = ({ open, onOpenChange, onImageInsert, onUrlGenerated }
     onOpenChange(false);
   };
 
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!newOpen) {
+      // When closing, reset everything
+      handleClose();
+    } else {
+      onOpenChange(newOpen);
+    }
+  };
+
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Nahrát obrázek</DialogTitle>

@@ -17,7 +17,8 @@
     <!-- Performance: Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://supabase.co" />
+    <link rel="preconnect" href="https://acgrypwfevndvqcwhcld.supabase.co" />
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
 
     <!-- Favicon & PWA -->
     <link rel="icon" type="image/svg+xml" href="/icon-192.svg" />
@@ -32,15 +33,46 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Kastrup.cz" />
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://kastrup.cz/" />
+
     <!-- Default OG tags (will be overridden by React Helmet) -->
     <meta property="og:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
     <meta property="og:description" content="Objevte krásy Dánska s Kastrup.cz" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://kastrup.cz" />
     <meta property="og:site_name" content="Kastrup.cz" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
+    <meta name="twitter:description" content="Objevte krásy Dánska s Kastrup.cz" />
+    <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Kastrup.cz",
+      "url": "https://kastrup.cz",
+      "description": "Váš průvodce po Dánsku - ubytování, kultura, cestování",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Kastrup.cz",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://kastrup.cz/icon-512.svg"
+        }
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://kastrup.cz/clanky?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
   </head>
 
   <body>
