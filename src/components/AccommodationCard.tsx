@@ -38,7 +38,7 @@ const AccommodationCard = ({
             {images && images.length > 0 ? (
               <img
                 src={images[0]}
-                alt={name}
+                alt={`${name} - ${typeLabels[type]} v ${city}, Dánsko`}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
               />

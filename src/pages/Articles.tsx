@@ -177,7 +177,7 @@ const Articles = () => {
         <meta name="twitter:title" content={pageMeta.ogTitle} />
         <meta name="twitter:description" content={pageMeta.description} />
 
-        {/* JSON-LD */}
+        {/* JSON-LD - CollectionPage */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -192,6 +192,28 @@ const Articles = () => {
             }
           })}
         </script>
+
+        {/* JSON-LD - ItemList for article listings */}
+        {filteredArticles.length > 0 && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "itemListElement": filteredArticles.slice(0, 20).map((article, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "item": {
+                  "@type": "Article",
+                  "@id": `https://kastrup.cz/clanek/${article.slug}`,
+                  "headline": article.title,
+                  "description": article.perex,
+                  "image": article.image_url || "https://kastrup.cz/icon-512.svg",
+                  "url": `https://kastrup.cz/clanek/${article.slug}`
+                }
+              }))
+            })}
+          </script>
+        )}
       </Helmet>
 
       <div className="min-h-screen py-12">
