@@ -78,8 +78,7 @@ danmark-guide/
 ├── NASAZENI_NA_VERCEL.md          # 🚀 Deployment guide
 ├── KDE_PRIDAT_CLANKY.md           # Návod na přidání článků
 ├── JAK_VLOZIT_CLANEK.md           # Rychlý návod na vložení článku
-├── TEMPLATE_CLANEK.html           # Šablona HTML článku
-└── IMAGE_OPTIMIZATION_TODO.md     # Návod na optimalizaci obrázků
+└── TEMPLATE_CLANEK.html           # Šablona HTML článku
 ```
 
 ## 🚀 Lokální vývoj
@@ -238,7 +237,6 @@ npm run preview
 - **[KDE_PRIDAT_CLANKY.md](KDE_PRIDAT_CLANKY.md)** - Jak přidat články přes Supabase Dashboard
 - **[JAK_VLOZIT_CLANEK.md](JAK_VLOZIT_CLANEK.md)** - Rychlý 3-krokový návod
 - **[TEMPLATE_CLANEK.html](TEMPLATE_CLANEK.html)** - Šablona pro HTML obsah článku
-- **[IMAGE_OPTIMIZATION_TODO.md](IMAGE_OPTIMIZATION_TODO.md)** - Návod na optimalizaci obrázků
 
 ## 🎨 Přizpůsobení
 
@@ -261,7 +259,7 @@ npx shadcn-ui@latest add [component-name]
 - ✅ Lazy loading routes
 - ✅ Image lazy loading
 - ✅ PWA s offline podporou
-- ⚠️ TODO: Konverze obrázků na WebP (543KB → 150KB úspora)
+- ✅ WebP image conversion (543KB → 430KB, 21% reduction)
 
 ## 🐛 Troubleshooting
 
