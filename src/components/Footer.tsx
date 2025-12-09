@@ -21,10 +21,18 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
+                  to="/o-dansku"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  O Dánsku
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/clanky"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Články
+                  Průvodce
                 </Link>
               </li>
               <li>
@@ -37,41 +45,41 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/o-dansku"
+                  to="/kontakt"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  O Dánsku
+                  Kontakt
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Guide Categories */}
+          {/* Topics */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Kategorie průvodců</h3>
+            <h3 className="mb-4 text-lg font-semibold">Témata</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/clanky?category=mesta"
+                  to="/kultura"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Města
+                  Kultura & Hygge
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/clanky?category=kultura"
+                  to="/cestovani"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Kultura
+                  Cestování
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/clanky?category=tipy"
+                  to="/clanky"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Tipy
+                  Všechny články
                 </Link>
               </li>
             </ul>

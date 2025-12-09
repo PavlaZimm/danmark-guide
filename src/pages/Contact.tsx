@@ -11,7 +11,7 @@ const Contact = () => {
         <title>Kontakt | Kastrup.cz</title>
         <meta
           name="description"
-          content="Kontaktní údaje Kastrup.cz - Váš průvodce po Dánsku. Pavla Zimmermannová, Bílina."
+          content="Kontaktujte nás pro dotazy ohledně cestování do Dánska. Pavla Zimmermannová, váš průvodce dánskou kulturou, ubytováním a tipy na cesty."
         />
         <link rel="canonical" href="https://kastrup.cz/kontakt" />
 
