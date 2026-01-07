@@ -1,9 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
 /**
  * Vite plugin to generate separate HTML files for each route with proper meta tags
  * This helps with SEO by ensuring crawlers see the right content
+ * Automatically fetches all published articles from Supabase during build
  */
 export default function routesHtmlPlugin() {
   return {
@@ -15,7 +17,7 @@ export default function routesHtmlPlugin() {
         return html;
       }
     },
-    closeBundle() {
+    async closeBundle() {
 
       const routes = [
         {
@@ -60,15 +62,45 @@ export default function routesHtmlPlugin() {
           title: 'Dánsko: Kompletní průvodce 2025 | Kastrup.cz',
           description: 'Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
           canonical: 'https://kastrup.cz/o-dansku'
-        },
-        // Article detail pages
-        {
-          path: 'clanek/kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti',
-          title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti | Kastrup.cz',
-          description: 'Objevte Kastrup - kodaňskou čtvrť u moře s moderní architekturou, plážemi a unikátní atmosférou. Průvodce po klidné části Kodaně blízko letiště.',
-          canonical: 'https://kastrup.cz/clanek/kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti'
         }
       ];
+
+      // Fetch all published articles from Supabase and add them to routes
+      try {
+        const supabaseUrl = process.env.VITE_SUPABASE_URL;
+        const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+        if (supabaseUrl && supabaseKey && supabaseKey !== 'your_supabase_anon_key_here') {
+          console.log('Fetching articles from Supabase...');
+
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          const { data: articles, error } = await supabase
+            .from('articles')
+            .select('slug, title, perex, meta_title, meta_description')
+            .eq('published', true);
+
+          if (error) {
+            console.warn('Failed to fetch articles from Supabase:', error.message);
+          } else if (articles && articles.length > 0) {
+            console.log(`Found ${articles.length} published articles`);
+
+            articles.forEach(article => {
+              routes.push({
+                path: `clanek/${article.slug}`,
+                title: article.meta_title || `${article.title} | Kastrup.cz`,
+                description: article.meta_description || article.perex || `Přečtěte si článek ${article.title} na Kastrup.cz`,
+                canonical: `https://kastrup.cz/clanek/${article.slug}`
+              });
+            });
+          } else {
+            console.log('No published articles found');
+          }
+        } else {
+          console.warn('Supabase credentials not found - skipping article prerendering');
+        }
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      }
 
       const distPath = path.resolve(process.cwd(), 'dist');
       const indexHtmlPath = path.join(distPath, 'index.html');
