@@ -1,9 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
 /**
  * Vite plugin to generate separate HTML files for each route with proper meta tags
  * This helps with SEO by ensuring crawlers see the right content
+ * Automatically fetches all published articles from Supabase during build
  */
 export default function routesHtmlPlugin() {
   return {
@@ -15,9 +17,16 @@ export default function routesHtmlPlugin() {
         return html;
       }
     },
-    closeBundle() {
+    async closeBundle() {
 
       const routes = [
+        {
+          path: '', // Homepage - will modify dist/index.html directly
+          title: 'Kastrup.cz - Váš průvodce po Dánsku | Cestování, Ubytování, Kultura',
+          description: 'Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele.',
+          canonical: 'https://kastrup.cz/',
+          isHomepage: true
+        },
         {
           path: 'clanky',
           title: 'Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz',
@@ -56,6 +65,62 @@ export default function routesHtmlPlugin() {
         }
       ];
 
+      // Fetch all published articles from Supabase and add them to routes
+      try {
+        // Try to read env from process.env (works in production/CI)
+        // or import.meta.env (not available here), so we'll try to read .env file directly
+        let supabaseUrl = process.env.VITE_SUPABASE_URL;
+        let supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+        // If not in process.env, try to read from .env file
+        if (!supabaseUrl || !supabaseKey || supabaseKey === 'your_supabase_anon_key_here') {
+          try {
+            const envPath = path.resolve(process.cwd(), '.env');
+            if (fs.existsSync(envPath)) {
+              const envContent = fs.readFileSync(envPath, 'utf-8');
+              const urlMatch = envContent.match(/VITE_SUPABASE_URL=(.+)/);
+              const keyMatch = envContent.match(/VITE_SUPABASE_PUBLISHABLE_KEY=(.+)/);
+
+              if (urlMatch) supabaseUrl = urlMatch[1].trim();
+              if (keyMatch) supabaseKey = keyMatch[1].trim();
+            }
+          } catch (e) {
+            console.warn('Could not read .env file:', e.message);
+          }
+        }
+
+        if (supabaseUrl && supabaseKey && supabaseKey !== 'your_supabase_anon_key_here') {
+          console.log('Fetching articles from Supabase...');
+
+          const supabase = createClient(supabaseUrl, supabaseKey);
+          const { data: articles, error } = await supabase
+            .from('articles')
+            .select('slug, title, perex, meta_title, meta_description')
+            .eq('published', true);
+
+          if (error) {
+            console.warn('Failed to fetch articles from Supabase:', error.message);
+          } else if (articles && articles.length > 0) {
+            console.log(`Found ${articles.length} published articles`);
+
+            articles.forEach(article => {
+              routes.push({
+                path: `clanek/${article.slug}`,
+                title: article.meta_title || `${article.title} | Kastrup.cz`,
+                description: article.meta_description || article.perex || `Přečtěte si článek ${article.title} na Kastrup.cz`,
+                canonical: `https://kastrup.cz/clanek/${article.slug}`
+              });
+            });
+          } else {
+            console.log('No published articles found');
+          }
+        } else {
+          console.warn('Supabase credentials not found - skipping article prerendering');
+        }
+      } catch (error) {
+        console.error('Error fetching articles:', error);
+      }
+
       const distPath = path.resolve(process.cwd(), 'dist');
       const indexHtmlPath = path.join(distPath, 'index.html');
 
@@ -67,10 +132,17 @@ export default function routesHtmlPlugin() {
       const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
 
       routes.forEach(route => {
-        // Create directory if needed
-        const routeDir = path.join(distPath, route.path);
-        if (!fs.existsSync(routeDir)) {
-          fs.mkdirSync(routeDir, { recursive: true });
+        // For homepage, modify the main index.html directly
+        let targetHtmlPath;
+        if (route.isHomepage) {
+          targetHtmlPath = indexHtmlPath;
+        } else {
+          // Create directory for other routes
+          const routeDir = path.join(distPath, route.path);
+          if (!fs.existsSync(routeDir)) {
+            fs.mkdirSync(routeDir, { recursive: true });
+          }
+          targetHtmlPath = path.join(routeDir, 'index.html');
         }
 
         // Modify HTML with route-specific meta tags
@@ -106,8 +178,12 @@ export default function routesHtmlPlugin() {
         // Crawlers that don't execute JS will see the fallback content with links
 
         // Write the HTML file
-        fs.writeFileSync(path.join(routeDir, 'index.html'), routeHtml);
-        console.log(`✓ Generated ${route.path}/index.html`);
+        fs.writeFileSync(targetHtmlPath, routeHtml);
+        if (route.isHomepage) {
+          console.log(`✓ Updated index.html (homepage)`);
+        } else {
+          console.log(`✓ Generated ${route.path}/index.html`);
+        }
       });
     }
   };
