@@ -67,8 +67,27 @@ export default function routesHtmlPlugin() {
 
       // Fetch all published articles from Supabase and add them to routes
       try {
-        const supabaseUrl = process.env.VITE_SUPABASE_URL;
-        const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+        // Try to read env from process.env (works in production/CI)
+        // or import.meta.env (not available here), so we'll try to read .env file directly
+        let supabaseUrl = process.env.VITE_SUPABASE_URL;
+        let supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+
+        // If not in process.env, try to read from .env file
+        if (!supabaseUrl || !supabaseKey || supabaseKey === 'your_supabase_anon_key_here') {
+          try {
+            const envPath = path.resolve(process.cwd(), '.env');
+            if (fs.existsSync(envPath)) {
+              const envContent = fs.readFileSync(envPath, 'utf-8');
+              const urlMatch = envContent.match(/VITE_SUPABASE_URL=(.+)/);
+              const keyMatch = envContent.match(/VITE_SUPABASE_PUBLISHABLE_KEY=(.+)/);
+
+              if (urlMatch) supabaseUrl = urlMatch[1].trim();
+              if (keyMatch) supabaseKey = keyMatch[1].trim();
+            }
+          } catch (e) {
+            console.warn('Could not read .env file:', e.message);
+          }
+        }
 
         if (supabaseUrl && supabaseKey && supabaseKey !== 'your_supabase_anon_key_here') {
           console.log('Fetching articles from Supabase...');
