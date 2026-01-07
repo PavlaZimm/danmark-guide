@@ -19,6 +19,13 @@ export default function routesHtmlPlugin() {
 
       const routes = [
         {
+          path: '', // Homepage - will modify dist/index.html directly
+          title: 'Kastrup.cz - Váš průvodce po Dánsku | Cestování, Ubytování, Kultura',
+          description: 'Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele.',
+          canonical: 'https://kastrup.cz/',
+          isHomepage: true
+        },
+        {
           path: 'clanky',
           title: 'Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz',
           description: 'Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska.',
@@ -53,6 +60,13 @@ export default function routesHtmlPlugin() {
           title: 'Dánsko: Kompletní průvodce 2025 | Kastrup.cz',
           description: 'Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
           canonical: 'https://kastrup.cz/o-dansku'
+        },
+        // Article detail pages
+        {
+          path: 'clanek/kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti',
+          title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti | Kastrup.cz',
+          description: 'Objevte Kastrup - kodaňskou čtvrť u moře s moderní architekturou, plážemi a unikátní atmosférou. Průvodce po klidné části Kodaně blízko letiště.',
+          canonical: 'https://kastrup.cz/clanek/kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti'
         }
       ];
 
@@ -67,10 +81,17 @@ export default function routesHtmlPlugin() {
       const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
 
       routes.forEach(route => {
-        // Create directory if needed
-        const routeDir = path.join(distPath, route.path);
-        if (!fs.existsSync(routeDir)) {
-          fs.mkdirSync(routeDir, { recursive: true });
+        // For homepage, modify the main index.html directly
+        let targetHtmlPath;
+        if (route.isHomepage) {
+          targetHtmlPath = indexHtmlPath;
+        } else {
+          // Create directory for other routes
+          const routeDir = path.join(distPath, route.path);
+          if (!fs.existsSync(routeDir)) {
+            fs.mkdirSync(routeDir, { recursive: true });
+          }
+          targetHtmlPath = path.join(routeDir, 'index.html');
         }
 
         // Modify HTML with route-specific meta tags
@@ -106,8 +127,12 @@ export default function routesHtmlPlugin() {
         // Crawlers that don't execute JS will see the fallback content with links
 
         // Write the HTML file
-        fs.writeFileSync(path.join(routeDir, 'index.html'), routeHtml);
-        console.log(`✓ Generated ${route.path}/index.html`);
+        fs.writeFileSync(targetHtmlPath, routeHtml);
+        if (route.isHomepage) {
+          console.log(`✓ Updated index.html (homepage)`);
+        } else {
+          console.log(`✓ Generated ${route.path}/index.html`);
+        }
       });
     }
   };
