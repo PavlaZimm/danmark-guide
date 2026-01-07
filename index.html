@@ -10,9 +10,9 @@
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://*.tile.openstreetmap.org https://cdnjs.cloudflare.com; font-src 'self' fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.tile.openstreetmap.org;">
 
-    <!-- Default Title (will be overridden by React Helmet) -->
-    <title>Kastrup.cz - Váš průvodce po Dánsku</title>
-    <meta name="description" content="Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu a hygge." />
+    <!-- Default Title (dynamically set by React Helmet on each page) -->
+    <title>Kastrup.cz</title>
+    <meta name="description" content="Průvodce po Dánsku" />
 
     <!-- Performance: Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,19 +35,10 @@
 
     <!-- Canonical URL will be set by React Helmet on each page -->
 
-    <!-- Default OG tags (will be overridden by React Helmet) -->
-    <meta property="og:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
-    <meta property="og:description" content="Objevte krásy Dánska s Kastrup.cz" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://kastrup.cz" />
+    <!-- Default OG tags (dynamically overridden by React Helmet on each page) -->
     <meta property="og:site_name" content="Kastrup.cz" />
     <meta property="og:locale" content="cs_CZ" />
-    <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
-    <meta name="twitter:description" content="Objevte krásy Dánska s Kastrup.cz" />
-    <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+    <meta property="og:type" content="website" />
 
     <!-- Structured Data - Organization -->
     <script type="application/ld+json">
@@ -75,7 +66,46 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Fallback content for crawlers and users without JavaScript -->
+      <header style="padding: 1rem; background: #f5f5f5; border-bottom: 2px solid #dc2626;">
+        <nav>
+          <a href="/" style="margin: 0 1rem; color: #dc2626; font-weight: bold;">Kastrup.cz</a>
+          <a href="/clanky" style="margin: 0 0.5rem;">Články</a>
+          <a href="/kultura" style="margin: 0 0.5rem;">Kultura</a>
+          <a href="/cestovani" style="margin: 0 0.5rem;">Cestování</a>
+          <a href="/ubytovani" style="margin: 0 0.5rem;">Ubytování</a>
+          <a href="/o-dansku" style="margin: 0 0.5rem;">O Dánsku</a>
+          <a href="/kontakt" style="margin: 0 0.5rem;">Kontakt</a>
+        </nav>
+      </header>
+      <main style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
+        <h1>Kastrup.cz - Váš průvodce po Dánsku</h1>
+        <p>Načítání stránky... Pro plné zobrazení prosím zapněte JavaScript.</p>
+        <nav style="margin-top: 2rem;">
+          <h2>Hlavní sekce:</h2>
+          <ul>
+            <li><a href="/clanky">Články o Dánsku</a> - Zajímavé články o dánské kultuře a cestování</li>
+            <li><a href="/kultura">Dánská kultura</a> - Tradice, hygge a životní styl</li>
+            <li><a href="/cestovani">Cestování</a> - Tipy a průvodce pro vaši cestu</li>
+            <li><a href="/ubytovani">Ubytování</a> - Najděte si místo k přespání</li>
+            <li><a href="/o-dansku">O Dánsku</a> - Kompletní průvodce zemí</li>
+            <li><a href="/kontakt">Kontakt</a> - Spojte se s námi</li>
+          </ul>
+        </nav>
+      </main>
+      <footer style="padding: 2rem; background: #1f2937; color: white; margin-top: 3rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+          <p>&copy; 2025 Kastrup.cz - Váš průvodce po Dánsku</p>
+          <nav style="margin-top: 1rem;">
+            <a href="/" style="margin: 0 1rem; color: white;">Domů</a>
+            <a href="/clanky" style="margin: 0 1rem; color: white;">Články</a>
+            <a href="/o-dansku" style="margin: 0 1rem; color: white;">O Dánsku</a>
+            <a href="/kontakt" style="margin: 0 1rem; color: white;">Kontakt</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
