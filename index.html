@@ -10,9 +10,9 @@
     <!-- Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://*.tile.openstreetmap.org https://cdnjs.cloudflare.com; font-src 'self' fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.tile.openstreetmap.org;">
 
-    <!-- Default Title (will be overridden by React Helmet) -->
-    <title>Kastrup.cz - Váš průvodce po Dánsku</title>
-    <meta name="description" content="Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu a hygge." />
+    <!-- Default Title (dynamically set by React Helmet on each page) -->
+    <title>Kastrup.cz</title>
+    <meta name="description" content="Průvodce po Dánsku" />
 
     <!-- Performance: Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,19 +35,10 @@
 
     <!-- Canonical URL will be set by React Helmet on each page -->
 
-    <!-- Default OG tags (will be overridden by React Helmet) -->
-    <meta property="og:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
-    <meta property="og:description" content="Objevte krásy Dánska s Kastrup.cz" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://kastrup.cz" />
+    <!-- Default OG tags (dynamically overridden by React Helmet on each page) -->
     <meta property="og:site_name" content="Kastrup.cz" />
     <meta property="og:locale" content="cs_CZ" />
-    <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Kastrup.cz - Váš průvodce po Dánsku" />
-    <meta name="twitter:description" content="Objevte krásy Dánska s Kastrup.cz" />
-    <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+    <meta property="og:type" content="website" />
 
     <!-- Structured Data - Organization -->
     <script type="application/ld+json">
