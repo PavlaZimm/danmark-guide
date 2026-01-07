@@ -101,6 +101,10 @@ export default function routesHtmlPlugin() {
     <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />`
         );
 
+        // Note: Basic HTML structure with links is now in index.html
+        // React will replace the content of #root when JS loads
+        // Crawlers that don't execute JS will see the fallback content with links
+
         // Write the HTML file
         fs.writeFileSync(path.join(routeDir, 'index.html'), routeHtml);
         console.log(`✓ Generated ${route.path}/index.html`);
