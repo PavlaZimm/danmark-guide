@@ -65,6 +65,18 @@ export default function routesHtmlPlugin() {
         }
       ];
 
+      // Store articles list for later use
+      let articlesList = [];
+
+      // Fallback article (in case Supabase fetch fails in build environment)
+      // This will be replaced by actual articles from Supabase in production
+      const fallbackArticle = {
+        slug: 'kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti',
+        title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti',
+        meta_title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti | Kastrup.cz',
+        meta_description: 'Objevte Kastrup - kodaňskou čtvrť u moře s moderní architekturou, plážemi a unikátní atmosférou. Průvodce po klidné části Kodaně blízko letiště.'
+      };
+
       // Fetch all published articles from Supabase and add them to routes
       try {
         // Try to read env from process.env (works in production/CI)
@@ -104,6 +116,7 @@ export default function routesHtmlPlugin() {
             console.log(`Found ${articles.length} published articles`);
 
             articles.forEach(article => {
+              articlesList.push(article); // Store for article links
               routes.push({
                 path: `clanek/${article.slug}`,
                 title: article.meta_title || `${article.title} | Kastrup.cz`,
@@ -119,6 +132,19 @@ export default function routesHtmlPlugin() {
         }
       } catch (error) {
         console.error('Error fetching articles:', error);
+      }
+
+      // Fallback: If no articles were fetched (build environment without network),
+      // use the fallback article to ensure at least one article link exists
+      if (articlesList.length === 0) {
+        console.log('Using fallback article for build');
+        articlesList.push(fallbackArticle);
+        routes.push({
+          path: `clanek/${fallbackArticle.slug}`,
+          title: fallbackArticle.meta_title,
+          description: fallbackArticle.meta_description,
+          canonical: `https://kastrup.cz/clanek/${fallbackArticle.slug}`
+        });
       }
 
       const distPath = path.resolve(process.cwd(), 'dist');
@@ -172,6 +198,23 @@ export default function routesHtmlPlugin() {
     <meta property="og:description" content="${route.description}" />
     <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />`
         );
+
+        // For /clanky page, add list of article links for crawlers
+        if (route.path === 'clanky' && articlesList.length > 0) {
+          const articlesLinksHtml = `
+          <section style="margin-top: 2rem;">
+            <h2>Naše články:</h2>
+            <ul>
+              ${articlesList.map(article => `<li><a href="/clanek/${article.slug}">${article.title}</a></li>`).join('\n              ')}
+            </ul>
+          </section>`;
+
+          // Insert article links before the closing </main> tag
+          routeHtml = routeHtml.replace(
+            /<\/nav>\s*<\/main>/,
+            `</nav>${articlesLinksHtml}\n      </main>`
+          );
+        }
 
         // Note: Basic HTML structure with links is now in index.html
         // React will replace the content of #root when JS loads
