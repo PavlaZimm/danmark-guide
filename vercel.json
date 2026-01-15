@@ -18,7 +18,7 @@
       "destination": "/api/sitemap"
     },
     {
-      "source": "/(.*)",
+      "source": "/((?!assets|icon|manifest|robots|sitemap).*)",
       "destination": "/index.html"
     }
   ]
