@@ -1,0 +1,14 @@
+# Don't upload source files - Vercel will build from them
+node_modules
+.git
+.env*
+*.log
+
+# Don't upload local dist - Vercel will generate its own
+dist-ssr
+*.local
+
+# Editor files
+.vscode
+.idea
+.DS_Store
