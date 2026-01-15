@@ -88,8 +88,13 @@ Value: 76.76.21.21
 
 Type: CNAME
 Name: www
-Value: cname.vercel-dns.com
+Value: [specifická hodnota pro tvůj projekt].vercel-dns-017.com
 ```
+
+⚠️ **DŮLEŽITÉ:** CNAME hodnota pro `www` je **unikátní pro každý projekt**!
+- Vercel ti zobrazí přesnou hodnotu (např. `56dd0b5b90ddf7a4.vercel-dns-017.com`)
+- **Zkopíruj přesně hodnotu, kterou vidíš ve Vercel!**
+- Nepoužívej starou hodnotu `cname.vercel-dns.com` - už nefunguje!
 
 **NEZAVÍREJ tuto stránku!** Budeš potřebovat tyto hodnoty.
 
@@ -110,8 +115,10 @@ Value: cname.vercel-dns.com
 **Záznam 2 (CNAME):**
 - Typ: `CNAME`
 - Jméno: `www`
-- Hodnota: `cname.vercel-dns.com`
+- Hodnota: `[zkopíruj z Vercel - např. 56dd0b5b90ddf7a4.vercel-dns-017.com]`
 - TTL: `3600`
+
+⚠️ **Zkopíruj přesnou hodnotu z Vercel Domains!** Každý projekt má unikátní CNAME.
 
 6. Klikni **Uložit**
 7. ✅ Hotovo!
@@ -180,6 +187,22 @@ Jdi na **https://kastrup.cz**
 
 ### "Stránka nenalezena" (404)
 → DNS ještě není propagované. Počkej 15-30 minut.
+
+### "DNS Change Recommended" u www.kastrup.cz
+→ Ve Vercel Domains → Settings → Domains vidíš "DNS Change Recommended"?
+1. Klikni na "Learn more" u www.kastrup.cz
+2. Zkopíruj novou CNAME hodnotu (např. `56dd0b5b90ddf7a4.vercel-dns-017.com`)
+3. Ve Wedos → DNS záznamy → Edituj záznam pro `www`
+4. Změň hodnotu na novou z Vercel
+5. Klikni "Aplikovat změny"
+6. Počkej 5-15 minut
+7. Ve Vercel klikni "Refresh"
+
+### "Certificate Error" na www.kastrup.cz
+→ SSL certifikát chybí pro www subdoménu. Zkontroluj:
+1. Ve Vercel Domains → je přidaná `www.kastrup.cz`?
+2. Status u www domény je "Valid Configuration"?
+3. Pokud ne, viz "DNS Change Recommended" výše
 
 ### "Build failed"
 → Zkontroluj Environment Variables ve Vercel Settings.
