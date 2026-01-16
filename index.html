@@ -8,7 +8,7 @@
     <meta name="google-site-verification" content="aKJkwBrwSzzmO7JmHGnVmXnx-_bAsWSXlEw-mx3beN4" />
 
     <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://*.tile.openstreetmap.org https://cdnjs.cloudflare.com; font-src 'self' fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.tile.openstreetmap.org;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://*.tile.openstreetmap.org https://cdnjs.cloudflare.com; font-src 'self' fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.tile.openstreetmap.org https://www.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;">
 
     <!-- Default Title (dynamically set by React Helmet on each page) -->
     <title>Kastrup.cz</title>
@@ -62,6 +62,16 @@
         "query-input": "required name=search_term_string"
       }
     }
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L50ERSBZ0Z"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-L50ERSBZ0Z');
     </script>
   </head>
 
