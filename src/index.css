@@ -209,6 +209,20 @@ All colors MUST be HSL.
     text-wrap: balance;
   }
 
+  /* Shimmer loading effect */
+  .skeleton {
+    @apply relative overflow-hidden;
+  }
+
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/20 to-transparent;
+  }
+
+  .dark .skeleton::after {
+    @apply bg-gradient-to-r from-transparent via-white/10 to-transparent;
+  }
+
   /* TipTap Editor Styles */
   .ProseMirror {
     @apply min-h-[400px] p-4 focus:outline-none;
@@ -282,15 +296,15 @@ All colors MUST be HSL.
 
   /* Images - beautiful rounded corners and shadows */
   .prose img {
-    @apply my-8 w-full rounded-2xl shadow-lg transition-all hover:shadow-xl;
+    @apply my-8 w-full rounded-2xl shadow-lg transition-all duration-500 hover:shadow-xl hover:scale-[1.02];
   }
 
   .prose figure {
-    @apply my-10;
+    @apply my-10 overflow-hidden rounded-2xl;
   }
 
   .prose figure img {
-    @apply mb-3 w-full rounded-2xl shadow-lg;
+    @apply mb-3 w-full rounded-2xl shadow-lg transition-transform duration-500 hover:scale-105;
   }
 
   /* Headings - beautiful spacing and style */

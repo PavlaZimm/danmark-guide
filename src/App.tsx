@@ -9,6 +9,7 @@ import { ThemeProvider } from "next-themes";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
+import BackToTop from "./components/BackToTop";
 import CookieConsent from "./components/CookieConsent";
 
 // Lazy load pages for better performance
@@ -108,6 +109,7 @@ const App = () => (
                       </main>
                       <Footer />
                       <ScrollToTop />
+                      <BackToTop />
                     </div>
                   }
                 />
