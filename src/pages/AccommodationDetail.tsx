@@ -141,7 +141,7 @@ const AccommodationDetail = () => {
           <meta property="og:image" content={accommodation.images[0]} />
         )}
 
-        {/* Schema.org */}
+        {/* Schema.org - Hotel/LodgingBusiness */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -152,16 +152,25 @@ const AccommodationDetail = () => {
               "@type": "PostalAddress",
               "addressLocality": accommodation.city,
               "addressCountry": "DK",
-              "streetAddress": accommodation.address
+              "streetAddress": accommodation.address || undefined
             },
             "priceRange": `${accommodation.price_per_night} DKK`,
             "image": accommodation.images || [],
             "aggregateRating": accommodation.rating ? {
               "@type": "AggregateRating",
               "ratingValue": accommodation.rating,
-              "bestRating": "5"
+              "bestRating": "5",
+              "ratingCount": 1
             } : undefined,
-            "url": `https://kastrup.cz/ubytovani/${accommodation.slug}`
+            "url": `https://kastrup.cz/ubytovani/${accommodation.slug}`,
+            "telephone": accommodation.contact_phone || undefined,
+            "email": accommodation.contact_email || undefined,
+            "sameAs": accommodation.website ? [accommodation.website] : undefined,
+            "amenityFeature": accommodation.amenities ? accommodation.amenities.map(amenity => ({
+              "@type": "LocationFeatureSpecification",
+              "name": amenity,
+              "value": true
+            })) : undefined
           })}
         </script>
 
