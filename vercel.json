@@ -1,7 +1,13 @@
 {
   "redirects": [
     {
-      "source": "https://www.kastrup.cz/:path*",
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.kastrup.cz"
+        }
+      ],
       "destination": "https://kastrup.cz/:path*",
       "permanent": true
     }
