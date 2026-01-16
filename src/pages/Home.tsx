@@ -111,17 +111,17 @@ const Home = () => {
                 <Link to="/ubytovani">
                   <Button
                     size="lg"
-                    className="h-12 w-full px-6 text-base shadow-xl transition-all hover:scale-105 sm:h-14 sm:w-auto sm:px-8 sm:text-lg"
+                    className="h-12 w-full px-6 text-base shadow-xl transition-all hover:scale-105 hover:shadow-2xl active:scale-95 sm:h-14 sm:w-auto sm:px-8 sm:text-lg"
                   >
                     Najít ubytování
-                    <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 sm:h-5 sm:w-5" />
                   </Button>
                 </Link>
                 <Link to="/o-dansku">
                   <Button
                     size="lg"
                     variant="outline"
-                    className="h-12 w-full border-2 border-white bg-white/10 px-6 text-base text-white backdrop-blur-sm transition-all hover:bg-white hover:text-foreground sm:h-14 sm:w-auto sm:px-8 sm:text-lg"
+                    className="h-12 w-full border-2 border-white bg-white/10 px-6 text-base text-white backdrop-blur-sm transition-all hover:scale-105 hover:bg-white hover:text-foreground active:scale-95 sm:h-14 sm:w-auto sm:px-8 sm:text-lg"
                   >
                     Více o Dánsku
                   </Button>

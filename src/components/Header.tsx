@@ -31,12 +31,12 @@ const Header = () => {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+        <Link to="/" className="group flex items-center space-x-2">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg">
             <span className="text-xl font-bold text-primary-foreground">K</span>
           </div>
-          <span className="hidden text-xl font-bold md:inline-block">
-            Kastrup<span className="text-primary">.cz</span>
+          <span className="hidden text-xl font-bold transition-colors md:inline-block">
+            Kastrup<span className="text-primary transition-colors group-hover:text-primary-hover">.cz</span>
           </span>
         </Link>
 
@@ -46,13 +46,16 @@ const Header = () => {
             <Link
               key={item.path}
               to={item.path}
-              className={`px-4 py-2 text-sm font-medium transition-colors hover:text-primary ${
+              className={`relative px-4 py-2 text-sm font-medium transition-all hover:text-primary hover:-translate-y-0.5 ${
                 isActive(item.path)
                   ? "text-primary"
                   : "text-muted-foreground"
               }`}
             >
               {item.label}
+              {isActive(item.path) && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"></span>
+              )}
             </Link>
           ))}
           <ThemeToggle />
