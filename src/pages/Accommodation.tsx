@@ -181,6 +181,22 @@ const Accommodation = () => {
           </p>
         </div>
 
+        {/* Stay22 Map Widget */}
+        <div className="mb-12">
+          <h2 className="mb-4 text-2xl font-semibold">Mapa ubytování</h2>
+          <div className="overflow-hidden rounded-lg border">
+            <iframe
+              id="stay22-widget"
+              width="100%"
+              height="428"
+              src="https://www.stay22.com/embed/697516b7db0fdbba11cc0c2d"
+              frameBorder="0"
+              title="Mapa ubytování v Dánsku"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
         {/* Filters */}
         <div className="mb-8 space-y-4">
           <div className="relative">
