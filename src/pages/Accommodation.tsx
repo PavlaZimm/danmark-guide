@@ -175,9 +175,13 @@ const Accommodation = () => {
 
         {/* Header */}
         <div className="mb-12">
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl">Ubytování</h1>
+          <h1 className="mb-4 text-4xl font-bold md:text-5xl">Ubytování v Dánsku</h1>
           <p className="text-lg text-muted-foreground">
-            Najděte perfektní ubytování v Dánsku
+            Plánujete výlet do <Link to="/o-dansku" className="text-primary hover:underline">Dánska</Link>?
+            Vyberte si z široké nabídky hotelů, apartmánů a hostelů v Kodani i dalších dánských městech.
+            Ať už hledáte luxusní hotel v centru nebo útulný apartmán na okraji města,
+            pomůžeme vám najít ideální ubytování pro vaši dovolenou.
+            Přečtěte si také naše <Link to="/clanky" className="text-primary hover:underline">tipy na cestování</Link> po Dánsku.
           </p>
         </div>
 
