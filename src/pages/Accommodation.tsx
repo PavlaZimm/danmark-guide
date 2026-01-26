@@ -183,7 +183,11 @@ const Accommodation = () => {
 
         {/* Stay22 Map Widget */}
         <div className="mb-12">
-          <h2 className="mb-4 text-2xl font-semibold">Mapa ubytování</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Mapa ubytování v Dánsku</h2>
+          <p className="mb-4 text-muted-foreground">
+            Na interaktivní mapě najdete ubytování v Dánsku - od hotelů v Kodani až po útulné apartmány v menších městech.
+            Můžete přibližovat, oddalovat a vyhledávat v konkrétních lokalitách podle vašich potřeb.
+          </p>
           <div className="overflow-hidden rounded-lg border">
             <iframe
               id="stay22-widget"
