@@ -33,6 +33,51 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Kastrup.cz" />
 
+    <!-- Critical CSS - prevents FOUC (Flash of Unstyled Content) -->
+    <style>
+      /* Immediate styling to prevent white flash */
+      :root {
+        --bg-color: #ffffff;
+        --text-color: #1a1a2e;
+        --primary-color: #dc2626;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg-color: #111827;
+          --text-color: #f3f4f6;
+        }
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+      }
+      /* Hide fallback content, show loading spinner */
+      #root > .fallback-content {
+        display: none;
+      }
+      #root > .initial-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: var(--bg-color);
+      }
+      .loader-spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid var(--primary-color);
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      /* Once React loads, it replaces content - no need to hide */
+    </style>
+
     <!-- Canonical URL will be set by React Helmet on each page -->
 
     <!-- Default OG tags (dynamically overridden by React Helmet on each page) -->
@@ -77,45 +122,59 @@
 
   <body>
     <div id="root">
-      <!-- Fallback content for crawlers and users without JavaScript -->
-      <header style="padding: 1rem; background: #f5f5f5; border-bottom: 2px solid #dc2626;">
-        <nav>
-          <a href="/" style="margin: 0 1rem; color: #dc2626; font-weight: bold;">Kastrup.cz</a>
-          <a href="/clanky" style="margin: 0 0.5rem;">Články</a>
-          <a href="/kultura" style="margin: 0 0.5rem;">Kultura</a>
-          <a href="/cestovani" style="margin: 0 0.5rem;">Cestování</a>
-          <a href="/ubytovani" style="margin: 0 0.5rem;">Ubytování</a>
-          <a href="/o-dansku" style="margin: 0 0.5rem;">O Dánsku</a>
-          <a href="/kontakt" style="margin: 0 0.5rem;">Kontakt</a>
-        </nav>
-      </header>
-      <main style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
-        <h1>Kastrup.cz - Váš průvodce po Dánsku</h1>
-        <p>Načítání stránky... Pro plné zobrazení prosím zapněte JavaScript.</p>
-        <nav style="margin-top: 2rem;">
-          <h2>Hlavní sekce:</h2>
-          <ul>
-            <li><a href="/clanky">Články o Dánsku</a> - Zajímavé články o dánské kultuře a cestování</li>
-            <li><a href="/kultura">Dánská kultura</a> - Tradice, hygge a životní styl</li>
-            <li><a href="/cestovani">Cestování</a> - Tipy a průvodce pro vaši cestu</li>
-            <li><a href="/ubytovani">Ubytování</a> - Najděte si místo k přespání</li>
-            <li><a href="/o-dansku">O Dánsku</a> - Kompletní průvodce zemí</li>
-            <li><a href="/kontakt">Kontakt</a> - Spojte se s námi</li>
-          </ul>
-        </nav>
-      </main>
-      <footer style="padding: 2rem; background: #1f2937; color: white; margin-top: 3rem;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-          <p>&copy; 2025 Kastrup.cz - Váš průvodce po Dánsku</p>
-          <nav style="margin-top: 1rem;">
-            <a href="/" style="margin: 0 1rem; color: white;">Domů</a>
-            <a href="/clanky" style="margin: 0 1rem; color: white;">Články</a>
-            <a href="/o-dansku" style="margin: 0 1rem; color: white;">O Dánsku</a>
-            <a href="/kontakt" style="margin: 0 1rem; color: white;">Kontakt</a>
-          </nav>
-        </div>
-      </footer>
+      <!-- Loading spinner - shown immediately while JS loads -->
+      <div class="initial-loader" aria-label="Načítání stránky">
+        <div class="loader-spinner"></div>
+      </div>
     </div>
+
+    <!-- SEO fallback content for crawlers without JavaScript (hidden from regular users) -->
+    <noscript>
+      <style>
+        #root .initial-loader { display: none !important; }
+        .noscript-content { display: block !important; }
+      </style>
+      <div class="noscript-content">
+        <header style="padding: 1rem; background: #f5f5f5; border-bottom: 2px solid #dc2626;">
+          <nav>
+            <a href="/" style="margin: 0 1rem; color: #dc2626; font-weight: bold;">Kastrup.cz</a>
+            <a href="/clanky" style="margin: 0 0.5rem;">Články</a>
+            <a href="/kultura" style="margin: 0 0.5rem;">Kultura</a>
+            <a href="/cestovani" style="margin: 0 0.5rem;">Cestování</a>
+            <a href="/ubytovani" style="margin: 0 0.5rem;">Ubytování</a>
+            <a href="/o-dansku" style="margin: 0 0.5rem;">O Dánsku</a>
+            <a href="/kontakt" style="margin: 0 0.5rem;">Kontakt</a>
+          </nav>
+        </header>
+        <main style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
+          <h1>Kastrup.cz - Váš průvodce po Dánsku</h1>
+          <p>Pro plné zobrazení prosím zapněte JavaScript.</p>
+          <nav style="margin-top: 2rem;">
+            <h2>Hlavní sekce:</h2>
+            <ul>
+              <li><a href="/clanky">Články o Dánsku</a> - Zajímavé články o dánské kultuře a cestování</li>
+              <li><a href="/kultura">Dánská kultura</a> - Tradice, hygge a životní styl</li>
+              <li><a href="/cestovani">Cestování</a> - Tipy a průvodce pro vaši cestu</li>
+              <li><a href="/ubytovani">Ubytování</a> - Najděte si místo k přespání</li>
+              <li><a href="/o-dansku">O Dánsku</a> - Kompletní průvodce zemí</li>
+              <li><a href="/kontakt">Kontakt</a> - Spojte se s námi</li>
+            </ul>
+          </nav>
+        </main>
+        <footer style="padding: 2rem; background: #1f2937; color: white; margin-top: 3rem;">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <p>&copy; 2025 Kastrup.cz - Váš průvodce po Dánsku</p>
+            <nav style="margin-top: 1rem;">
+              <a href="/" style="margin: 0 1rem; color: white;">Domů</a>
+              <a href="/clanky" style="margin: 0 1rem; color: white;">Články</a>
+              <a href="/o-dansku" style="margin: 0 1rem; color: white;">O Dánsku</a>
+              <a href="/kontakt" style="margin: 0 1rem; color: white;">Kontakt</a>
+            </nav>
+          </div>
+        </footer>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
