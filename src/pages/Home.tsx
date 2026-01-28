@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, MapPin, Building2, Coffee, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowDown, MapPin, Building2, Coffee, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import heroImage from "@/assets/hero-denmark.jpg";
@@ -94,12 +94,12 @@ const Home = () => {
               loading="eager"
             />
           </picture>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/30" />
         </div>
 
-        <div className="relative z-10 flex h-full items-center">
+        <div className="relative z-10 flex h-full items-center justify-center">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-3xl text-white">
+            <div className="mx-auto max-w-3xl text-center text-white">
               <h1 className="mb-4 animate-fade-in text-balance text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
                 Objevte krásy Dánska
               </h1>
@@ -107,7 +107,7 @@ const Home = () => {
                 Zažijte zemi vikingů, hygge a moderního designu. Od barevných
                 domů Kodaně po klidnou dánskou přírodu.
               </p>
-              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+              <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
                 <Link to="/ubytovani">
                   <Button
                     size="lg"
@@ -131,11 +131,9 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scroll Indicator - Hidden on mobile */}
+        {/* Scroll Indicator - Arrow */}
         <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 animate-bounce sm:block">
-          <div className="h-12 w-8 rounded-full border-2 border-white/50">
-            <div className="mx-auto mt-2 h-3 w-1 animate-pulse rounded-full bg-white/80" />
-          </div>
+          <ArrowDown className="h-8 w-8 text-white/70" />
         </div>
       </section>
 
