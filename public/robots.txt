@@ -4,9 +4,6 @@
 User-agent: *
 Allow: /
 
-# Disallow admin routes (correct path!)
-Disallow: /tajnedvere/
-
 # Allow CSS, JS, and images (important for rendering!)
 Allow: /*.js
 Allow: /*.css
