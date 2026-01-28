@@ -38,6 +38,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import ImageUploadDialog from "@/components/admin/ImageUploadDialog";
+import DOMPurify from "dompurify";
+
+// Validate URL to prevent javascript: and other dangerous protocols
+const isValidUrl = (url: string): boolean => {
+  try {
+    const urlObj = new URL(url);
+    return ['http:', 'https:'].includes(urlObj.protocol);
+  } catch {
+    return false;
+  }
+};
 
 interface Category {
   id: string;
@@ -179,8 +190,15 @@ const ArticleEditor = () => {
     setLoading(true);
 
     try {
-      // Get content from HTML mode or visual editor
-      const content = isHtmlMode ? htmlContent : (editor?.getHTML() || "");
+      // Get content from HTML mode or visual editor and sanitize it
+      const rawContent = isHtmlMode ? htmlContent : (editor?.getHTML() || "");
+      const content = DOMPurify.sanitize(rawContent, {
+        ADD_TAGS: ['details', 'summary', 'figure', 'figcaption'],
+        ADD_ATTR: ['open', 'loading'],
+        ALLOWED_TAGS: ['p', 'h2', 'h3', 'h4', 'strong', 'em', 'a', 'img', 'details', 'summary',
+                       'figure', 'figcaption', 'ul', 'ol', 'li', 'br', 'blockquote', 'code', 'pre'],
+        ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'open', 'loading', 'target', 'rel'],
+      });
       const articleData = {
         title,
         slug,
@@ -309,9 +327,13 @@ const ArticleEditor = () => {
           variant="ghost"
           size="sm"
           onClick={() => {
-            const url = window.prompt("URL odkazu:");
+            const url = window.prompt("URL odkazu (https://...):");
             if (url) {
-              editor.chain().focus().setLink({ href: url }).run();
+              if (isValidUrl(url)) {
+                editor.chain().focus().setLink({ href: url }).run();
+              } else {
+                toast.error("Neplatná URL. Použijte https:// nebo http://");
+              }
             }
           }}
         >
@@ -329,9 +351,13 @@ const ArticleEditor = () => {
           variant="ghost"
           size="sm"
           onClick={() => {
-            const url = window.prompt("URL obrázku:");
+            const url = window.prompt("URL obrázku (https://...):");
             if (url) {
-              editor.chain().focus().setImage({ src: url }).run();
+              if (isValidUrl(url)) {
+                editor.chain().focus().setImage({ src: url }).run();
+              } else {
+                toast.error("Neplatná URL obrázku. Použijte https:// nebo http://");
+              }
             }
           }}
           title="Vložit obrázek z URL"

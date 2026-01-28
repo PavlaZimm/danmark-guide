@@ -19,24 +19,16 @@ const ResetPassword = () => {
   useEffect(() => {
     // Check if we have a recovery token in URL hash
     const hash = window.location.hash;
-    console.log('🔍 Checking URL hash:', hash);
 
     if (hash && hash.includes('access_token') && hash.includes('type=recovery')) {
-      console.log('✅ Recovery token found!');
       setHasToken(true);
 
       // Supabase automatically parses the hash and logs in the user
       // We just need to wait a moment for it to process
       setTimeout(() => {
-        supabase.auth.getSession().then(({ data }) => {
-          console.log('📧 Current session:', data);
-          if (data.session) {
-            console.log('✅ User is authenticated with recovery token');
-          }
-        });
+        supabase.auth.getSession();
       }, 500);
     } else {
-      console.log('❌ No recovery token found in URL');
       toast.error("Chybějící recovery token. Požádejte o nový reset hesla.");
       setTimeout(() => navigate('/tajnedvere'), 3000);
     }
@@ -59,20 +51,14 @@ const ResetPassword = () => {
     setLoading(true);
 
     try {
-      console.log('🔄 Updating password...');
-
-      const { data, error } = await supabase.auth.updateUser({
+      const { error } = await supabase.auth.updateUser({
         password: newPassword
       });
 
-      console.log('📧 Update result:', { data, error });
-
       if (error) {
-        console.error('❌ Supabase error:', error);
         throw error;
       }
 
-      console.log('✅ Password updated successfully!');
       setIsSuccess(true);
       toast.success("Heslo bylo úspěšně změněno!");
 
@@ -83,7 +69,6 @@ const ResetPassword = () => {
       }, 3000);
 
     } catch (error: any) {
-      console.error("Reset password error:", error);
       toast.error(error.message || "Nepodařilo se změnit heslo");
     } finally {
       setLoading(false);
