@@ -68,7 +68,7 @@ const ResetPassword = () => {
         navigate('/tajnedvere');
       }, 3000);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error(error.message || "Nepodařilo se změnit heslo");
     } finally {
       setLoading(false);

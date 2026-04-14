@@ -43,7 +43,7 @@ const AdminLogin = () => {
       });
       setShowResetPassword(false);
       setResetEmail("");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Reset password error:", error);
       toast.error(error.message || "Nepodařilo se odeslat email. Zkontrolujte konzoli pro detaily.", {
         duration: 5000,
@@ -114,7 +114,7 @@ const AdminLogin = () => {
       setLoginAttempts(0);
       toast.success("Úspěšně přihlášen!");
       navigate("/tajnedvere/dashboard");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login error:", error);
       const remainingAttempts = 5 - loginAttempts - 1;
       if (remainingAttempts > 0) {
