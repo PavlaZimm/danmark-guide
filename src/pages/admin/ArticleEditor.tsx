@@ -231,7 +231,7 @@ const ArticleEditor = () => {
       }
 
       navigate("/tajnedvere/articles");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error saving article:", error);
       toast.error(error.message || "Nepodařilo se uložit článek");
     } finally {

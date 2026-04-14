@@ -75,7 +75,7 @@ const ImageUploadDialog = ({ open, onOpenChange, onImageInsert, onUrlGenerated }
       }
 
       toast.success("Obrázek nahrán!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error uploading image:', error);
       toast.error(error.message || "Nepodařilo se nahrát obrázek");
     } finally {
