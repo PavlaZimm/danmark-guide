@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { createRoot } from 'react-dom/client';
+import { createRoot, type Root } from 'react-dom/client';
 import { useParams, Link } from "react-router-dom";
 import { Calendar, ArrowLeft, Share2, ArrowRight, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -187,7 +187,7 @@ const ArticleDetail = () => {
   // Render maps into placeholders
   useEffect(() => {
     if (maps.length > 0 && contentRef.current) {
-      const roots: any[] = [];
+      const roots: Root[] = [];
 
       maps.forEach((mapData) => {
         const placeholder = contentRef.current?.querySelector(`#map-placeholder-${mapData.id.replace('map-', '')}`);

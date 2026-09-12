@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import { getErrorMessage } from "@/lib/errors";
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ const ResetPassword = () => {
       }, 3000);
 
     } catch (error: unknown) {
-      toast.error(error.message || "Nepodařilo se změnit heslo");
+      toast.error(getErrorMessage(error, "Nepodařilo se změnit heslo"));
     } finally {
       setLoading(false);
     }

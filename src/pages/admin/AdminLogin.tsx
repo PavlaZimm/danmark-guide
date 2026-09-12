@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import { getErrorMessage } from "@/lib/errors";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const AdminLogin = () => {
       setResetEmail("");
     } catch (error: unknown) {
       console.error("Reset password error:", error);
-      toast.error(error.message || "Nepodařilo se odeslat email. Zkontrolujte konzoli pro detaily.", {
+      toast.error(getErrorMessage(error, "Nepodařilo se odeslat email. Zkontrolujte konzoli pro detaily."), {
         duration: 5000,
       });
     } finally {
@@ -120,7 +121,7 @@ const AdminLogin = () => {
       if (remainingAttempts > 0) {
         toast.error(`Špatné přihlašovací údaje. Zbývá ${remainingAttempts} ${remainingAttempts === 1 ? 'pokus' : remainingAttempts < 5 ? 'pokusy' : 'pokusů'}.`);
       } else {
-        toast.error(error.message || "Nepodařilo se přihlásit");
+        toast.error(getErrorMessage(error, "Nepodařilo se přihlásit"));
       }
     } finally {
       setLoading(false);

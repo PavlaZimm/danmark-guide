@@ -54,7 +54,7 @@ const Home = () => {
             "url": "https://kastrup.cz",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "https://kastrup.cz/clanky?q={search_term_string}",
+              "target": "https://kastrup.cz/clanky?search={search_term_string}",
               "query-input": "required name=search_term_string"
             }
           })}

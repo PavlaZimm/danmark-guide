@@ -2,13 +2,39 @@ import { useState, useEffect } from "react";
 import { Cookie, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const GOOGLE_ANALYTICS_ID = "G-L50ERSBZ0Z";
+
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
+  }
+}
+
+const loadGoogleAnalytics = () => {
+  if (document.getElementById("google-analytics-script")) return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = (...args: unknown[]) => window.dataLayer.push(args);
+  window.gtag("js", new Date());
+  window.gtag("config", GOOGLE_ANALYTICS_ID, { anonymize_ip: true });
+
+  const script = document.createElement("script");
+  script.id = "google-analytics-script";
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`;
+  document.head.appendChild(script);
+};
+
 const CookieConsent = () => {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
     // Check if user has already made a choice
     const consent = localStorage.getItem("cookie-consent");
-    if (!consent) {
+    if (consent === "accepted") {
+      loadGoogleAnalytics();
+    } else if (!consent) {
       // Show banner after a short delay for better UX
       setTimeout(() => setShowBanner(true), 1000);
     }
@@ -16,6 +42,7 @@ const CookieConsent = () => {
 
   const acceptCookies = () => {
     localStorage.setItem("cookie-consent", "accepted");
+    loadGoogleAnalytics();
     setShowBanner(false);
   };
 
@@ -39,10 +66,9 @@ const CookieConsent = () => {
               <div className="flex-1">
                 <h3 className="mb-1 font-semibold">Používáme cookies</h3>
                 <p className="text-sm text-muted-foreground">
-                  Tento web používá soubory cookies pro zajištění funkčnosti webu a
-                  zlepšení uživatelského zážitku. Používáme pouze nezbytné technické
-                  cookies pro fungování webu. Žádné analytické ani reklamní cookies
-                  nepoužíváme.{" "}
+                  Nezbytné technické cookies zajišťují fungování webu. Po vašem
+                  souhlasu můžeme zapnout Google Analytics, který nám pomáhá web
+                  zlepšovat. Analytiku bez souhlasu nenačítáme.{" "}
                   <a
                     href="/kontakt"
                     className="underline hover:text-primary"

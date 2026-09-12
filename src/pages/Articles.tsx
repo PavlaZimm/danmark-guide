@@ -47,6 +47,13 @@ const Articles = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>(
     searchParams.get("category") || "all"
   );
+  const routeCategory =
+    location.pathname === "/kultura"
+      ? "kultura"
+      : location.pathname === "/cestovani"
+        ? "cestovani"
+        : null;
+  const activeCategory = routeCategory || selectedCategory;
 
   // Dynamic meta tags based on current path
   const getPageMeta = () => {
@@ -90,11 +97,11 @@ const Articles = () => {
   useEffect(() => {
     const params = new URLSearchParams();
     if (searchTerm) params.set("search", searchTerm);
-    if (selectedCategory && selectedCategory !== "all") {
+    if (!routeCategory && selectedCategory && selectedCategory !== "all") {
       params.set("category", selectedCategory);
     }
     setSearchParams(params, { replace: true });
-  }, [searchTerm, selectedCategory, setSearchParams]);
+  }, [routeCategory, searchTerm, selectedCategory, setSearchParams]);
 
   const fetchCategories = async () => {
     try {
@@ -113,7 +120,7 @@ const Articles = () => {
   const fetchArticles = async () => {
     try {
       setError(null);
-      let query = supabase
+      const query = supabase
         .from("articles")
         .select(`
           id,
@@ -153,8 +160,8 @@ const Articles = () => {
       article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       article.perex.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
-      selectedCategory === "all" ||
-      article.categories?.slug === selectedCategory;
+      activeCategory === "all" ||
+      article.categories?.slug === activeCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -244,23 +251,25 @@ const Articles = () => {
               className="pl-10"
             />
           </div>
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-full md:w-[200px]">
-              <SelectValue placeholder="Vyberte kategorii" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Všechny kategorie</SelectItem>
-              {categories.map((category) => (
-                <SelectItem key={category.id} value={category.slug}>
-                  {category.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          {!routeCategory && (
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="w-full md:w-[200px]">
+                <SelectValue placeholder="Vyberte kategorii" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Všechny kategorie</SelectItem>
+                {categories.map((category) => (
+                  <SelectItem key={category.id} value={category.slug}>
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
         {/* Active Filters */}
-        {(searchTerm || selectedCategory !== "all") && (
+        {(searchTerm || (!routeCategory && selectedCategory !== "all")) && (
           <div className="mb-6 flex flex-wrap items-center gap-2">
             <span className="text-sm text-muted-foreground">Aktivní filtry:</span>
             {searchTerm && (

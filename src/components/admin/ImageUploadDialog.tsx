@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { getErrorMessage } from "@/lib/errors";
 
 interface ImageUploadDialogProps {
   open: boolean;
@@ -77,7 +78,7 @@ const ImageUploadDialog = ({ open, onOpenChange, onImageInsert, onUrlGenerated }
       toast.success("Obrázek nahrán!");
     } catch (error: unknown) {
       console.error('Error uploading image:', error);
-      toast.error(error.message || "Nepodařilo se nahrát obrázek");
+      toast.error(getErrorMessage(error, "Nepodařilo se nahrát obrázek"));
     } finally {
       setUploading(false);
     }

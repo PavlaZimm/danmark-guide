@@ -9,17 +9,17 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>Dánsko: Kompletní průvodce 2025 | Kastrup.cz</title>
+        <title>Dánsko: Kompletní průvodce | Kastrup.cz</title>
         <meta
           name="description"
-          content="Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet."
+          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet."
         />
         <link rel="canonical" href="https://kastrup.cz/o-dansku" />
 
         {/* Open Graph */}
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://kastrup.cz/o-dansku" />
-        <meta property="og:title" content="Dánsko: Kompletní průvodce 2025" />
+        <meta property="og:title" content="Dánsko: Kompletní průvodce" />
         <meta
           property="og:description"
           content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy."
@@ -29,7 +29,7 @@ const About = () => {
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Dánsko: Kompletní průvodce 2025" />
+        <meta name="twitter:title" content="Dánsko: Kompletní průvodce" />
         <meta
           name="twitter:description"
           content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge."
@@ -41,7 +41,7 @@ const About = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            "headline": "Dánsko: Kompletní průvodce 2025",
+            "headline": "Dánsko: Kompletní průvodce",
             "description": "Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy.",
             "datePublished": "2025-01-15",
             "dateModified": "2025-01-15",
@@ -168,7 +168,7 @@ const About = () => {
             {/* Header */}
             <header className="mb-12">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">
-                Dánsko: Kompletní průvodce 2025
+                Dánsko: Kompletní průvodce
               </h1>
               <p className="mb-6 text-xl leading-relaxed text-muted-foreground">
                 Dánsko je kompaktní severská země, kde se setkává krása pobřeží, historické hrady,

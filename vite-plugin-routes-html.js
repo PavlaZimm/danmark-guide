@@ -59,8 +59,8 @@ export default function routesHtmlPlugin() {
         },
         {
           path: 'o-dansku',
-          title: 'Dánsko: Kompletní průvodce 2025 | Kastrup.cz',
-          description: 'Kompletní průvodce po Dánsku 2025: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
+          title: 'Dánsko: Kompletní průvodce | Kastrup.cz',
+          description: 'Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
           canonical: 'https://kastrup.cz/o-dansku'
         }
       ];

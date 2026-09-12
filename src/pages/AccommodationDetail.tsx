@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { MapPin, Euro, Building2, Share2, Star, Wifi, Coffee, Car } from "lucide-react";
+import { MapPin, Euro, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,22 +8,9 @@ import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
-interface Accommodation {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  city: string;
-  address: string | null;
-  type: string;
-  price_per_night: number;
-  images: string[];
-  amenities: string[] | null;
-  rating: number | null;
-  contact_email: string | null;
-  contact_phone: string | null;
-  website: string | null;
-}
+import type { Tables } from "@/integrations/supabase/types";
+
+type Accommodation = Tables<"accommodations">;
 
 const AccommodationDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -77,12 +64,6 @@ const AccommodationDetail = () => {
       default:
         return type;
     }
-  };
-
-  const amenityIcons: Record<string, any> = {
-    wifi: Wifi,
-    breakfast: Coffee,
-    parking: Car,
   };
 
   if (loading) {
@@ -156,21 +137,12 @@ const AccommodationDetail = () => {
             },
             "priceRange": `${accommodation.price_per_night} DKK`,
             "image": accommodation.images || [],
-            "aggregateRating": accommodation.rating ? {
-              "@type": "AggregateRating",
-              "ratingValue": accommodation.rating,
-              "bestRating": "5",
-              "ratingCount": 1
-            } : undefined,
             "url": `https://kastrup.cz/ubytovani/${accommodation.slug}`,
-            "telephone": accommodation.contact_phone || undefined,
-            "email": accommodation.contact_email || undefined,
             "sameAs": accommodation.website ? [accommodation.website] : undefined,
-            "amenityFeature": accommodation.amenities ? accommodation.amenities.map(amenity => ({
-              "@type": "LocationFeatureSpecification",
-              "name": amenity,
-              "value": true
-            })) : undefined
+            "contactPoint": accommodation.contact ? {
+              "@type": "ContactPoint",
+              "name": accommodation.contact
+            } : undefined
           })}
         </script>
 
@@ -218,12 +190,6 @@ const AccommodationDetail = () => {
                 <div>
                   <div className="mb-2 flex flex-wrap items-center gap-2">
                     <Badge variant="secondary">{getTypeLabel(accommodation.type)}</Badge>
-                    {accommodation.rating && (
-                      <div className="flex items-center gap-1">
-                        <Star className="h-4 w-4 fill-primary text-primary" />
-                        <span className="font-semibold">{accommodation.rating}</span>
-                      </div>
-                    )}
                   </div>
                   <h1 className="mb-2 text-4xl font-bold md:text-5xl">
                     {accommodation.name}
@@ -279,44 +245,11 @@ const AccommodationDetail = () => {
               <p>{accommodation.description}</p>
             </div>
 
-            {/* Amenities */}
-            {accommodation.amenities && accommodation.amenities.length > 0 && (
-              <div className="mb-8">
-                <h2 className="mb-4 text-2xl font-bold">Vybavení</h2>
-                <div className="flex flex-wrap gap-2">
-                  {accommodation.amenities.map((amenity, index) => {
-                    const Icon = amenityIcons[amenity.toLowerCase()] || Building2;
-                    return (
-                      <Badge key={index} variant="outline" className="gap-2 px-4 py-2">
-                        <Icon className="h-4 w-4" />
-                        {amenity}
-                      </Badge>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
             {/* Contact */}
             <div className="rounded-lg bg-gradient-card p-8">
               <h2 className="mb-4 text-2xl font-bold">Kontakt a rezervace</h2>
               <div className="space-y-2">
-                {accommodation.contact_email && (
-                  <p>
-                    <strong>Email:</strong>{" "}
-                    <a href={`mailto:${accommodation.contact_email}`} className="text-primary hover:underline">
-                      {accommodation.contact_email}
-                    </a>
-                  </p>
-                )}
-                {accommodation.contact_phone && (
-                  <p>
-                    <strong>Telefon:</strong>{" "}
-                    <a href={`tel:${accommodation.contact_phone}`} className="text-primary hover:underline">
-                      {accommodation.contact_phone}
-                    </a>
-                  </p>
-                )}
+                <p><strong>Kontakt:</strong> {accommodation.contact}</p>
                 {accommodation.website && (
                   <p>
                     <strong>Web:</strong>{" "}

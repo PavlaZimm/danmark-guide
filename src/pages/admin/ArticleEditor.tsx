@@ -39,6 +39,7 @@ import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import ImageUploadDialog from "@/components/admin/ImageUploadDialog";
 import DOMPurify from "dompurify";
+import { getErrorMessage } from "@/lib/errors";
 
 // Validate URL to prevent javascript: and other dangerous protocols
 const isValidUrl = (url: string): boolean => {
@@ -233,7 +234,7 @@ const ArticleEditor = () => {
       navigate("/tajnedvere/articles");
     } catch (error: unknown) {
       console.error("Error saving article:", error);
-      toast.error(error.message || "Nepodařilo se uložit článek");
+      toast.error(getErrorMessage(error, "Nepodařilo se uložit článek"));
     } finally {
       setLoading(false);
     }
