@@ -20,6 +20,7 @@ const Accommodation = lazy(() => import("./pages/Accommodation"));
 const AccommodationDetail = lazy(() => import("./pages/AccommodationDetail"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Privacy = lazy(() => import("./pages/Privacy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Admin pages
@@ -48,7 +49,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Suspense fallback={<PageLoader />}>
               <Routes>
                 {/* Admin Routes - without Header/Footer */}
@@ -104,6 +105,7 @@ const App = () => (
                           <Route path="/kultura" element={<Articles />} />
                           <Route path="/cestovani" element={<Articles />} />
                           <Route path="/kontakt" element={<Contact />} />
+                          <Route path="/ochrana-soukromi" element={<Privacy />} />
                           <Route path="*" element={<NotFound />} />
                         </Routes>
                       </main>

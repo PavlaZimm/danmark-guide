@@ -20,7 +20,6 @@ const NotFound = () => {
           content="Litujeme, ale stránka kterou hledáte nebyla nalezena. Prozkoumejte naše články o Dánsku, ubytování nebo se vraťte na hlavní stránku."
         />
         <meta name="robots" content="noindex, follow" />
-        <link rel="canonical" href="https://kastrup.cz/404" />
       </Helmet>
 
       <div className="flex min-h-screen items-center justify-center bg-gradient-card py-12">

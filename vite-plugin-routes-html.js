@@ -2,6 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 
+const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/atterseebook.jpg';
+
+const escapeHtml = (value = '') => String(value)
+  .replaceAll('&', '&amp;')
+  .replaceAll('"', '&quot;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;');
+
 /**
  * Vite plugin to generate separate HTML files for each route with proper meta tags
  * This helps with SEO by ensuring crawlers see the right content
@@ -62,6 +70,12 @@ export default function routesHtmlPlugin() {
           title: 'Dánsko: Kompletní průvodce | Kastrup.cz',
           description: 'Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
           canonical: 'https://kastrup.cz/o-dansku'
+        },
+        {
+          path: 'ochrana-soukromi',
+          title: 'Ochrana soukromí a cookies | Kastrup.cz',
+          description: 'Informace o ochraně osobních údajů, používání cookies a službě Google Analytics na webu Kastrup.cz včetně možnosti změnit souhlas.',
+          canonical: 'https://kastrup.cz/ochrana-soukromi'
         }
       ];
 
@@ -74,7 +88,9 @@ export default function routesHtmlPlugin() {
         slug: 'kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti',
         title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti',
         meta_title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti | Kastrup.cz',
-        meta_description: 'Objevte Kastrup - kodaňskou čtvrť u moře s moderní architekturou, plážemi a unikátní atmosférou. Průvodce po klidné části Kodaně blízko letiště.'
+        meta_description: 'Objevte Kastrup - kodaňskou čtvrť u moře s moderní architekturou, plážemi a unikátní atmosférou. Průvodce po klidné části Kodaně blízko letiště.',
+        image_url: DEFAULT_SOCIAL_IMAGE,
+        og_image: null
       };
 
       // Fetch all published articles from Supabase and add them to routes
@@ -107,7 +123,7 @@ export default function routesHtmlPlugin() {
           const supabase = createClient(supabaseUrl, supabaseKey);
           const { data: articles, error } = await supabase
             .from('articles')
-            .select('slug, title, perex, meta_title, meta_description')
+            .select('slug, title, perex, meta_title, meta_description, image_url, og_image')
             .eq('published', true);
 
           if (error) {
@@ -121,7 +137,9 @@ export default function routesHtmlPlugin() {
                 path: `clanek/${article.slug}`,
                 title: article.meta_title || `${article.title} | Kastrup.cz`,
                 description: article.meta_description || article.perex || `Přečtěte si článek ${article.title} na Kastrup.cz`,
-                canonical: `https://kastrup.cz/clanek/${article.slug}`
+                canonical: `https://kastrup.cz/clanek/${article.slug}`,
+                image: article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE,
+                type: 'article'
               });
             });
           } else {
@@ -143,7 +161,9 @@ export default function routesHtmlPlugin() {
           path: `clanek/${fallbackArticle.slug}`,
           title: fallbackArticle.meta_title,
           description: fallbackArticle.meta_description,
-          canonical: `https://kastrup.cz/clanek/${fallbackArticle.slug}`
+          canonical: `https://kastrup.cz/clanek/${fallbackArticle.slug}`,
+          image: fallbackArticle.image_url,
+          type: 'article'
         });
       }
 
@@ -156,6 +176,13 @@ export default function routesHtmlPlugin() {
       }
 
       const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+
+      const notFoundHtml = indexHtml
+        .replace(/<title>.*?<\/title>/, '<title>404 - Stránka nenalezena | Kastrup.cz</title>')
+        .replace(/<meta name="description" content=".*?"/, '<meta name="description" content="Požadovaná stránka na Kastrup.cz nebyla nalezena."')
+        .replace('</head>', '    <meta name="robots" content="noindex, follow" />\n  </head>');
+      fs.writeFileSync(path.join(distPath, '404.html'), notFoundHtml);
+      console.log('✓ Generated 404.html');
 
       routes.forEach(route => {
         // For homepage, modify the main index.html directly
@@ -172,31 +199,44 @@ export default function routesHtmlPlugin() {
         }
 
         // Modify HTML with route-specific meta tags
+        const safeTitle = escapeHtml(route.title);
+        const safeDescription = escapeHtml(route.description);
+        const safeCanonical = escapeHtml(route.canonical);
+        const safeImage = escapeHtml(route.image || DEFAULT_SOCIAL_IMAGE);
+        const safeType = route.type === 'article' ? 'article' : 'website';
+        const imageSizeMeta = safeImage === DEFAULT_SOCIAL_IMAGE
+          ? '\n    <meta property="og:image:width" content="1600" />\n    <meta property="og:image:height" content="1200" />'
+          : '';
+
         let routeHtml = indexHtml
-          .replace(/<title>.*?<\/title>/, `<title>${route.title}</title>`)
-          .replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${route.description}"`);
+          .replace(/<title>.*?<\/title>/, `<title>${safeTitle}</title>`)
+          .replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${safeDescription}"`);
 
         // Add canonical link if not present
         if (!routeHtml.includes('rel="canonical"')) {
           routeHtml = routeHtml.replace(
             '</head>',
-            `    <link rel="canonical" href="${route.canonical}" />\n  </head>`
+            `    <link rel="canonical" href="${safeCanonical}" />\n  </head>`
           );
         } else {
           routeHtml = routeHtml.replace(
             /<link rel="canonical" href=".*?".*?\/>/,
-            `<link rel="canonical" href="${route.canonical}" />`
+            `<link rel="canonical" href="${safeCanonical}" />`
           );
         }
 
         // Add OG tags
         routeHtml = routeHtml.replace(
           /<meta property="og:type".*?>/,
-          `<meta property="og:type" content="website" />
-    <meta property="og:url" content="${route.canonical}" />
-    <meta property="og:title" content="${route.title}" />
-    <meta property="og:description" content="${route.description}" />
-    <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />`
+          `<meta property="og:type" content="${safeType}" />
+    <meta property="og:url" content="${safeCanonical}" />
+    <meta property="og:title" content="${safeTitle}" />
+    <meta property="og:description" content="${safeDescription}" />
+    <meta property="og:image" content="${safeImage}" />${imageSizeMeta}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${safeTitle}" />
+    <meta name="twitter:description" content="${safeDescription}" />
+    <meta name="twitter:image" content="${safeImage}" />`
         );
 
         // For /clanky page, add list of article links for crawlers
@@ -205,7 +245,7 @@ export default function routesHtmlPlugin() {
           <section style="margin-top: 2rem;">
             <h2>Naše články:</h2>
             <ul>
-              ${articlesList.map(article => `<li><a href="/clanek/${article.slug}">${article.title}</a></li>`).join('\n              ')}
+              ${articlesList.map(article => `<li><a href="/clanek/${encodeURIComponent(article.slug)}">${escapeHtml(article.title)}</a></li>`).join('\n              ')}
             </ul>
           </section>`;
 

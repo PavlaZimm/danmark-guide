@@ -1,6 +1,18 @@
 import { createClient } from '@supabase/supabase-js';
 
+const escapeXml = (value) => String(value)
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&apos;');
+
 export default async function handler(req, res) {
+  if (req.method !== 'GET' && req.method !== 'HEAD') {
+    res.setHeader('Allow', 'GET, HEAD');
+    return res.status(405).send('Method not allowed');
+  }
+
   const supabaseUrl = process.env.VITE_SUPABASE_URL;
   const supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
@@ -10,16 +22,15 @@ export default async function handler(req, res) {
 
   const supabase = createClient(supabaseUrl, supabaseKey);
   const baseUrl = 'https://kastrup.cz';
-  const today = new Date().toISOString().split('T')[0];
-
   const staticPages = [
-    { loc: '/', priority: '1.0', changefreq: 'daily' },
-    { loc: '/clanky', priority: '0.9', changefreq: 'daily' },
-    { loc: '/ubytovani', priority: '0.9', changefreq: 'daily' },
-    { loc: '/o-dansku', priority: '0.8', changefreq: 'monthly' },
-    { loc: '/kultura', priority: '0.7', changefreq: 'weekly' },
-    { loc: '/cestovani', priority: '0.7', changefreq: 'weekly' },
-    { loc: '/kontakt', priority: '0.6', changefreq: 'monthly' },
+    '/',
+    '/clanky',
+    '/ubytovani',
+    '/o-dansku',
+    '/kultura',
+    '/cestovani',
+    '/kontakt',
+    '/ochrana-soukromi',
   ];
 
   try {
@@ -37,8 +48,7 @@ export default async function handler(req, res) {
     // Fetch published accommodations
     const { data: accommodations, error: accommodationsError } = await supabase
       .from('accommodations')
-      .select('slug, updated_at')
-      .eq('published', true);
+      .select('slug, updated_at');
 
     if (accommodationsError) {
       console.error('Error fetching accommodations:', accommodationsError);
@@ -51,10 +61,7 @@ export default async function handler(req, res) {
     // Add static pages
     staticPages.forEach(page => {
       xml += '  <url>\n';
-      xml += `    <loc>${baseUrl}${page.loc}</loc>\n`;
-      xml += `    <lastmod>${today}</lastmod>\n`;
-      xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
-      xml += `    <priority>${page.priority}</priority>\n`;
+      xml += `    <loc>${escapeXml(`${baseUrl}${page}`)}</loc>\n`;
       xml += '  </url>\n';
     });
 
@@ -63,10 +70,8 @@ export default async function handler(req, res) {
       articles.forEach(article => {
         const lastmod = (article.updated_at || article.created_at).split('T')[0];
         xml += '  <url>\n';
-        xml += `    <loc>${baseUrl}/clanek/${article.slug}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
-        xml += '    <changefreq>weekly</changefreq>\n';
-        xml += '    <priority>0.8</priority>\n';
+        xml += `    <loc>${escapeXml(`${baseUrl}/clanek/${article.slug}`)}</loc>\n`;
+        xml += `    <lastmod>${escapeXml(lastmod)}</lastmod>\n`;
         xml += '  </url>\n';
       });
     }
@@ -76,10 +81,8 @@ export default async function handler(req, res) {
       accommodations.forEach(accom => {
         const lastmod = accom.updated_at.split('T')[0];
         xml += '  <url>\n';
-        xml += `    <loc>${baseUrl}/ubytovani/${accom.slug}</loc>\n`;
-        xml += `    <lastmod>${lastmod}</lastmod>\n`;
-        xml += '    <changefreq>weekly</changefreq>\n';
-        xml += '    <priority>0.7</priority>\n';
+        xml += `    <loc>${escapeXml(`${baseUrl}/ubytovani/${accom.slug}`)}</loc>\n`;
+        xml += `    <lastmod>${escapeXml(lastmod)}</lastmod>\n`;
         xml += '  </url>\n';
       });
     }
@@ -88,8 +91,8 @@ export default async function handler(req, res) {
 
     // Set headers
     res.setHeader('Content-Type', 'application/xml');
-    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
-    res.status(200).send(xml);
+    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+    res.status(200).send(req.method === 'HEAD' ? '' : xml);
 
   } catch (error) {
     console.error('Error generating sitemap:', error);

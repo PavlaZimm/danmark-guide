@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ArticleMap from "@/components/ArticleMap";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
 
 const About = () => {
   return (
@@ -24,7 +25,7 @@ const About = () => {
           property="og:description"
           content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
         <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
@@ -34,7 +35,7 @@ const About = () => {
           name="twitter:description"
           content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta name="twitter:image" content={DEFAULT_SOCIAL_IMAGE} />
 
         {/* JSON-LD Schema - Article */}
         <script type="application/ld+json">
@@ -64,7 +65,7 @@ const About = () => {
               "@type": "WebPage",
               "@id": "https://kastrup.cz/o-dansku"
             },
-            "image": "https://kastrup.cz/icon-512.svg",
+            "image": DEFAULT_SOCIAL_IMAGE,
             "inLanguage": "cs-CZ",
             "wordCount": 2500
           })}

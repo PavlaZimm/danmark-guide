@@ -51,6 +51,14 @@ const Footer = () => {
                   Kontakt
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/ochrana-soukromi"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Soukromí a cookies
+                </Link>
+              </li>
             </ul>
           </div>
 

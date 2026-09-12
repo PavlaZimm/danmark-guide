@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
 import {
   Select,
   SelectContent,
@@ -114,7 +115,7 @@ const Accommodation = () => {
           property="og:description"
           content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely v Kodani a dalších městech."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />

@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
 import {
   Select,
   SelectContent,
@@ -177,7 +178,7 @@ const Articles = () => {
         <meta property="og:url" content={pageMeta.canonical} />
         <meta property="og:title" content={pageMeta.ogTitle} />
         <meta property="og:description" content={pageMeta.description} />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -214,7 +215,7 @@ const Articles = () => {
                   "@id": `https://kastrup.cz/clanek/${article.slug}`,
                   "headline": article.title,
                   "description": article.perex,
-                  "image": article.image_url || "https://kastrup.cz/icon-512.svg",
+                  "image": article.image_url || DEFAULT_SOCIAL_IMAGE,
                   "url": `https://kastrup.cz/clanek/${article.slug}`
                 }
               }))

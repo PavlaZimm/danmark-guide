@@ -87,19 +87,25 @@ const AccommodationDetail = () => {
 
   if (!accommodation) {
     return (
-      <div className="min-h-screen py-12">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-4xl text-center">
-            <h1 className="mb-4 text-4xl font-bold">Ubytování nenalezeno</h1>
-            <p className="mb-8 text-lg text-muted-foreground">
-              Omlouváme se, ale toto ubytování nebylo nalezeno.
-            </p>
-            <Link to="/ubytovani">
-              <Button>Zpět na ubytování</Button>
-            </Link>
+      <>
+        <Helmet>
+          <title>Ubytování nenalezeno | Kastrup.cz</title>
+          <meta name="robots" content="noindex, follow" />
+        </Helmet>
+        <div className="min-h-screen py-12">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mx-auto max-w-4xl text-center">
+              <h1 className="mb-4 text-4xl font-bold">Ubytování nenalezeno</h1>
+              <p className="mb-8 text-lg text-muted-foreground">
+                Omlouváme se, ale toto ubytování nebylo nalezeno.
+              </p>
+              <Link to="/ubytovani">
+                <Button>Zpět na ubytování</Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 

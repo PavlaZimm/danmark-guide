@@ -10,6 +10,7 @@ import hyggeImage from "@/assets/hygge.jpg";
 import hyggeImageWebP from "@/assets/hygge.webp";
 import designImage from "@/assets/design.jpg";
 import designImageWebP from "@/assets/design.webp";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
 
 const Home = () => {
   return (
@@ -30,7 +31,7 @@ const Home = () => {
           property="og:description"
           content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
         <meta property="og:locale" content="cs_CZ" />
         <meta property="og:site_name" content="Kastrup.cz" />
 
@@ -42,7 +43,7 @@ const Home = () => {
           name="twitter:description"
           content="Objevte krásy Dánska. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta name="twitter:image" content={DEFAULT_SOCIAL_IMAGE} />
 
         {/* JSON-LD Structured Data */}
         <script type="application/ld+json">

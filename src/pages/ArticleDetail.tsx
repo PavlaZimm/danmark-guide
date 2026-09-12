@@ -10,7 +10,7 @@ import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import DOMPurify from "dompurify";
 import ArticleMap, { MapMarker } from "@/components/ArticleMap";
-import { optimizeTitle, optimizeDescription, calculateReadingTime } from "@/lib/seo-helpers";
+import { DEFAULT_SOCIAL_IMAGE, optimizeTitle, optimizeDescription, calculateReadingTime } from "@/lib/seo-helpers";
 
 interface Article {
   id: string;
@@ -20,6 +20,7 @@ interface Article {
   content: string;
   image_url: string | null;
   created_at: string;
+  updated_at: string;
   meta_title: string | null;
   meta_description: string | null;
   og_image: string | null;
@@ -267,6 +268,7 @@ const ArticleDetail = () => {
           content,
           image_url,
           created_at,
+          updated_at,
           meta_title,
           meta_description,
           og_image,
@@ -329,22 +331,28 @@ const ArticleDetail = () => {
 
   if (!article) {
     return (
-      <div className="min-h-screen py-12">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="mx-auto max-w-4xl text-center">
-            <h1 className="mb-4 text-4xl font-bold">Článek nenalezen</h1>
-            <p className="mb-8 text-muted-foreground">
-              Omlouváme se, ale článek, který hledáte, neexistuje.
-            </p>
-            <Link to="/clanky">
-              <Button>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Zpět na články
-              </Button>
-            </Link>
+      <>
+        <Helmet>
+          <title>Článek nenalezen | Kastrup.cz</title>
+          <meta name="robots" content="noindex, follow" />
+        </Helmet>
+        <div className="min-h-screen py-12">
+          <div className="container mx-auto px-4 md:px-6">
+            <div className="mx-auto max-w-4xl text-center">
+              <h1 className="mb-4 text-4xl font-bold">Článek nenalezen</h1>
+              <p className="mb-8 text-muted-foreground">
+                Omlouváme se, ale článek, který hledáte, neexistuje.
+              </p>
+              <Link to="/clanky">
+                <Button>
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Zpět na články
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -373,7 +381,7 @@ const ArticleDetail = () => {
         />
         <meta
           property="og:image"
-          content={article.og_image || article.image_url || "https://kastrup.cz/icon-512.svg"}
+          content={article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE}
         />
         <meta property="article:published_time" content={article.created_at} />
         <meta property="article:section" content={article.categories?.name} />
@@ -388,7 +396,7 @@ const ArticleDetail = () => {
         />
         <meta
           name="twitter:image"
-          content={article.og_image || article.image_url || "https://kastrup.cz/icon-512.svg"}
+          content={article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE}
         />
 
         {/* JSON-LD Article Schema */}
@@ -398,9 +406,9 @@ const ArticleDetail = () => {
             "@type": "Article",
             "headline": article.title,
             "description": article.perex,
-            "image": article.image_url || "https://kastrup.cz/og-default.jpg",
+            "image": article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE,
             "datePublished": article.created_at,
-            "dateModified": article.created_at,
+            "dateModified": article.updated_at,
             "author": {
               "@type": "Person",
               "name": "Pavla Zimmermannová",
@@ -412,7 +420,9 @@ const ArticleDetail = () => {
               "name": "Kastrup.cz",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://kastrup.cz/logo.png"
+                "url": "https://kastrup.cz/icon-512.svg",
+                "width": 512,
+                "height": 512
               }
             },
             "mainEntityOfPage": {

@@ -1,53 +1,38 @@
 import { useState, useEffect } from "react";
-import { Cookie, X } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const GOOGLE_ANALYTICS_ID = "G-L50ERSBZ0Z";
-
-declare global {
-  interface Window {
-    dataLayer: unknown[];
-    gtag: (...args: unknown[]) => void;
-  }
-}
-
-const loadGoogleAnalytics = () => {
-  if (document.getElementById("google-analytics-script")) return;
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = (...args: unknown[]) => window.dataLayer.push(args);
-  window.gtag("js", new Date());
-  window.gtag("config", GOOGLE_ANALYTICS_ID, { anonymize_ip: true });
-
-  const script = document.createElement("script");
-  script.id = "google-analytics-script";
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`;
-  document.head.appendChild(script);
-};
+import {
+  COOKIE_SETTINGS_EVENT,
+  getAnalyticsConsent,
+  loadGoogleAnalytics,
+  setAnalyticsConsent,
+} from "@/lib/analytics";
 
 const CookieConsent = () => {
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    // Check if user has already made a choice
-    const consent = localStorage.getItem("cookie-consent");
+    const consent = getAnalyticsConsent();
     if (consent === "accepted") {
       loadGoogleAnalytics();
     } else if (!consent) {
-      // Show banner after a short delay for better UX
-      setTimeout(() => setShowBanner(true), 1000);
+      const timer = window.setTimeout(() => setShowBanner(true), 1000);
+      return () => window.clearTimeout(timer);
     }
+
+    const openSettings = () => setShowBanner(true);
+    window.addEventListener(COOKIE_SETTINGS_EVENT, openSettings);
+    return () => window.removeEventListener(COOKIE_SETTINGS_EVENT, openSettings);
   }, []);
 
   const acceptCookies = () => {
-    localStorage.setItem("cookie-consent", "accepted");
-    loadGoogleAnalytics();
+    setAnalyticsConsent("accepted");
     setShowBanner(false);
   };
 
   const declineCookies = () => {
-    localStorage.setItem("cookie-consent", "declined");
+    setAnalyticsConsent("declined");
     setShowBanner(false);
   };
 
@@ -69,12 +54,12 @@ const CookieConsent = () => {
                   Nezbytné technické cookies zajišťují fungování webu. Po vašem
                   souhlasu můžeme zapnout Google Analytics, který nám pomáhá web
                   zlepšovat. Analytiku bez souhlasu nenačítáme.{" "}
-                  <a
-                    href="/kontakt"
+                  <Link
+                    to="/ochrana-soukromi"
                     className="underline hover:text-primary"
                   >
                     Více informací
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

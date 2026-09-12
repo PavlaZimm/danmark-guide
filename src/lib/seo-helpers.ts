@@ -3,6 +3,8 @@
  * Validates and optimizes meta tags for search engines
  */
 
+export const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/atterseebook.jpg';
+
 /**
  * Truncate text to max length with ellipsis
  */
@@ -25,16 +27,20 @@ export function optimizeTitle(title: string, siteName: string = 'Kastrup.cz'): s
 
   const maxLength = 60;
   const suffix = ` | ${siteName}`;
+  const escapedSiteName = siteName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const titleWithoutSiteName = title
+    .trim()
+    .replace(new RegExp(`\\s*[|–—-]\\s*${escapedSiteName}$`, 'i'), '');
   const availableLength = maxLength - suffix.length;
 
   // Truncate title if too long
-  if (title.length > availableLength) {
-    const truncated = truncateText(title, availableLength);
-    console.warn(`⚠️ Title truncated: "${title}" → "${truncated}"`);
+  if (titleWithoutSiteName.length > availableLength) {
+    const truncated = truncateText(titleWithoutSiteName, availableLength);
+    console.warn(`⚠️ Title truncated: "${titleWithoutSiteName}" → "${truncated}"`);
     return `${truncated}${suffix}`;
   }
 
-  return `${title}${suffix}`;
+  return `${titleWithoutSiteName}${suffix}`;
 }
 
 /**

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Mail, MapPin, User, Briefcase, Globe, ArrowRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
 
 const Contact = () => {
 
@@ -23,7 +24,7 @@ const Contact = () => {
           property="og:description"
           content="Kontaktní údaje Kastrup.cz - Pavla Zimmermannová, Bílina."
         />
-        <meta property="og:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
         <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
@@ -33,7 +34,7 @@ const Contact = () => {
           name="twitter:description"
           content="Kontaktní údaje Kastrup.cz - Pavla Zimmermannová, Bílina."
         />
-        <meta name="twitter:image" content="https://kastrup.cz/icon-512.svg" />
+        <meta name="twitter:image" content={DEFAULT_SOCIAL_IMAGE} />
 
         {/* JSON-LD Schema - ContactPage */}
         <script type="application/ld+json">

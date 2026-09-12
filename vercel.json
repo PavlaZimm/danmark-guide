@@ -1,15 +1,42 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap"
     },
     {
-      "source": "/((?!assets|icon|manifest|robots|sitemap).*)",
+      "source": "/tajnedvere/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/tajnedvere",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ubytovani/:slug",
       "destination": "/index.html"
     }
   ],
   "headers": [
+    {
+      "source": "/tajnedvere/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
+      "source": "/tajnedvere",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
