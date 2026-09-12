@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { MapPin, Euro, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,13 +17,10 @@ const AccommodationDetail = () => {
   const [accommodation, setAccommodation] = useState<Accommodation | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (slug) {
-      fetchAccommodation();
-    }
-  }, [slug]);
+  const fetchAccommodation = useCallback(async () => {
+    if (!slug) return;
 
-  const fetchAccommodation = async () => {
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from("accommodations")
@@ -39,7 +36,11 @@ const AccommodationDetail = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [slug]);
+
+  useEffect(() => {
+    fetchAccommodation();
+  }, [fetchAccommodation]);
 
   const handleShare = () => {
     if (navigator.share) {

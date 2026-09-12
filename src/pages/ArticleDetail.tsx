@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { createRoot, type Root } from 'react-dom/client';
 import { useParams, Link } from "react-router-dom";
 import { Calendar, ArrowLeft, Share2, ArrowRight, List } from "lucide-react";
@@ -58,12 +58,6 @@ const ArticleDetail = () => {
   const [maps, setMaps] = useState<ArticleMapData[]>([]);
   const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (slug) {
-      fetchArticle();
-    }
-  }, [slug]);
 
   // Generate table of contents from article headings
   useEffect(() => {
@@ -256,7 +250,10 @@ const ArticleDetail = () => {
     }
   }, [article]);
 
-  const fetchArticle = async () => {
+  const fetchArticle = useCallback(async () => {
+    if (!slug) return;
+
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from("articles")
@@ -288,7 +285,11 @@ const ArticleDetail = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [slug]);
+
+  useEffect(() => {
+    fetchArticle();
+  }, [fetchArticle]);
 
   const handleShare = () => {
     if (navigator.share) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -97,28 +97,20 @@ const ArticleEditor = () => {
     },
   });
 
-  useEffect(() => {
-    fetchCategories();
-    fetchAuthorId();
-    if (isEditMode) {
-      fetchArticle();
-    }
-  }, [id]);
-
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     const { data } = await supabase
       .from("categories")
       .select("*")
       .order("name");
     setCategories(data || []);
-  };
+  }, []);
 
-  const fetchAuthorId = async () => {
+  const fetchAuthorId = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) setAuthorId(user.id);
-  };
+  }, []);
 
-  const fetchArticle = async () => {
+  const fetchArticle = useCallback(async () => {
     if (!id) return;
 
     try {
@@ -145,7 +137,15 @@ const ArticleEditor = () => {
       console.error("Error fetching article:", error);
       toast.error("Nepodařilo se načíst článek");
     }
-  };
+  }, [editor, id]);
+
+  useEffect(() => {
+    fetchCategories();
+    fetchAuthorId();
+    if (isEditMode) {
+      fetchArticle();
+    }
+  }, [fetchArticle, fetchAuthorId, fetchCategories, isEditMode]);
 
   const generateSlug = (text: string) => {
     return text
