@@ -58,6 +58,12 @@ const Culture = () => (
               {
                 "@type": "ListItem",
                 position: 2,
+                name: "Dánština: jazyk, výslovnost a fráze",
+                url: "https://kastrup.cz/danstina",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
                 name: "Kastrup: moderní architektura, moře a volnost",
                 url: "https://kastrup.cz/clanek/kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti",
               },
@@ -154,7 +160,7 @@ const Culture = () => (
           <div className="mb-9 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary">Obsahová cesta</p>
-              <h2 id="temata-title" className="text-3xl font-bold md:text-5xl">Témata, která připravujeme</h2>
+              <h2 id="temata-title" className="text-3xl font-bold md:text-5xl">Nové průvodce a další témata</h2>
             </div>
             <p className="max-w-xl text-muted-foreground">
               Každé téma ověřujeme v dánských zdrojích a píšeme pro české čtenáře bez automatických překladů a turistických frází.
@@ -162,15 +168,36 @@ const Culture = () => (
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {[
-              [Utensils, "Smørrebrød a dánské jídlo", "Co slavné obložené chleby znamenají, jak se jedí a kde mají místo v běžném dánském dni."],
-              [Languages, "Dánština pro cestovatele", "Výslovnost, užitečné fráze a slova, která prozradí o dánském způsobu života víc než slovník."],
-              [Landmark, "Vánoce, design a Janteloven", "Živé tradice, nepsaná pravidla a předměty, které vznikly z konkrétního společenského kontextu."],
-            ].map(([Icon, title, text]) => (
-              <article key={title as string} className="rounded-2xl bg-muted/50 p-6">
+              {
+                icon: Languages,
+                title: "Dánština pro cestovatele",
+                text: "Jak se mluví v Dánsku, proč je výslovnost obtížná a které fráze opravdu využijete.",
+                href: "/danstina",
+                status: "Nově",
+              },
+              {
+                icon: Utensils,
+                title: "Smørrebrød a dánské jídlo",
+                text: "Co slavné obložené chleby znamenají, jak se jedí a kde mají místo v běžném dánském dni.",
+                status: "Připravujeme",
+              },
+              {
+                icon: Landmark,
+                title: "Vánoce, design a Janteloven",
+                text: "Živé tradice, nepsaná pravidla a předměty, které vznikly z konkrétního společenského kontextu.",
+                status: "Připravujeme",
+              },
+            ].map(({ icon: Icon, title, text, href, status }) => (
+              <article key={title} className="rounded-2xl bg-muted/50 p-6">
                 <Icon className="mb-5 h-8 w-8 text-primary" aria-hidden="true" />
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">Připravujeme</p>
-                <h3 className="mb-3 text-xl font-semibold">{title as string}</h3>
-                <p className="text-muted-foreground">{text as string}</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-primary">{status}</p>
+                <h3 className="mb-3 text-xl font-semibold">{title}</h3>
+                <p className="text-muted-foreground">{text}</p>
+                {href && (
+                  <Link to={href} className="mt-5 inline-flex items-center font-semibold text-primary hover:underline">
+                    Přečíst průvodce <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                  </Link>
+                )}
               </article>
             ))}
           </div>
@@ -213,7 +240,7 @@ const Culture = () => (
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
             <Link to="/kodan"><Button>Co vidět v Kodani</Button></Link>
-            <Link to="/ubytovani"><Button variant="outline">Ubytování v Dánsku</Button></Link>
+            <Link to="/danske-ostrovy"><Button variant="outline">Dánské ostrovy</Button></Link>
           </div>
         </section>
       </div>

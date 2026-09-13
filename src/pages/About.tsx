@@ -138,6 +138,14 @@ const About = () => {
                   "@type": "Answer",
                   "text": "Z letiště jezdí metro M2 a vlaky velmi často (každých 10 minut). Cesta do centra Kodaně trvá 15-20 minut. Spojení je rychlé, pohodlné a dobře značené. Jízdenky lze koupit v automatech nebo online."
                 }
+              },
+              {
+                "@type": "Question",
+                "name": "Jaká je nejvyšší hora Dánska?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Nejvyšším přirozeným bodem vlastního Dánska je Møllehøj s nadmořskou výškou 170,86 metru. Yding Skovhøj dosahuje 172,54 metru jen při započtení pravěké mohyly; jeho přirozený terén je nižší než Møllehøj."
+                }
               }
             ]
           })}
@@ -206,6 +214,11 @@ const About = () => {
                 <li>
                   <a href="#fakta" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                     → Základní fakta o Dánsku
+                  </a>
+                </li>
+                <li>
+                  <a href="#nejvyssi-hora" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    → Nejvyšší hora Dánska
                   </a>
                 </li>
                 <li>
@@ -279,7 +292,9 @@ const About = () => {
                 <p className="mb-4">
                   Dánsko leží v severní Evropě, je součástí Skandinávie a tvoří ho Jutský poloostrov
                   a více než 400 ostrovů (např. Fyn a Sjælland). Hlavní město je Kodaň, oficiální
-                  jazyk dánština, měna dánská koruna (DKK).
+                  jazyk dánština, měna dánská koruna (DKK). Samostatně jsme připravili přehled
+                  <Link to="/danske-ostrovy"> dánských ostrovů s mapou</Link> a průvodce
+                  <Link to="/danstina"> dánštinou a frázemi na cestu</Link>.
                 </p>
                 <p className="mb-4">
                   Oficiální turistický portál nabízí přehled regionů, inspiraci na itineráře
@@ -289,6 +304,25 @@ const About = () => {
                   Hygge, dánský styl pohody a blízkosti, prostupuje kavárnami, interiéry i komunitním
                   životem a je skvělou esencí zdejšího cestování.
                 </p>
+
+                <section id="nejvyssi-hora" className="my-8 rounded-2xl border bg-card p-6 shadow-sm">
+                  <h2 className="mb-4 text-2xl font-bold">Jaká je nejvyšší hora Dánska?</h2>
+                  <p className="mb-4">
+                    Nejvyšším <strong>přirozeným bodem vlastního Dánska je Møllehøj</strong> v oblasti
+                    Ejer Bjerge ve středním Jutsku. Dosahuje 170,86 metru nad mořem. Spíš než o horu
+                    v českém smyslu jde o nenápadný travnatý vrch v zemědělské krajině.
+                  </p>
+                  <p className="mb-4">
+                    Často uváděný Yding Skovhøj měří 172,54 metru pouze se započtením pravěké mohyly
+                    na vrcholu. Samotný přirozený terén má 170,77 metru, takže je o devět centimetrů
+                    nižší než Møllehøj. Ejer Bavnehøj, známější díky vyhlídkové věži, má 170,35 metru.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Grónsko a Faerské ostrovy jsou autonomní části Dánského království, nikoli území
+                    vlastního Dánska. Jejich hory se proto do tohoto srovnání nezapočítávají. Údaje
+                    ověřujeme podle VisitDenmark a regionální turistické organizace VisitAarhus.
+                  </p>
+                </section>
 
                 {/* Mapa Dánska */}
                 <ArticleMap
@@ -591,7 +625,8 @@ const About = () => {
                 <h3 className="mb-3 text-xl font-semibold">Jazyk a komunikace</h3>
                 <p className="mb-6">
                   Dominuje dánština, ale angličtina je běžně výborná – domluva je snadná
-                  v dopravě, ubytování i gastronomii.
+                  v dopravě, ubytování i gastronomii. Základní fráze, abecedu a výslovnost najdete
+                  v průvodci <Link to="/danstina">jak se mluví v Dánsku</Link>.
                 </p>
 
                 <h3 className="mb-3 text-xl font-semibold">Doprava po zemi</h3>
@@ -669,6 +704,10 @@ const About = () => {
                   <li><strong>Rubjerg Knude</strong> – putující duna a maják vysoko nad mořem</li>
                   <li><strong>Severozápadní Jutsko</strong> – duny, pláže, setkání moří u Skagenu</li>
                 </ul>
+                <p className="mb-6">
+                  Pokud chcete pobřeží spojit do delší trasy, využijte náš přehled
+                  <Link to="/danske-ostrovy"> dánských ostrovů, mapy a dopravy</Link>.
+                </p>
 
                 {/* Image - Troll */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
@@ -758,6 +797,17 @@ const About = () => {
                   <p className="mt-4 text-muted-foreground">
                     Léto má nejvíce akcí a nejstabilnější počasí, jaro a podzim jsou klidnější,
                     zima láká na advent a hygge.
+                  </p>
+                </details>
+
+                <details className="group mb-4 rounded-lg border bg-card p-4 transition-all hover:shadow-md">
+                  <summary className="cursor-pointer font-semibold text-lg list-none flex items-center justify-between">
+                    <span>Jaká je nejvyšší hora Dánska?</span>
+                    <span className="text-primary transition-transform group-open:rotate-180">▼</span>
+                  </summary>
+                  <p className="mt-4 text-muted-foreground">
+                    Nejvyšším přirozeným bodem je Møllehøj s výškou 170,86 metru. Yding Skovhøj je
+                    vyšší pouze se započtením pravěké mohyly na vrcholu.
                   </p>
                 </details>
 

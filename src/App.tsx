@@ -17,6 +17,8 @@ const Accommodation = lazy(() => import("./pages/Accommodation"));
 const Culture = lazy(() => import("./pages/Culture"));
 const Hygge = lazy(() => import("./pages/Hygge"));
 const Copenhagen = lazy(() => import("./pages/Copenhagen"));
+const DanishLanguage = lazy(() => import("./pages/DanishLanguage"));
+const DanishIslands = lazy(() => import("./pages/DanishIslands"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Author = lazy(() => import("./pages/Author"));
@@ -97,6 +99,8 @@ const App = () => (
                           <Route path="/kultura" element={<Culture />} />
                           <Route path="/hygge" element={<Hygge />} />
                           <Route path="/kodan" element={<Copenhagen />} />
+                          <Route path="/danstina" element={<DanishLanguage />} />
+                          <Route path="/danske-ostrovy" element={<DanishIslands />} />
                           <Route path="/cestovani" element={<Articles />} />
                           <Route path="/kontakt" element={<Contact />} />
                           <Route path="/autorka" element={<Author />} />

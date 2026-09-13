@@ -50,6 +50,8 @@ async function generateSitemap() {
     '/kultura',
     '/hygge',
     '/kodan',
+    '/danstina',
+    '/danske-ostrovy',
     '/cestovani',
     '/kontakt',
     '/autorka',

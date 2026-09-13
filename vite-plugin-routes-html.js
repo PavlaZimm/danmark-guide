@@ -91,6 +91,64 @@ export default function routesHtmlPlugin() {
           </article>`
         },
         {
+          path: 'danstina',
+          title: 'Dánština: jazyk, výslovnost a fráze | Kastrup.cz',
+          description: 'Jak se mluví v Dánsku? Poznejte dánštinu, její výslovnost, abecedu a praktické fráze na cestu bez zavádějícího fonetického přepisu.',
+          canonical: 'https://kastrup.cz/danstina',
+          heading: 'Dánština: jak se mluví v Dánsku a co se hodí znát',
+          image: 'https://kastrup.cz/images/IMG_20230712_091836.webp',
+          type: 'article',
+          article: {
+            title: 'Dánština: jak se mluví v Dánsku a co se hodí znát',
+            perex: 'Dánština vypadá na papíře přístupněji, než zní. Poznejte její abecedu, výslovnost a praktické fráze na cestu.',
+            meta_description: 'Jak se mluví v Dánsku? Poznejte dánštinu, její výslovnost, abecedu a praktické fráze na cestu bez zavádějícího fonetického přepisu.',
+            image_url: 'https://kastrup.cz/images/IMG_20230712_091836.webp',
+            og_image: 'https://kastrup.cz/images/IMG_20230712_091836.webp',
+            created_at: '2026-09-13T00:00:00+02:00',
+            updated_at: '2026-09-13T00:00:00+02:00',
+            focus_keyword: 'dánština, dánsko jazyk, jak se mluví v Dánsku, dánská abeceda',
+            categories: { name: 'Dánská kultura' }
+          },
+          fallbackHtml: `
+          <article style="margin-top: 2rem; max-width: 800px;">
+            <p>V Dánsku se mluví <strong>dánsky</strong>. Dánština je severogermánský jazyk s přibližně šesti miliony mluvčích. Je příbuzná norštině a švédštině, ale její mluvená podoba bývá pro cizince obtížnější než psaný text.</p>
+            <h2>Jak se mluví v Dánsku</h2>
+            <p>Dánská abeceda má za písmenem Z ještě Æ, Ø a Å. Výslovnost komplikuje redukce hlásek a zvuk zvaný stød, proto je lepší spojit psané fráze s poslechem rodilých mluvčích.</p>
+            <h2>Základní dánské fráze</h2>
+            <p>Hej znamená ahoj, tak děkuji, undskyld promiňte a Taler du engelsk? znamená Mluvíte anglicky?</p>
+            <p><a href="/kultura">Další témata o dánské kultuře</a></p>
+          </article>`
+        },
+        {
+          path: 'danske-ostrovy',
+          title: 'Dánské ostrovy: kam jet a co vidět | Kastrup.cz',
+          description: 'Dánské ostrovy přehledně: Sjælland, Fyn, Møn, Bornholm, Samsø, Ærø, Fanø a Rømø. Mapa, doprava a výběr ostrova podle typu cesty.',
+          canonical: 'https://kastrup.cz/danske-ostrovy',
+          heading: 'Dánské ostrovy: které vybrat, co vidět a jak se tam dostat',
+          image: 'https://kastrup.cz/images/20240811_202640.jpg',
+          type: 'article',
+          article: {
+            title: 'Dánské ostrovy: které vybrat, co vidět a jak se tam dostat',
+            perex: 'Dánsko tvoří Jutsko a stovky ostrovů. Vyberte si Sjælland, Fyn, Møn, Bornholm nebo menší ostrov podle typu cesty.',
+            meta_description: 'Dánské ostrovy přehledně: Sjælland, Fyn, Møn, Bornholm, Samsø, Ærø, Fanø a Rømø. Mapa, doprava a výběr ostrova podle typu cesty.',
+            image_url: 'https://kastrup.cz/images/20240811_202640.jpg',
+            og_image: 'https://kastrup.cz/images/20240811_202640.jpg',
+            created_at: '2026-09-13T00:00:00+02:00',
+            updated_at: '2026-09-13T00:00:00+02:00',
+            focus_keyword: 'dánské ostrovy, Dánsko ostrovy, dánský ostrov, Fyn',
+            categories: { name: 'Cestování' }
+          },
+          fallbackHtml: `
+          <article style="margin-top: 2rem; max-width: 800px;">
+            <p>VisitDenmark uvádí 444 pojmenovaných ostrovů. Na první městskou cestu zvolte <strong>Sjælland</strong> s Kodaní, pro Odense a klidnější venkov <strong>Fyn</strong>.</p>
+            <h2>Který dánský ostrov vybrat</h2>
+            <p>Møn láká na křídové útesy, Bornholm na skalnaté pobřeží a delší aktivní dovolenou. Samsø a Ærø se hodí pro kolo a pomalejší cestu, Fanø a Rømø pro pláže Wattového moře.</p>
+            <h2>Jak se na dánské ostrovy dostat</h2>
+            <p>Sjælland a Fyn spojují mosty a vlaky. Na menší ostrovy jezdí trajekty; s autem je vhodné rezervovat místo předem.</p>
+            <p><a href="/o-dansku">Kompletní průvodce Dánskem</a></p>
+          </article>`
+        },
+        {
           path: 'cestovani',
           title: 'Cestování po Dánsku | Tipy a průvodce | Kastrup.cz',
           description: 'Praktické tipy pro cestování po Dánsku. Kam jet, co vidět, kde spát a jíst. Itineráře, doprava a rady pro vaši cestu do Dánska.',
