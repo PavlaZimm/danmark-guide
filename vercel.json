@@ -12,10 +12,6 @@
     {
       "source": "/tajnedvere",
       "destination": "/index.html"
-    },
-    {
-      "source": "/ubytovani/:slug",
-      "destination": "/index.html"
     }
   ],
   "headers": [

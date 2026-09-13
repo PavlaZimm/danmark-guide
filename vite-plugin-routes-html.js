@@ -61,8 +61,8 @@ export default function routesHtmlPlugin() {
         },
         {
           path: 'ubytovani',
-          title: 'Ubytování v Dánsku | Hotely, AirBnB, Kempy | Kastrup.cz',
-          description: 'Najděte nejlepší ubytování v Dánsku. Hotely, apartmány, kempy a další možnosti pro váš pobyt v Dánsku.',
+          title: 'Ubytování v Dánsku | Mapa hotelů a apartmánů | Kastrup.cz',
+          description: 'Porovnejte ubytování v Dánsku na interaktivní mapě. Praktické tipy pro výběr hotelu v Kodani, u letiště Kastrup i v dalších dánských městech.',
           canonical: 'https://kastrup.cz/ubytovani',
           heading: 'Ubytování v Dánsku'
         },

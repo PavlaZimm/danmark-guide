@@ -87,11 +87,28 @@ const Privacy = () => {
                 neposíláme.
               </p>
 
+              <h2>Mapa ubytování Stay22</h2>
+              <p>
+                Na stránce ubytování nabízíme externí mapu služby Stay22. Mapa se nenačítá
+                automaticky; spojení se Stay22 vznikne až po kliknutí na tlačítko pro její
+                načtení. Stay22 poté může zpracovat technické údaje o zařízení a používání
+                mapy podle svých{' '}
+                <a href="https://www.stay22.com/privacy" target="_blank" rel="noopener noreferrer">
+                  pravidel ochrany soukromí
+                </a>.
+              </p>
+              <p>
+                Odkazy a nabídky v mapě jsou partnerské. Pokud přes ně dokončíte rezervaci,
+                můžeme získat provizi. Cenu, dostupnost a podmínky rezervace vždy určuje
+                konkrétní rezervační partner.
+              </p>
+
               <h2>Používaná úložiště a cookies</h2>
               <ul>
                 <li><strong>cookie-consent</strong> – volba souhlasu uložená v prohlížeči.</li>
                 <li><strong>vite-ui-theme</strong> – zvolené světlé nebo tmavé zobrazení.</li>
                 <li><strong>_ga a _ga_*</strong> – analytické cookies Google Analytics, nejdéle na 2 roky; vznikají jen po souhlasu.</li>
+                <li><strong>Stay22</strong> – případná úložiště externí mapy vznikají až po jejím ručním načtení.</li>
               </ul>
 
               <h2>Komu mohou být údaje zpřístupněny</h2>

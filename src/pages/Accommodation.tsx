@@ -1,382 +1,263 @@
-import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { Search, Filter, X } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import AccommodationCard from "@/components/AccommodationCard";
-import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  BedDouble,
+  CalendarCheck,
+  CheckCircle2,
+  ExternalLink,
+  Map,
+  MapPin,
+  Plane,
+  ShieldCheck,
+  Train,
+  WalletCards,
+} from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { Button } from "@/components/ui/button";
 import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
-interface Accommodation {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  city: string;
-  type: string;
-  price_per_night: number;
-  images: string[];
-}
+const STAY22_EMBED_URL = "https://www.stay22.com/embed/697516b7db0fdbba11cc0c2d";
+
+const faqs = [
+  {
+    question: "Kde hledat ubytování v Kodani?",
+    answer:
+      "Pro první návštěvu bývá praktické ubytování s rychlým spojením metrem nebo vlakem. Na mapě si vždy zkontrolujte vzdálenost od zastávky a od míst, která chcete navštívit.",
+  },
+  {
+    question: "Vyplatí se bydlet u letiště Kastrup?",
+    answer:
+      "Ubytování u letiště dává smysl hlavně při velmi časném odletu, pozdním příletu nebo krátkém přestupu. Pro běžné poznávání Kodaně porovnejte celkový čas cesty s ubytováním blíž centru.",
+  },
+  {
+    question: "Na co si dát pozor před rezervací?",
+    answer:
+      "Zkontrolujte konečnou cenu včetně poplatků, podmínky zrušení, typ pokoje, čas příjezdu a hodnocení hostů. Rozhodující jsou vždy informace uvedené přímo u rezervačního partnera.",
+  },
+  {
+    question: "Je vyhledávání na Kastrup.cz placené?",
+    answer:
+      "Použití mapy je zdarma. Pokud přes partnerský odkaz dokončíte rezervaci, Kastrup.cz může získat provizi. Konkrétní cenu a podmínky určuje rezervační partner.",
+  },
+];
 
 const Accommodation = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [accommodations, setAccommodations] = useState<Accommodation[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
-  const [selectedCity, setSelectedCity] = useState<string>(
-    searchParams.get("city") || "all"
-  );
-  const [selectedType, setSelectedType] = useState<string>(
-    searchParams.get("type") || "all"
-  );
-  const [cities, setCities] = useState<string[]>([]);
-
-  useEffect(() => {
-    fetchAccommodations();
-  }, []);
-
-  // Update URL parameters when filters change
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (searchTerm) params.set("search", searchTerm);
-    if (selectedCity && selectedCity !== "all") params.set("city", selectedCity);
-    if (selectedType && selectedType !== "all") params.set("type", selectedType);
-    setSearchParams(params, { replace: true });
-  }, [searchTerm, selectedCity, selectedType, setSearchParams]);
-
-  const fetchAccommodations = async () => {
-    try {
-      setError(null);
-      const { data, error } = await supabase
-        .from("accommodations")
-        .select("*")
-        .order("name");
-
-      if (error) throw error;
-
-      setAccommodations(data || []);
-
-      // Extract unique cities
-      const uniqueCities = Array.from(
-        new Set(data?.map((acc) => acc.city) || [])
-      ).sort();
-      setCities(uniqueCities);
-
-      // If no accommodations, set a friendly message but don't treat as error
-      if (!data || data.length === 0) {
-        console.info("No accommodations found in database");
-      }
-    } catch (error) {
-      console.error("Error fetching accommodations:", error);
-      setError("Nepodařilo se načíst ubytování. Zkontrolujte prosím připojení k internetu.");
-      toast.error("Nepodařilo se načíst ubytování");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const filteredAccommodations = accommodations.filter((acc) => {
-    const matchesSearch =
-      acc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      acc.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      acc.city.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCity = selectedCity === "all" || acc.city === selectedCity;
-    const matchesType = selectedType === "all" || acc.type === selectedType;
-    return matchesSearch && matchesCity && matchesType;
-  });
+  const [showMap, setShowMap] = useState(false);
 
   return (
     <>
       <Helmet>
-        <title>Ubytování v Dánsku | Hotely, Apartmány, Hostely | Kastrup.cz</title>
+        <title>Ubytování v Dánsku | Mapa hotelů a apartmánů | Kastrup.cz</title>
         <meta
           name="description"
-          content="Najděte perfektní ubytování v Dánsku. Široký výběr hotelů, apartmánů a hostelů v Kodani a dalších městech. Porovnejte ceny a rezervujte online."
+          content="Porovnejte ubytování v Dánsku na interaktivní mapě. Praktické tipy pro výběr hotelu v Kodani, u letiště Kastrup i v dalších dánských městech."
         />
         <link rel="canonical" href="https://kastrup.cz/ubytovani" />
-
-        {/* Open Graph */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://kastrup.cz/ubytovani" />
-        <meta property="og:title" content="Ubytování v Dánsku - Kastrup.cz" />
+        <meta property="og:title" content="Ubytování v Dánsku | Kastrup.cz" />
         <meta
           property="og:description"
-          content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely v Kodani a dalších městech."
+          content="Mapa ubytování a praktický průvodce výběrem hotelu nebo apartmánu v Dánsku."
         />
         <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
-
-        {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Ubytování v Dánsku - Kastrup.cz" />
+        <meta name="twitter:title" content="Ubytování v Dánsku | Kastrup.cz" />
         <meta
           name="twitter:description"
-          content="Najděte perfektní ubytování v Dánsku. Hotely, apartmány a hostely."
+          content="Mapa ubytování a praktické tipy pro cestu do Dánska."
         />
-
-        {/* JSON-LD */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "CollectionPage",
-            "name": "Ubytování v Dánsku",
-            "description": "Kolekce ubytovacích zařízení v Dánsku - hotely, apartmány, hostely",
-            "url": "https://kastrup.cz/ubytovani",
-            "isPartOf": {
+            "@type": "WebPage",
+            name: "Ubytování v Dánsku",
+            description:
+              "Mapa ubytování a praktický průvodce výběrem hotelu nebo apartmánu v Dánsku.",
+            url: "https://kastrup.cz/ubytovani",
+            inLanguage: "cs-CZ",
+            isPartOf: {
               "@type": "WebSite",
-              "name": "Kastrup.cz",
-              "url": "https://kastrup.cz"
-            }
+              name: "Kastrup.cz",
+              url: "https://kastrup.cz",
+            },
           })}
         </script>
-
-        {/* ItemList Schema for Accommodations */}
-        {filteredAccommodations.length > 0 && (
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "ItemList",
-              "itemListElement": filteredAccommodations.map((acc, index) => ({
-                "@type": "ListItem",
-                "position": index + 1,
-                "item": {
-                  "@type": acc.type === "hotel" ? "Hotel" : "LodgingBusiness",
-                  "@id": `https://kastrup.cz/ubytovani/${acc.slug}`,
-                  "name": acc.name,
-                  "description": acc.description,
-                  "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": acc.city,
-                    "addressCountry": "DK"
-                  },
-                  "priceRange": `${acc.price_per_night} DKK`,
-                  "image": acc.images && acc.images.length > 0 ? acc.images[0] : undefined,
-                  "url": `https://kastrup.cz/ubytovani/${acc.slug}`
-                }
-              }))
-            })}
-          </script>
-        )}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.answer,
+              },
+            })),
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen py-12">
         <div className="container mx-auto px-4 md:px-6">
-        <Breadcrumbs items={[{ label: "Ubytování" }]} />
+          <Breadcrumbs items={[{ label: "Ubytování" }]} />
 
-        {/* Header */}
-        <div className="mb-12">
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl">Ubytování v Dánsku</h1>
-          <p className="text-lg text-muted-foreground">
-            Plánujete výlet do <Link to="/o-dansku" className="text-primary hover:underline">Dánska</Link>?
-            Vyberte si z široké nabídky hotelů, apartmánů a hostelů v Kodani i dalších dánských městech.
-            Ať už hledáte luxusní hotel v centru nebo útulný apartmán na okraji města,
-            pomůžeme vám najít ideální ubytování pro vaši dovolenou.
-            Přečtěte si také naše <Link to="/clanky" className="text-primary hover:underline">tipy na cestování</Link> po Dánsku.
-          </p>
-        </div>
-
-        {/* Stay22 Map Widget */}
-        <div className="mb-12">
-          <h2 className="mb-4 text-2xl font-semibold">Mapa ubytování v Dánsku</h2>
-          <p className="mb-4 text-muted-foreground">
-            Na interaktivní mapě najdete ubytování v Dánsku - od hotelů v Kodani až po útulné apartmány v menších městech.
-            Můžete přibližovat, oddalovat a vyhledávat v konkrétních lokalitách podle vašich potřeb.
-          </p>
-          <div className="overflow-hidden rounded-lg border">
-            <iframe
-              id="stay22-widget"
-              width="100%"
-              height="428"
-              src="https://www.stay22.com/embed/697516b7db0fdbba11cc0c2d"
-              frameBorder="0"
-              title="Mapa ubytování v Dánsku"
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Hledat ubytování..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-
-          <div className="flex flex-col gap-4 md:flex-row">
-            <Select value={selectedCity} onValueChange={setSelectedCity}>
-              <SelectTrigger className="w-full md:w-[200px]">
-                <SelectValue placeholder="Město" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Všechna města</SelectItem>
-                {cities.map((city) => (
-                  <SelectItem key={city} value={city}>
-                    {city}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Select value={selectedType} onValueChange={setSelectedType}>
-              <SelectTrigger className="w-full md:w-[200px]">
-                <SelectValue placeholder="Typ ubytování" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Všechny typy</SelectItem>
-                <SelectItem value="hotel">Hotel</SelectItem>
-                <SelectItem value="apartment">Apartmán</SelectItem>
-                <SelectItem value="hostel">Hostel</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Active Filters */}
-        {(searchTerm || selectedCity !== "all" || selectedType !== "all") && (
-          <div className="mb-6 flex flex-wrap items-center gap-2">
-            <span className="text-sm text-muted-foreground">Aktivní filtry:</span>
-            {searchTerm && (
-              <Badge variant="secondary" className="gap-1">
-                Hledání: "{searchTerm}"
-                <button
-                  onClick={() => setSearchTerm("")}
-                  className="ml-1 rounded-full hover:bg-muted"
-                  aria-label="Zrušit vyhledávání"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
-            )}
-            {selectedCity !== "all" && (
-              <Badge variant="secondary" className="gap-1">
-                Město: {selectedCity}
-                <button
-                  onClick={() => setSelectedCity("all")}
-                  className="ml-1 rounded-full hover:bg-muted"
-                  aria-label="Zrušit filtr města"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
-            )}
-            {selectedType !== "all" && (
-              <Badge variant="secondary" className="gap-1">
-                Typ: {selectedType === "hotel" ? "Hotel" : selectedType === "apartment" ? "Apartmán" : "Hostel"}
-                <button
-                  onClick={() => setSelectedType("all")}
-                  className="ml-1 rounded-full hover:bg-muted"
-                  aria-label="Zrušit filtr typu"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedCity("all");
-                setSelectedType("all");
-              }}
-              className="h-7 text-xs"
-            >
-              Vymazat vše
-            </Button>
-          </div>
-        )}
-
-        {/* Results */}
-        {loading ? (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {[...Array(9)].map((_, i) => (
-              <div key={i} className="h-96 animate-pulse rounded-lg bg-muted"></div>
-            ))}
-          </div>
-        ) : error ? (
-          <div className="rounded-lg border-2 border-destructive/20 bg-destructive/5 p-12 text-center">
-            <p className="mb-4 text-lg font-semibold text-destructive">
-              {error}
+          <header className="mx-auto mb-12 max-w-4xl text-center">
+            <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+              <BedDouble className="h-7 w-7 text-primary" />
+            </div>
+            <h1 className="mb-5 text-4xl font-bold md:text-6xl">Ubytování v Dánsku bez zbytečného hledání</h1>
+            <p className="mx-auto mb-7 max-w-3xl text-lg text-muted-foreground md:text-xl">
+              Porovnejte dostupné hotely a apartmány přímo na mapě. Před rezervací si
+              ověřte konečnou cenu, podmínky zrušení a spojení na místa, která chcete navštívit.
             </p>
-            <Button onClick={fetchAccommodations} variant="outline">
-              Zkusit znovu
-            </Button>
-          </div>
-        ) : filteredAccommodations.length > 0 ? (
-          <>
-            <p className="mb-6 text-sm text-muted-foreground">
-              Nalezeno {filteredAccommodations.length} ubytování
-            </p>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {filteredAccommodations.map((accommodation) => (
-                <AccommodationCard
-                  key={accommodation.id}
-                  id={accommodation.id}
-                  name={accommodation.name}
-                  slug={accommodation.slug}
-                  description={accommodation.description}
-                  city={accommodation.city}
-                  type={accommodation.type}
-                  pricePerNight={accommodation.price_per_night}
-                  images={accommodation.images}
+            <a href="#mapa-ubytovani">
+              <Button size="lg">
+                <Map className="mr-2 h-5 w-5" />
+                Otevřít mapu ubytování
+              </Button>
+            </a>
+          </header>
+
+          <section
+            id="mapa-ubytovani"
+            className="scroll-mt-24 rounded-2xl border bg-card p-5 shadow-sm md:p-8"
+            aria-labelledby="mapa-title"
+          >
+            <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary">Interaktivní porovnání</p>
+                <h2 id="mapa-title" className="text-3xl font-bold">Mapa ubytování</h2>
+                <p className="mt-3 max-w-2xl text-muted-foreground">
+                  Přibližte si konkrétní oblast, upravte termín a porovnejte nabídky rezervačních partnerů.
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <ShieldCheck className="h-5 w-5 text-primary" />
+                Mapa se načte až po vašem kliknutí
+              </div>
+            </div>
+
+            {showMap ? (
+              <div className="overflow-hidden rounded-xl border bg-muted">
+                <iframe
+                  id="stay22-widget"
+                  width="100%"
+                  height="520"
+                  src={STAY22_EMBED_URL}
+                  frameBorder="0"
+                  title="Interaktivní mapa ubytování v Dánsku od Stay22"
+                  loading="lazy"
                 />
+              </div>
+            ) : (
+              <div className="flex min-h-[360px] flex-col items-center justify-center rounded-xl border border-dashed bg-muted/40 px-6 text-center">
+                <MapPin className="mb-5 h-12 w-12 text-primary" />
+                <h3 className="mb-3 text-2xl font-semibold">Vyhledat dostupné ubytování</h3>
+                <p className="mb-6 max-w-2xl text-muted-foreground">
+                  Po kliknutí se načte externí mapa Stay22. Tím navážete spojení se službou třetí strany,
+                  která může zpracovat technické údaje o zařízení podle svých pravidel soukromí.
+                </p>
+                <Button size="lg" onClick={() => setShowMap(true)}>
+                  Načíst mapu Stay22
+                  <ExternalLink className="ml-2 h-4 w-4" />
+                </Button>
+                <p className="mt-4 max-w-xl text-xs text-muted-foreground">
+                  Partnerské upozornění: pokud přes mapu dokončíte rezervaci, Kastrup.cz může získat provizi.
+                  Cenu a podmínky určuje rezervační partner.
+                </p>
+              </div>
+            )}
+          </section>
+
+          <section className="py-16" aria-labelledby="vyber-title">
+            <div className="mb-9 text-center">
+              <h2 id="vyber-title" className="mb-3 text-3xl font-bold md:text-4xl">Jak vybrat správné místo</h2>
+              <p className="mx-auto max-w-2xl text-muted-foreground">
+                Nejdřív vyberte oblast podle programu cesty. Teprve potom porovnávejte cenu jednotlivých pobytů.
+              </p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-3">
+              <article className="rounded-2xl border bg-card p-6 shadow-sm">
+                <Train className="mb-5 h-8 w-8 text-primary" />
+                <h3 className="mb-3 text-xl font-semibold">Poznávání Kodaně</h3>
+                <p className="text-muted-foreground">
+                  Hledejte dobré spojení metrem nebo vlakem. Ubytování mimo úplné centrum může být praktické,
+                  pokud je blízko zastávky.
+                </p>
+              </article>
+              <article className="rounded-2xl border bg-card p-6 shadow-sm">
+                <Plane className="mb-5 h-8 w-8 text-primary" />
+                <h3 className="mb-3 text-xl font-semibold">Brzký odlet či přestup</h3>
+                <p className="text-muted-foreground">
+                  Při krátkém pobytu zvažte okolí letiště Kastrup. Porovnejte pohodlí s časem potřebným
+                  na cestu do centra.
+                </p>
+              </article>
+              <article className="rounded-2xl border bg-card p-6 shadow-sm">
+                <MapPin className="mb-5 h-8 w-8 text-primary" />
+                <h3 className="mb-3 text-xl font-semibold">Cesta po Dánsku</h3>
+                <p className="text-muted-foreground">
+                  U delšího itineráře kontrolujte parkování nebo návaznost veřejné dopravy.
+                  Nejlevnější pokoj nemusí znamenat nejlevnější celý pobyt.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section className="rounded-2xl bg-gradient-card p-7 md:p-10" aria-labelledby="kontrola-title">
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+              <div>
+                <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary">Před zaplacením</p>
+                <h2 id="kontrola-title" className="mb-4 text-3xl font-bold">Krátká kontrola rezervace</h2>
+                <p className="text-muted-foreground">
+                  Nabídky se mohou lišit nejen cenou. Porovnávejte stejný typ pokoje, stejné datum a stejné podmínky.
+                </p>
+              </div>
+              <ul className="grid gap-4 sm:grid-cols-2">
+                {[
+                  [WalletCards, "Konečná cena včetně poplatků"],
+                  [CalendarCheck, "Storno a možnost změny termínu"],
+                  [MapPin, "Poloha a skutečný čas dopravy"],
+                  [CheckCircle2, "Aktuální hodnocení hostů"],
+                ].map(([Icon, text]) => (
+                  <li key={text as string} className="flex items-center gap-3 rounded-xl bg-background/80 p-4">
+                    <Icon className="h-5 w-5 shrink-0 text-primary" />
+                    <span className="font-medium">{text as string}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          <section className="mx-auto max-w-4xl py-16" aria-labelledby="faq-title">
+            <h2 id="faq-title" className="mb-8 text-center text-3xl font-bold md:text-4xl">Časté otázky</h2>
+            <div className="space-y-4">
+              {faqs.map((faq) => (
+                <article key={faq.question} className="rounded-xl border bg-card p-6">
+                  <h3 className="mb-2 text-xl font-semibold">{faq.question}</h3>
+                  <p className="text-muted-foreground">{faq.answer}</p>
+                </article>
               ))}
             </div>
-          </>
-        ) : accommodations.length === 0 ? (
-          <div className="rounded-lg bg-gradient-card p-12 text-center">
-            <h3 className="mb-4 text-2xl font-bold">Zatím zde není žádné ubytování</h3>
-            <p className="mb-6 text-lg text-muted-foreground">
-              Pracujeme na přidání nejlepších ubytovacích zařízení v Dánsku.
-              Brzy zde najdete hotely, apartmány a hostely v Kodani a dalších městech.
+          </section>
+
+          <section className="rounded-2xl border bg-card p-7 text-center md:p-10">
+            <h2 className="mb-3 text-2xl font-bold">Nejdřív si naplánujte cestu</h2>
+            <p className="mx-auto mb-6 max-w-2xl text-muted-foreground">
+              Podívejte se na praktické průvodce po Dánsku a vyberte oblast, která odpovídá vašemu programu.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/o-dansku">
-                <Button variant="default">
-                  Více o Dánsku
-                </Button>
-              </Link>
+            <div className="flex flex-col justify-center gap-3 sm:flex-row">
               <Link to="/clanky">
-                <Button variant="outline">
-                  Přečíst články
-                </Button>
+                <Button>Průvodce a články</Button>
+              </Link>
+              <Link to="/o-dansku">
+                <Button variant="outline">Prakticky o Dánsku</Button>
               </Link>
             </div>
-          </div>
-        ) : (
-          <div className="rounded-lg bg-muted p-12 text-center">
-            <p className="mb-4 text-lg text-muted-foreground">
-              Nenalezeno žádné ubytování odpovídající vašemu hledání.
-            </p>
-            <Button
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedCity("all");
-                setSelectedType("all");
-              }}
-              variant="outline"
-            >
-              Vymazat filtry
-            </Button>
-          </div>
-        )}
+          </section>
         </div>
       </div>
     </>

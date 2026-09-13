@@ -14,7 +14,6 @@ const Home = lazy(() => import("./pages/Home"));
 const Articles = lazy(() => import("./pages/Articles"));
 const ArticleDetail = lazy(() => import("./pages/ArticleDetail"));
 const Accommodation = lazy(() => import("./pages/Accommodation"));
-const AccommodationDetail = lazy(() => import("./pages/AccommodationDetail"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Author = lazy(() => import("./pages/Author"));
@@ -91,7 +90,6 @@ const App = () => (
                           <Route path="/clanky" element={<Articles />} />
                           <Route path="/clanek/:slug" element={<ArticleDetail />} />
                           <Route path="/ubytovani" element={<Accommodation />} />
-                          <Route path="/ubytovani/:slug" element={<AccommodationDetail />} />
                           <Route path="/o-dansku" element={<About />} />
                           <Route path="/kultura" element={<Articles />} />
                           <Route path="/cestovani" element={<Articles />} />
