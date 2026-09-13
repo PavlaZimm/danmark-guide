@@ -365,6 +365,36 @@ const ArticleDetail = () => {
   const pageTitle = optimizeTitle(article.meta_title || article.title);
   const pageDescription = optimizeDescription(article.meta_description || article.perex);
   const readingTime = calculateReadingTime(article.content);
+  const isAirportGuide = article.slug === "letiste-kodan-kastrup-doprava-do-centra";
+  const isKastrupGuide = article.slug === "kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti";
+  const relatedGuide = isAirportGuide || isKastrupGuide
+    ? {
+        href: "/kodan",
+        title: "Co vidět v Kodani",
+        description: isKastrupGuide
+          ? "Navazující trasy, mapa památek a praktický plán pro první návštěvu Kodaně."
+          : "Po příletu si naplánujte památky a čtvrti pomocí mapy a navazujících pěších tras.",
+        button: "Otevřít průvodce Kodaní",
+      }
+    : {
+        href: "/clanky",
+        title: "Další průvodci po Dánsku",
+        description: "Pokračujte na přehled ověřených článků o cestování a dánské kultuře.",
+        button: "Prohlédnout průvodce",
+      };
+  const secondaryGuide = isKastrupGuide
+    ? {
+        href: "/clanek/letiste-kodan-kastrup-doprava-do-centra",
+        title: "Doprava z letiště Kodaň",
+        description: "Porovnejte metro, vlak, autobus a taxi mezi Kastrupem a centrem Kodaně.",
+        button: "Naplánovat cestu z letiště",
+      }
+    : {
+        href: "/ubytovani",
+        title: "Ubytování v Kodani a Dánsku",
+        description: "Porovnejte polohu hotelů a apartmánů přímo na interaktivní mapě.",
+        button: "Zobrazit mapu ubytování",
+      };
 
   return (
     <>
@@ -566,26 +596,26 @@ const ArticleDetail = () => {
             {/* CTA Section */}
             <div className="mt-16 grid gap-6 md:grid-cols-2">
               <div className="rounded-lg bg-gradient-card p-8">
-                <h3 className="mb-4 text-2xl font-bold">Přečtěte si další průvodce</h3>
+                <h3 className="mb-4 text-2xl font-bold">{relatedGuide.title}</h3>
                 <p className="mb-6 text-muted-foreground">
-                  Objevte další zajímavé průvodce o Dánsku, dánské kultuře a cestování.
+                  {relatedGuide.description}
                 </p>
-                <Link to="/clanky">
+                <Link to={relatedGuide.href}>
                   <Button>
-                    Prohlédnout průvodce
+                    {relatedGuide.button}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </div>
 
               <div className="rounded-lg bg-gradient-card p-8">
-                <h3 className="mb-4 text-2xl font-bold">Najděte ubytování</h3>
+                <h3 className="mb-4 text-2xl font-bold">{secondaryGuide.title}</h3>
                 <p className="mb-6 text-muted-foreground">
-                  Hledáte místo k pobytu? Prozkoumejte naši nabídku hotelů, apartmánů a hostelů.
+                  {secondaryGuide.description}
                 </p>
-                <Link to="/ubytovani">
+                <Link to={secondaryGuide.href}>
                   <Button variant="outline">
-                    Zobrazit ubytování
+                    {secondaryGuide.button}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>

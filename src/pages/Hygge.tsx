@@ -377,9 +377,9 @@ const Hygge = () => {
                     ))}
                   </ol>
                   <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                    <Link to="/cestovani">
+                    <Link to="/kodan">
                       <Button>
-                        Naplánovat cestu do Dánska
+                        Co vidět v Kodani
                         <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                       </Button>
                     </Link>

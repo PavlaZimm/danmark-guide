@@ -79,7 +79,23 @@ const Footer = () => {
                   to="/kultura"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Kultura & Hygge
+                  Dánská kultura
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/hygge"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Co je hygge
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/kodan"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Co vidět v Kodani
                 </Link>
               </li>
               <li>

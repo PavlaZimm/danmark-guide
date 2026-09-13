@@ -512,6 +512,12 @@ const About = () => {
                     <li><strong>Cena:</strong> 210–1100 Kč (levněji při předem objednávce)</li>
                     <li><strong>Společnosti:</strong> SAS, Norwegian Air, Lufthansa, Wizz Air</li>
                   </ul>
+                  <p className="mb-6 text-sm text-muted-foreground">
+                    Po příletu pokračujte podle našeho přehledu{" "}
+                    <Link to="/clanek/letiste-kodan-kastrup-doprava-do-centra">
+                      dopravy z letiště Kodaň do centra
+                    </Link>.
+                  </p>
 
                   <h4 className="mb-3 font-semibold">Praha → Aalborg (severní Dánsko)</h4>
                   <ul className="mb-4 space-y-2">
@@ -647,8 +653,9 @@ const About = () => {
 
                 <p>
                   Mezi největší „must‑see" patří Nyhavn, Tivoli, Amalienborg, Christiansborg,
-                  Rosenborg, Rundetårn a kulturní čtvrti s kavárnami a designem – detailní
-                  průvodce Kodaní vyjde jako samostatný článek a z tohoto na něj odkážeme.
+                  Rosenborg, Rundetårn a kulturní čtvrti s kavárnami a designem. Jednotlivá místa
+                  jsme seskupili do navazujících tras v průvodci{" "}
+                  <Link to="/kodan">co vidět v Kodani při první návštěvě</Link>.
                 </p>
               </section>
 
@@ -714,8 +721,9 @@ const About = () => {
               <section id="kultura" className="mb-12">
                 <h2 className="mb-4 text-2xl font-bold">Dánská kultura, hygge a jídlo</h2>
                 <p className="mb-4">
-                  Hygge vystihuje pohodlí, klid a blízkost – často u stolu s přáteli, kávou
-                  a svíčkami; je to silná součást zážitku z cestování po Dánsku.
+                  Hygge vystihuje pohodlí, klid a blízkost – často u stolu s přáteli nebo při
+                  obyčejném zastavení. Podrobně vysvětlujeme,{" "}
+                  <Link to="/hygge">co je hygge, co znamená a jak se vyslovuje</Link>.
                 </p>
                 <p>
                   Ochutnejte smørrebrød (otevřené sendviče), frikadeller (karbanátky)

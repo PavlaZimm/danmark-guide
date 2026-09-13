@@ -139,7 +139,12 @@ export default function routesHtmlPlugin() {
           title: 'Ubytování v Dánsku | Mapa hotelů a apartmánů | Kastrup.cz',
           description: 'Porovnejte ubytování v Dánsku na interaktivní mapě. Praktické tipy pro výběr hotelu v Kodani, u letiště Kastrup i v dalších dánských městech.',
           canonical: 'https://kastrup.cz/ubytovani',
-          heading: 'Ubytování v Dánsku'
+          heading: 'Ubytování v Dánsku',
+          fallbackHtml: `
+          <section style="margin-top: 2rem;">
+            <h2>Naplánujte si pobyt</h2>
+            <p>Než vyberete čtvrť, projděte si <a href="/kodan">co vidět v Kodani</a> a porovnejte si <a href="/clanek/letiste-kodan-kastrup-doprava-do-centra">dopravu z letiště Kodaň do centra</a>.</p>
+          </section>`
         },
         {
           path: 'kontakt',
@@ -153,7 +158,12 @@ export default function routesHtmlPlugin() {
           title: 'Dánsko: Kompletní průvodce | Kastrup.cz',
           description: 'Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
           canonical: 'https://kastrup.cz/o-dansku',
-          heading: 'Dánsko: kompletní průvodce'
+          heading: 'Dánsko: kompletní průvodce',
+          fallbackHtml: `
+          <section style="margin-top: 2rem;">
+            <h2>Začněte plánovat cestu</h2>
+            <p>Pro první návštěvu využijte průvodce <a href="/kodan">co vidět v Kodani</a>, praktický přehled <a href="/clanek/letiste-kodan-kastrup-doprava-do-centra">dopravy z letiště</a> a vysvětlení, <a href="/hygge">co je hygge</a>.</p>
+          </section>`
         },
         {
           path: 'autorka',

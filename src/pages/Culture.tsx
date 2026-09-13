@@ -212,7 +212,7 @@ const Culture = () => (
             Spojte kulturní kontext s praktickým plánováním a vyberte si místa, dopravu i ubytování podle vlastního tempa.
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row">
-            <Link to="/cestovani"><Button>Průvodci po Dánsku</Button></Link>
+            <Link to="/kodan"><Button>Co vidět v Kodani</Button></Link>
             <Link to="/ubytovani"><Button variant="outline">Ubytování v Dánsku</Button></Link>
           </div>
         </section>

@@ -167,7 +167,8 @@ const Accommodation = () => {
                 <h3 className="mb-3 text-xl font-semibold">Poznávání Kodaně</h3>
                 <p className="text-muted-foreground">
                   Hledejte dobré spojení metrem nebo vlakem. Ubytování mimo úplné centrum může být praktické,
-                  pokud je blízko zastávky.
+                  pokud je blízko zastávky. Při výběru čtvrti pomůže přehled{" "}
+                  <Link to="/kodan">co vidět v Kodani</Link>.
                 </p>
               </article>
               <article className="rounded-2xl border bg-card p-6 shadow-sm">
@@ -175,7 +176,10 @@ const Accommodation = () => {
                 <h3 className="mb-3 text-xl font-semibold">Brzký odlet či přestup</h3>
                 <p className="text-muted-foreground">
                   Při krátkém pobytu zvažte okolí letiště Kastrup. Porovnejte pohodlí s časem potřebným
-                  na cestu do centra.
+                  na cestu do centra a předem si projděte{" "}
+                  <Link to="/clanek/letiste-kodan-kastrup-doprava-do-centra">
+                    dopravu z letiště Kodaň
+                  </Link>.
                 </p>
               </article>
               <article className="rounded-2xl border bg-card p-6 shadow-sm">
@@ -232,8 +236,8 @@ const Accommodation = () => {
               Podívejte se na praktické průvodce po Dánsku a vyberte oblast, která odpovídá vašemu programu.
             </p>
             <div className="flex flex-col justify-center gap-3 sm:flex-row">
-              <Link to="/clanky">
-                <Button>Průvodce a články</Button>
+              <Link to="/kodan">
+                <Button>Co vidět v Kodani</Button>
               </Link>
               <Link to="/o-dansku">
                 <Button variant="outline">Prakticky o Dánsku</Button>
