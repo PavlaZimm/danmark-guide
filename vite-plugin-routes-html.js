@@ -47,17 +47,92 @@ export default function routesHtmlPlugin() {
         },
         {
           path: 'kultura',
-          title: 'Dánská kultura a tradice | Kastrup.cz',
-          description: 'Objevte dánskou kulturu, tradice, hygge a životní styl. Články o dánském designu, architektuře, umění a způsobu života v Dánsku.',
+          title: 'Hygge a dánská kultura bez klišé | Kastrup.cz',
+          description: 'Poznejte hygge a dánskou kulturu bez klišé. Ověřené články o každodenním životě, jídle, tradicích, jazyce, designu a cestování po Dánsku.',
           canonical: 'https://kastrup.cz/kultura',
-          heading: 'Dánská kultura a tradice'
+          heading: 'Hygge a dánská kultura bez klišé',
+          fallbackHtml: `
+          <section style="margin-top: 2rem;">
+            <h2>Dánská kultura v souvislostech</h2>
+            <p>Dánsko nejsou jen barevné domy, designové židle a žebříčky štěstí. Poznejte jazyk, jídlo, tradice a každodenní zvyky, které pomáhají pochopit, jak se v zemi skutečně žije.</p>
+            <h2>Začněte u hygge</h2>
+            <p>Hygge je dánské označení pro příjemnou, bezpečnou a uvolněnou atmosféru. Není to výrobek ani pouze styl bydlení.</p>
+            <p><a href="/hygge">Přečíst průvodce: co je hygge, jak se vyslovuje a jak ho zažít</a></p>
+          </section>`
+        },
+        {
+          path: 'hygge',
+          title: 'Hygge: co znamená a jak ho zažít v Dánsku | Kastrup.cz',
+          description: 'Co je hygge, jak se vyslovuje a proč není jen o svíčkách? Poznejte skutečný význam hygge i konkrétní způsoby, jak ho zažít v Dánsku.',
+          canonical: 'https://kastrup.cz/hygge',
+          heading: 'Hygge bez klišé: co opravdu znamená a jak ho zažít',
+          type: 'article',
+          article: {
+            title: 'Hygge bez klišé: co opravdu znamená a jak ho zažít',
+            perex: 'Co je hygge, jak se vyslovuje a proč není jen o svíčkách? Poznejte skutečný význam hygge i konkrétní způsoby, jak ho zažít v Dánsku.',
+            meta_description: 'Co je hygge, jak se vyslovuje a proč není jen o svíčkách? Poznejte skutečný význam hygge i konkrétní způsoby, jak ho zažít v Dánsku.',
+            image_url: DEFAULT_SOCIAL_IMAGE,
+            og_image: DEFAULT_SOCIAL_IMAGE,
+            created_at: '2026-09-13T00:00:00+02:00',
+            updated_at: '2026-09-13T00:00:00+02:00',
+            focus_keyword: 'hygge, co je hygge, hygge význam, hygge výslovnost',
+            categories: { name: 'Dánská kultura' }
+          },
+          fallbackHtml: `
+          <article style="margin-top: 2rem; max-width: 800px;">
+            <p><strong>Hygge je dánské označení pro příjemnou, bezpečnou a uvolněnou atmosféru,</strong> ve které člověk na chvíli zpomalí a užívá si obyčejný okamžik. Může vzniknout při společném jídle, rozhovoru nebo výletu, ale také o samotě. Není to výrobek ani pouze styl bydlení.</p>
+            <h2>Jak se hygge vyslovuje</h2>
+            <p>Dánský slovník uvádí výslovnost [ˈhygə]. České přepisy jako „hü-ge“ jsou jen orientační, protože dánské hlásky nemají přesný český protějšek.</p>
+            <h2>Hygge není jen zimní</h2>
+            <p>V zimě může mít podobu společné večeře, pečení nebo deskové hry. V létě je hygge piknik, projížďka na kole, dlouhá večeře venku nebo klidný den u moře.</p>
+            <h2>Jak ho zažít v Dánsku</h2>
+            <p>Nechte v programu volné místo, sdílejte jídlo, odložte telefon a nesnažte se najít podnik, který má hygge napsané na ceduli. Často vznikne v obyčejné chvíli bez turistického scénáře.</p>
+            <p><a href="/kultura">Další články o dánské kultuře</a></p>
+          </article>`
         },
         {
           path: 'cestovani',
           title: 'Cestování po Dánsku | Tipy a průvodce | Kastrup.cz',
           description: 'Praktické tipy pro cestování po Dánsku. Kam jet, co vidět, kde spát a jíst. Itineráře, doprava a rady pro vaši cestu do Dánska.',
           canonical: 'https://kastrup.cz/cestovani',
-          heading: 'Cestování po Dánsku'
+          heading: 'Cestování po Dánsku',
+          fallbackHtml: `
+          <section style="margin-top: 2rem;">
+            <h2>Co vidět v Kodani</h2>
+            <p>Pro první návštěvu jsme připravili vlastní fotografie, mapu památek a trasy seskupené podle čtvrtí.</p>
+            <p><a href="/kodan">Otevřít praktického průvodce Kodaní</a></p>
+          </section>`
+        },
+        {
+          path: 'kodan',
+          title: 'Co vidět v Kodani: mapa, místa a itinerář | Kastrup.cz',
+          description: 'Co vidět v Kodani při první návštěvě? Vlastní fotografie, mapa památek, smysluplný itinerář, doprava z letiště a praktické tipy.',
+          canonical: 'https://kastrup.cz/kodan',
+          heading: 'Co vidět v Kodani: místa, která dávají smysl při první návštěvě',
+          image: 'https://kastrup.cz/images/20240813_130726.jpg',
+          type: 'article',
+          article: {
+            title: 'Co vidět v Kodani: místa, která dávají smysl při první návštěvě',
+            perex: 'Co vidět v Kodani při první návštěvě? Vlastní fotografie, mapa památek, smysluplný itinerář, doprava z letiště a praktické tipy.',
+            meta_description: 'Co vidět v Kodani při první návštěvě? Vlastní fotografie, mapa památek, smysluplný itinerář, doprava z letiště a praktické tipy.',
+            image_url: 'https://kastrup.cz/images/20240813_130726.jpg',
+            og_image: 'https://kastrup.cz/images/20240813_130726.jpg',
+            created_at: '2026-09-13T00:00:00+02:00',
+            updated_at: '2026-09-13T00:00:00+02:00',
+            focus_keyword: 'Kodaň, co vidět v Kodani, Kodaň mapa, Kodaň zajímavosti',
+            categories: { name: 'Cestování' }
+          },
+          fallbackHtml: `
+          <article style="margin-top: 2rem; max-width: 800px;">
+            <p>Při první návštěvě spojte <strong>Nyhavn, Amalienborg, Kastellet a Malou mořskou vílu</strong> do jedné pěší trasy. Druhý den projděte Rosenborg, Rundetårn, Christiansborg a Tivoli. Další čas věnujte Christianshavnu, Nørrebru nebo přístavnímu Refshaleøenu.</p>
+            <h2>Co vidět v Kodani při první návštěvě</h2>
+            <p>Kodaň je kompaktní, ale jednotlivé zajímavosti je nejlepší seskupit podle čtvrtí. Nyhavn spojte s královským Amalienborgem a pobřežní trasou přes Kastellet. Historické centrum projděte od Rosenborgu přes Rundetårn k Christiansborgu.</p>
+            <h2>Kodaň mapa a praktické trasy</h2>
+            <p>Dva dny stačí na hlavní památky. Třetí den přidejte Nørrebro, Christianshavn a Refshaleøen. Centrum lze projít pěšky; pro vzdálenější čtvrti využijte metro, autobus, přístavní autobus nebo kolo.</p>
+            <h2>Kodaň letiště a cesta do centra</h2>
+            <p>Z terminálu 3 jezdí do centra metro i vlak. Jízdenku si kupte před nástupem a aktuální spojení ověřte v Rejseplanen.</p>
+            <p><a href="/clanek/letiste-kodan-kastrup-doprava-do-centra">Podrobná doprava z letiště Kodaň do centra</a></p>
+          </article>`
         },
         {
           path: 'ubytovani',
@@ -86,7 +161,7 @@ export default function routesHtmlPlugin() {
           description: 'Poznejte Pavlu Zimmermannovou, autorku Kastrup.cz. Sdílí praktické tipy, vlastní zkušenosti a inspiraci pro cesty po Dánsku.',
           canonical: 'https://kastrup.cz/autorka',
           heading: 'Pavla Zimmermannová – autorka Kastrup.cz',
-          image: 'https://kastrup.cz/images/pavla-author.jpg',
+          image: DEFAULT_SOCIAL_IMAGE,
           type: 'profile'
         },
         {
@@ -342,6 +417,13 @@ export default function routesHtmlPlugin() {
           routeHtml = routeHtml.replace(
             /<\/nav>\s*<\/main>/,
             `</nav>${articlesLinksHtml}\n      </main>`
+          );
+        }
+
+        if (route.fallbackHtml) {
+          routeHtml = routeHtml.replace(
+            '</main>',
+            `${route.fallbackHtml}\n        </main>`
           );
         }
 

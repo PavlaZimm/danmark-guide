@@ -34,15 +34,12 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
           return (
             <li key={index} className="flex items-center gap-2">
               {item.href && !isLast ? (
-                <>
-                  <Link
-                    to={item.href}
-                    className="transition-colors hover:text-primary"
-                  >
-                    {item.label}
-                  </Link>
-                  {!isLast && <ChevronRight className="h-4 w-4" />}
-                </>
+                <Link
+                  to={item.href}
+                  className="transition-colors hover:text-primary"
+                >
+                  {item.label}
+                </Link>
               ) : (
                 <span
                   className={isLast ? "font-medium text-foreground" : ""}

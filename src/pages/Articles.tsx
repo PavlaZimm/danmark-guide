@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams, useLocation } from "react-router-dom";
-import { Search, X } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -49,9 +49,7 @@ const Articles = () => {
     searchParams.get("category") || "all"
   );
   const routeCategory =
-    location.pathname === "/kultura"
-      ? "kultura"
-      : location.pathname === "/cestovani"
+    location.pathname === "/cestovani"
         ? "cestovani"
         : null;
   const activeCategory = routeCategory || selectedCategory;
@@ -60,15 +58,7 @@ const Articles = () => {
   const getPageMeta = () => {
     const path = location.pathname;
 
-    if (path === "/kultura") {
-      return {
-        title: "Dánská kultura a tradice | Kastrup.cz",
-        description: "Objevte dánskou kulturu, tradice, hygge a životní styl. Články o dánském designu, architektuře, umění a způsobu života v Dánsku.",
-        canonical: "https://kastrup.cz/kultura",
-        ogTitle: "Dánská kultura - Kastrup.cz",
-        heading: "Dánská kultura a tradice"
-      };
-    } else if (path === "/cestovani") {
+    if (path === "/cestovani") {
       return {
         title: "Cestování po Dánsku | Tipy a průvodce | Kastrup.cz",
         description: "Praktické tipy pro cestování po Dánsku. Kam jet, co vidět, kde spát a jíst. Itineráře, doprava a rady pro vaši cestu do Dánska.",
@@ -232,13 +222,41 @@ const Articles = () => {
         <div className="mb-12">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl">{pageMeta.heading}</h1>
           <p className="text-lg text-muted-foreground">
-            {location.pathname === "/kultura"
-              ? "Objevte dánskou kulturu, tradice a životní styl"
-              : location.pathname === "/cestovani"
+            {location.pathname === "/cestovani"
               ? "Praktické tipy a inspirace pro vaši cestu do Dánska"
               : "Prozkoumejte naše články o Dánsku"}
           </p>
         </div>
+
+        {location.pathname === "/cestovani" && (
+          <section className="mb-10 overflow-hidden rounded-3xl border bg-card shadow-sm">
+            <div className="grid md:grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)]">
+              <picture className="block min-h-64">
+                <source srcSet="/images/20240813_130726.webp" type="image/webp" />
+                <img
+                  src="/images/20240813_130726.jpg"
+                  alt="Barevné domy a lodě v kodaňském přístavu Nyhavn"
+                  width="1400"
+                  height="1050"
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </picture>
+              <div className="flex flex-col justify-center p-7 md:p-9">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.16em] text-primary">
+                  Hlavní průvodce
+                </p>
+                <h2 className="mb-3 text-2xl font-bold md:text-3xl">Co vidět v Kodani</h2>
+                <p className="mb-6 leading-relaxed text-muted-foreground">
+                  Vlastní fotografie, mapa památek a trasy poskládané tak, aby na sebe místa navazovala.
+                </p>
+                <Link to="/kodan" className="inline-flex items-center font-semibold text-primary hover:underline">
+                  Naplánovat první návštěvu <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Filters */}
         <div className="mb-8 flex flex-col gap-4 md:flex-row">

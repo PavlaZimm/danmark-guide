@@ -14,6 +14,9 @@ const Home = lazy(() => import("./pages/Home"));
 const Articles = lazy(() => import("./pages/Articles"));
 const ArticleDetail = lazy(() => import("./pages/ArticleDetail"));
 const Accommodation = lazy(() => import("./pages/Accommodation"));
+const Culture = lazy(() => import("./pages/Culture"));
+const Hygge = lazy(() => import("./pages/Hygge"));
+const Copenhagen = lazy(() => import("./pages/Copenhagen"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Author = lazy(() => import("./pages/Author"));
@@ -91,7 +94,9 @@ const App = () => (
                           <Route path="/clanek/:slug" element={<ArticleDetail />} />
                           <Route path="/ubytovani" element={<Accommodation />} />
                           <Route path="/o-dansku" element={<About />} />
-                          <Route path="/kultura" element={<Articles />} />
+                          <Route path="/kultura" element={<Culture />} />
+                          <Route path="/hygge" element={<Hygge />} />
+                          <Route path="/kodan" element={<Copenhagen />} />
                           <Route path="/cestovani" element={<Articles />} />
                           <Route path="/kontakt" element={<Contact />} />
                           <Route path="/autorka" element={<Author />} />

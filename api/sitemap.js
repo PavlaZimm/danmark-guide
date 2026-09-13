@@ -28,6 +28,8 @@ export default async function handler(req, res) {
     '/ubytovani',
     '/o-dansku',
     '/kultura',
+    '/hygge',
+    '/kodan',
     '/cestovani',
     '/kontakt',
     '/autorka',

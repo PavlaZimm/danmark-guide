@@ -22,11 +22,11 @@ const Author = () => (
         property="og:description"
         content="Autorka praktických průvodců a inspirace pro cesty po Dánsku."
       />
-      <meta property="og:image" content="https://kastrup.cz/images/pavla-author.jpg" />
+      <meta property="og:image" content="https://kastrup.cz/images/atterseebook.jpg" />
       <meta property="og:locale" content="cs_CZ" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="Pavla Zimmermannová – autorka Kastrup.cz" />
-      <meta name="twitter:image" content="https://kastrup.cz/images/pavla-author.jpg" />
+      <meta name="twitter:image" content="https://kastrup.cz/images/atterseebook.jpg" />
 
       <script type="application/ld+json">
         {JSON.stringify({
@@ -39,7 +39,6 @@ const Author = () => (
             "@type": "Person",
             name: "Pavla Zimmermannová",
             url: AUTHOR_URL,
-            image: "https://kastrup.cz/images/pavla-author.jpg",
             description:
               "Autorka Kastrup.cz, která sdílí praktické tipy, vlastní zkušenosti a inspiraci pro cesty po Dánsku.",
             knowsAbout: ["Dánsko", "Kodaň", "Cestování", "Dánská kultura", "Hygge"],
@@ -60,17 +59,13 @@ const Author = () => (
           <Breadcrumbs items={[{ label: "O autorce" }]} />
 
           <header className="mb-10 text-center">
-            <picture>
-              <source srcSet="/images/pavla-author.webp" type="image/webp" />
-              <img
-                src="/images/pavla-author.jpg"
-                alt="Pavla Zimmermannová, autorka Kastrup.cz"
-                width="320"
-                height="320"
-                fetchPriority="high"
-                className="mx-auto mb-8 h-48 w-48 rounded-full border-4 border-primary/20 object-cover shadow-xl sm:h-56 sm:w-56"
-              />
-            </picture>
+            <div
+              role="img"
+              aria-label="Iniciály Pavly Zimmermannové"
+              className="mx-auto mb-8 flex h-48 w-48 items-center justify-center rounded-full border-4 border-primary/20 bg-primary text-5xl font-bold text-primary-foreground shadow-xl sm:h-56 sm:w-56 sm:text-6xl"
+            >
+              PZ
+            </div>
             <h1 className="mb-4 text-4xl font-bold md:text-5xl">Pavla Zimmermannová</h1>
             <p className="text-xl text-muted-foreground">Autorka a průvodkyně webem Kastrup.cz</p>
           </header>

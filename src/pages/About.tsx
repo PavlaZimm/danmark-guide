@@ -151,7 +151,6 @@ const About = () => {
             "name": "Pavla Zimmermannová",
             "url": "https://kastrup.cz/autorka",
             "email": "zimmermannovap@gmail.com",
-            "image": "https://kastrup.cz/images/pavla-author.jpg",
             "description": "Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry. S láskou k severské kultuře a hygge filosofii přináším praktické tipy a inspiraci pro cesty po Dánsku.",
             "knowsAbout": ["Dánsko", "Cestování", "Severská kultura", "Hygge", "Kodaň", "Cestovatelské průvodce"],
             "sameAs": [
@@ -803,16 +802,12 @@ const About = () => {
                 <div className="flex flex-col items-center gap-6 md:flex-row md:items-start">
                   {/* Author Photo */}
                   <div className="flex-shrink-0">
-                    <div className="relative h-32 w-32 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl">
-                      <picture>
-                        <source srcSet="/images/pavla-author.webp" type="image/webp" />
-                        <img
-                          src="/images/pavla-author.jpg"
-                          alt="Pavla Zimmermannová - autorka průvodce po Dánsku"
-                          className="h-full w-full object-cover"
-                          loading="lazy"
-                        />
-                      </picture>
+                    <div
+                      role="img"
+                      aria-label="Iniciály Pavly Zimmermannové"
+                      className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-primary/20 bg-primary text-3xl font-bold text-primary-foreground shadow-xl"
+                    >
+                      PZ
                     </div>
                   </div>
 

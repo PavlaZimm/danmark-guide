@@ -4,7 +4,6 @@ const path = require('path');
 
 const imagesDir = './public/images';
 const imagesToConvert = [
-  'pavla-author.jpg',
   '20240811_160639.jpg',
   '20240813_130726.jpg',
   'IMG_20230711_085341.jpg',

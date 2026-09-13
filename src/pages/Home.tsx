@@ -153,7 +153,7 @@ const Home = () => {
 
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {/* Countryside Card */}
-            <Link to="/cestovani" className="group">
+            <Link to="/kodan" className="group">
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
                   <picture>
@@ -175,13 +175,13 @@ const Home = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <MapPin className="mb-2 h-8 w-8" />
-                    <h3 className="text-2xl font-bold">Cestování</h3>
+                    <h3 className="text-2xl font-bold">Kodaň</h3>
                   </div>
                 </div>
                 <div className="p-6">
                   <p className="text-muted-foreground">
-                    Prozkoumejte malebné vesničky, široké pláže a kouzelnou
-                    dánskou krajinu.
+                    Co vidět v Kodani? Vlastní fotografie, mapa památek a trasy,
+                    které dávají smysl při první návštěvě.
                   </p>
                 </div>
               </div>
@@ -215,8 +215,8 @@ const Home = () => {
                 </div>
                 <div className="p-6">
                   <p className="text-muted-foreground">
-                    Poznejte dánskou filosofii pohodlného života a bohatou
-                    kulturní tradici.
+                    Co hygge skutečně znamená? Poznejte dánský každodenní život,
+                    tradice a kulturu bez klišé.
                   </p>
                 </div>
               </div>

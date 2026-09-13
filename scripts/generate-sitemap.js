@@ -48,6 +48,8 @@ async function generateSitemap() {
     '/ubytovani',
     '/o-dansku',
     '/kultura',
+    '/hygge',
+    '/kodan',
     '/cestovani',
     '/kontakt',
     '/autorka',
