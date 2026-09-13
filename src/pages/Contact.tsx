@@ -48,7 +48,7 @@ const Contact = () => {
               "@type": "Person",
               "name": "Pavla Zimmermannová",
               "email": "zimmermannovap@gmail.com",
-              "url": "https://www.linklady.cz",
+              "url": "https://kastrup.cz/autorka",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Bílina",
@@ -63,36 +63,6 @@ const Contact = () => {
           })}
         </script>
 
-        {/* JSON-LD Schema - LocalBusiness */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "LocalBusiness",
-            "name": "Kastrup.cz",
-            "description": "Průvodce po Dánsku - ubytování, kultura, cestování",
-            "url": "https://kastrup.cz",
-            "email": "zimmermannovap@gmail.com",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Bílina",
-              "addressCountry": "CZ"
-            },
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "email": "zimmermannovap@gmail.com",
-              "contactType": "Customer Service",
-              "availableLanguage": ["Czech", "English"]
-            },
-            "founder": {
-              "@type": "Person",
-              "name": "Pavla Zimmermannová",
-              "email": "zimmermannovap@gmail.com"
-            },
-            "sameAs": [
-              "https://www.linklady.cz"
-            ]
-          })}
-        </script>
       </Helmet>
 
       <div className="min-h-screen py-12">

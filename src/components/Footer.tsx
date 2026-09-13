@@ -45,6 +45,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  to="/autorka"
+                  className="text-muted-foreground transition-colors hover:text-primary"
+                >
+                  O autorce
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/kontakt"
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >

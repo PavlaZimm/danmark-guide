@@ -44,12 +44,12 @@ const About = () => {
             "@type": "Article",
             "headline": "Dánsko: Kompletní průvodce",
             "description": "Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy.",
-            "datePublished": "2025-01-15",
-            "dateModified": "2025-01-15",
+            "datePublished": "2025-10-23",
+            "dateModified": "2026-09-13",
             "author": {
               "@type": "Person",
               "name": "Pavla Zimmermannová",
-              "url": "https://kastrup.cz",
+              "url": "https://kastrup.cz/autorka",
               "email": "zimmermannovap@gmail.com"
             },
             "publisher": {
@@ -149,13 +149,13 @@ const About = () => {
             "@context": "https://schema.org",
             "@type": "Person",
             "name": "Pavla Zimmermannová",
-            "url": "https://kastrup.cz",
+            "url": "https://kastrup.cz/autorka",
             "email": "zimmermannovap@gmail.com",
             "image": "https://kastrup.cz/images/pavla-author.jpg",
             "description": "Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry. S láskou k severské kultuře a hygge filosofii přináším praktické tipy a inspiraci pro cesty po Dánsku.",
             "knowsAbout": ["Dánsko", "Cestování", "Severská kultura", "Hygge", "Kodaň", "Cestovatelské průvodce"],
             "sameAs": [
-              "https://kastrup.cz"
+              "https://linklady.cz"
             ]
           })}
         </script>

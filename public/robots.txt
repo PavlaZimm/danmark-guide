@@ -12,8 +12,5 @@ Allow: /*.png
 Allow: /*.jpg
 Allow: /*.webp
 
-# Crawl delay (optional, prevents overload)
-Crawl-delay: 1
-
 # Sitemap location
 Sitemap: https://kastrup.cz/sitemap.xml

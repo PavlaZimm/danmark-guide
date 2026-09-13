@@ -10,6 +10,8 @@ const escapeHtml = (value = '') => String(value)
   .replaceAll('<', '&lt;')
   .replaceAll('>', '&gt;');
 
+const serializeJsonLd = (value) => JSON.stringify(value).replaceAll('<', '\\u003c');
+
 /**
  * Vite plugin to generate separate HTML files for each route with proper meta tags
  * This helps with SEO by ensuring crawlers see the right content
@@ -33,49 +35,66 @@ export default function routesHtmlPlugin() {
           title: 'Kastrup.cz - Váš průvodce po Dánsku | Cestování, Ubytování, Kultura',
           description: 'Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele.',
           canonical: 'https://kastrup.cz/',
+          heading: 'Kastrup.cz – průvodce po Dánsku',
           isHomepage: true
         },
         {
           path: 'clanky',
           title: 'Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz',
           description: 'Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska.',
-          canonical: 'https://kastrup.cz/clanky'
+          canonical: 'https://kastrup.cz/clanky',
+          heading: 'Průvodce a články o Dánsku'
         },
         {
           path: 'kultura',
           title: 'Dánská kultura a tradice | Kastrup.cz',
           description: 'Objevte dánskou kulturu, tradice, hygge a životní styl. Články o dánském designu, architektuře, umění a způsobu života v Dánsku.',
-          canonical: 'https://kastrup.cz/kultura'
+          canonical: 'https://kastrup.cz/kultura',
+          heading: 'Dánská kultura a tradice'
         },
         {
           path: 'cestovani',
           title: 'Cestování po Dánsku | Tipy a průvodce | Kastrup.cz',
           description: 'Praktické tipy pro cestování po Dánsku. Kam jet, co vidět, kde spát a jíst. Itineráře, doprava a rady pro vaši cestu do Dánska.',
-          canonical: 'https://kastrup.cz/cestovani'
+          canonical: 'https://kastrup.cz/cestovani',
+          heading: 'Cestování po Dánsku'
         },
         {
           path: 'ubytovani',
           title: 'Ubytování v Dánsku | Hotely, AirBnB, Kempy | Kastrup.cz',
           description: 'Najděte nejlepší ubytování v Dánsku. Hotely, apartmány, kempy a další možnosti pro váš pobyt v Dánsku.',
-          canonical: 'https://kastrup.cz/ubytovani'
+          canonical: 'https://kastrup.cz/ubytovani',
+          heading: 'Ubytování v Dánsku'
         },
         {
           path: 'kontakt',
           title: 'Kontakt | Kastrup.cz',
           description: 'Kontaktujte nás pro dotazy ohledně cestování do Dánska. Pavla Zimmermannová, váš průvodce dánskou kulturou, ubytováním a tipy na cesty.',
-          canonical: 'https://kastrup.cz/kontakt'
+          canonical: 'https://kastrup.cz/kontakt',
+          heading: 'Kontakt'
         },
         {
           path: 'o-dansku',
           title: 'Dánsko: Kompletní průvodce | Kastrup.cz',
           description: 'Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
-          canonical: 'https://kastrup.cz/o-dansku'
+          canonical: 'https://kastrup.cz/o-dansku',
+          heading: 'Dánsko: kompletní průvodce'
+        },
+        {
+          path: 'autorka',
+          title: 'Pavla Zimmermannová – autorka Kastrup.cz',
+          description: 'Poznejte Pavlu Zimmermannovou, autorku Kastrup.cz. Sdílí praktické tipy, vlastní zkušenosti a inspiraci pro cesty po Dánsku.',
+          canonical: 'https://kastrup.cz/autorka',
+          heading: 'Pavla Zimmermannová – autorka Kastrup.cz',
+          image: 'https://kastrup.cz/images/pavla-author.jpg',
+          type: 'profile'
         },
         {
           path: 'ochrana-soukromi',
           title: 'Ochrana soukromí a cookies | Kastrup.cz',
           description: 'Informace o ochraně osobních údajů, používání cookies a službě Google Analytics na webu Kastrup.cz včetně možnosti změnit souhlas.',
-          canonical: 'https://kastrup.cz/ochrana-soukromi'
+          canonical: 'https://kastrup.cz/ochrana-soukromi',
+          heading: 'Ochrana soukromí a cookies'
         }
       ];
 
@@ -90,7 +109,11 @@ export default function routesHtmlPlugin() {
         meta_title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti | Kastrup.cz',
         meta_description: 'Objevte Kastrup - kodaňskou čtvrť u moře s moderní architekturou, plážemi a unikátní atmosférou. Průvodce po klidné části Kodaně blízko letiště.',
         image_url: DEFAULT_SOCIAL_IMAGE,
-        og_image: null
+        og_image: null,
+        created_at: '2025-12-01T00:00:00+01:00',
+        updated_at: '2025-12-01T00:00:00+01:00',
+        focus_keyword: 'Kastrup',
+        categories: { name: 'Cestování' }
       };
 
       // Fetch all published articles from Supabase and add them to routes
@@ -123,8 +146,9 @@ export default function routesHtmlPlugin() {
           const supabase = createClient(supabaseUrl, supabaseKey);
           const { data: articles, error } = await supabase
             .from('articles')
-            .select('slug, title, perex, meta_title, meta_description, image_url, og_image')
-            .eq('published', true);
+            .select('slug, title, perex, meta_title, meta_description, image_url, og_image, created_at, updated_at, focus_keyword, categories(name)')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
 
           if (error) {
             console.warn('Failed to fetch articles from Supabase:', error.message);
@@ -139,7 +163,9 @@ export default function routesHtmlPlugin() {
                 description: article.meta_description || article.perex || `Přečtěte si článek ${article.title} na Kastrup.cz`,
                 canonical: `https://kastrup.cz/clanek/${article.slug}`,
                 image: article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE,
-                type: 'article'
+                type: 'article',
+                heading: article.title,
+                article
               });
             });
           } else {
@@ -163,7 +189,9 @@ export default function routesHtmlPlugin() {
           description: fallbackArticle.meta_description,
           canonical: `https://kastrup.cz/clanek/${fallbackArticle.slug}`,
           image: fallbackArticle.image_url,
-          type: 'article'
+          type: 'article',
+          heading: fallbackArticle.title,
+          article: fallbackArticle
         });
       }
 
@@ -203,7 +231,7 @@ export default function routesHtmlPlugin() {
         const safeDescription = escapeHtml(route.description);
         const safeCanonical = escapeHtml(route.canonical);
         const safeImage = escapeHtml(route.image || DEFAULT_SOCIAL_IMAGE);
-        const safeType = route.type === 'article' ? 'article' : 'website';
+        const safeType = route.type === 'article' ? 'article' : route.type === 'profile' ? 'profile' : 'website';
         const imageSizeMeta = safeImage === DEFAULT_SOCIAL_IMAGE
           ? '\n    <meta property="og:image:width" content="1600" />\n    <meta property="og:image:height" content="1200" />'
           : '';
@@ -238,6 +266,67 @@ export default function routesHtmlPlugin() {
     <meta name="twitter:description" content="${safeDescription}" />
     <meta name="twitter:image" content="${safeImage}" />`
         );
+
+        if (route.type === 'article' && route.article) {
+          const article = route.article;
+          const articleUrl = route.canonical;
+          const articleImage = article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE;
+          const articleSchema = serializeJsonLd({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            '@id': `${articleUrl}#article`,
+            headline: article.title,
+            description: article.meta_description || article.perex,
+            image: articleImage,
+            datePublished: article.created_at,
+            dateModified: article.updated_at || article.created_at,
+            author: {
+              '@type': 'Person',
+              name: 'Pavla Zimmermannová',
+              url: 'https://kastrup.cz/autorka'
+            },
+            publisher: {
+              '@type': 'Organization',
+              name: 'Kastrup.cz',
+              url: 'https://kastrup.cz',
+              logo: {
+                '@type': 'ImageObject',
+                url: 'https://kastrup.cz/icon-512.svg',
+                width: 512,
+                height: 512
+              }
+            },
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': articleUrl
+            },
+            articleSection: article.categories?.name,
+            keywords: article.focus_keyword || undefined,
+            inLanguage: 'cs-CZ'
+          });
+          const articleMeta = [
+            article.created_at
+              ? `    <meta property="article:published_time" content="${escapeHtml(article.created_at)}" />`
+              : '',
+            article.updated_at
+              ? `    <meta property="article:modified_time" content="${escapeHtml(article.updated_at)}" />`
+              : '',
+            `    <script id="server-article-schema" type="application/ld+json">${articleSchema}</script>`
+          ].filter(Boolean).join('\n');
+
+          routeHtml = routeHtml.replace('</head>', `${articleMeta}\n  </head>`);
+        }
+
+        const safeHeading = escapeHtml(route.heading || route.title);
+        routeHtml = routeHtml
+          .replace(
+            /<h1>Kastrup\.cz - Váš průvodce po Dánsku<\/h1>/,
+            `<h1>${safeHeading}</h1>`
+          )
+          .replace(
+            /<p>Načítání stránky\.\.\. Pro plné zobrazení prosím zapněte JavaScript\.<\/p>/,
+            `<p>${safeDescription}</p>`
+          );
 
         // For /clanky page, add list of article links for crawlers
         if (route.path === 'clanky' && articlesList.length > 0) {

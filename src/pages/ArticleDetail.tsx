@@ -59,6 +59,10 @@ const ArticleDetail = () => {
   const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    document.getElementById("server-article-schema")?.remove();
+  }, [slug]);
+
   // Generate table of contents from article headings
   useEffect(() => {
     if (article && article.content) {
@@ -401,7 +405,7 @@ const ArticleDetail = () => {
         />
 
         {/* JSON-LD Article Schema */}
-        <script type="application/ld+json">
+        <script id="client-article-schema" type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
@@ -413,7 +417,7 @@ const ArticleDetail = () => {
             "author": {
               "@type": "Person",
               "name": "Pavla Zimmermannová",
-              "url": "https://kastrup.cz",
+              "url": "https://kastrup.cz/autorka",
               "email": "zimmermannovap@gmail.com"
             },
             "publisher": {
@@ -535,6 +539,8 @@ const ArticleDetail = () => {
                   alt={article.title}
                   className="h-auto w-full object-cover"
                   loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
               </div>
             )}
@@ -599,6 +605,9 @@ const ArticleDetail = () => {
                         alt="Pavla Zimmermannová - autorka průvodce po Dánsku"
                         className="h-full w-full object-cover"
                         loading="lazy"
+                        width="128"
+                        height="128"
+                        decoding="async"
                       />
                     </picture>
                   </div>
@@ -606,7 +615,11 @@ const ArticleDetail = () => {
 
                 {/* Author Info */}
                 <div className="flex-1 text-center md:text-left">
-                  <h3 className="mb-2 text-2xl font-bold">Pavla Zimmermannová</h3>
+                  <h3 className="mb-2 text-2xl font-bold">
+                    <Link to="/autorka" className="hover:text-primary hover:underline">
+                      Pavla Zimmermannová
+                    </Link>
+                  </h3>
                   <div className="mb-4 h-1 w-16 bg-primary/30 mx-auto md:mx-0"></div>
                   <p className="mb-4 leading-relaxed text-muted-foreground">
                     Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry.
@@ -621,10 +634,10 @@ const ArticleDetail = () => {
                       📧 Kontakt
                     </a>
                     <Link
-                      to="/clanky"
+                      to="/autorka"
                       className="inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
                     >
-                      📝 Další průvodce
+                      👤 O autorce
                     </Link>
                   </div>
                 </div>

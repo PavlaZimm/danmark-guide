@@ -30,6 +30,7 @@ export default async function handler(req, res) {
     '/kultura',
     '/cestovani',
     '/kontakt',
+    '/autorka',
     '/ochrana-soukromi',
   ];
 
@@ -43,15 +44,6 @@ export default async function handler(req, res) {
 
     if (articlesError) {
       console.error('Error fetching articles:', articlesError);
-    }
-
-    // Fetch published accommodations
-    const { data: accommodations, error: accommodationsError } = await supabase
-      .from('accommodations')
-      .select('slug, updated_at');
-
-    if (accommodationsError) {
-      console.error('Error fetching accommodations:', accommodationsError);
     }
 
     // Build XML
@@ -71,17 +63,6 @@ export default async function handler(req, res) {
         const lastmod = (article.updated_at || article.created_at).split('T')[0];
         xml += '  <url>\n';
         xml += `    <loc>${escapeXml(`${baseUrl}/clanek/${article.slug}`)}</loc>\n`;
-        xml += `    <lastmod>${escapeXml(lastmod)}</lastmod>\n`;
-        xml += '  </url>\n';
-      });
-    }
-
-    // Add accommodations
-    if (accommodations && accommodations.length > 0) {
-      accommodations.forEach(accom => {
-        const lastmod = accom.updated_at.split('T')[0];
-        xml += '  <url>\n';
-        xml += `    <loc>${escapeXml(`${baseUrl}/ubytovani/${accom.slug}`)}</loc>\n`;
         xml += `    <lastmod>${escapeXml(lastmod)}</lastmod>\n`;
         xml += '  </url>\n';
       });

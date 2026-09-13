@@ -1,8 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "next-themes";
@@ -20,6 +17,7 @@ const Accommodation = lazy(() => import("./pages/Accommodation"));
 const AccommodationDetail = lazy(() => import("./pages/AccommodationDetail"));
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
+const Author = lazy(() => import("./pages/Author"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -29,11 +27,7 @@ const ResetPassword = lazy(() => import("./pages/admin/ResetPassword"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminArticles = lazy(() => import("./pages/admin/AdminArticles"));
 const ArticleEditor = lazy(() => import("./pages/admin/ArticleEditor"));
-
-// Admin route protection
-import ProtectedRoute from "./components/admin/ProtectedRoute";
-
-const queryClient = new QueryClient();
+const ProtectedRoute = lazy(() => import("./components/admin/ProtectedRoute"));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -43,12 +37,9 @@ const PageLoader = () => (
 );
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <HelmetProvider>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
+  <HelmetProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <Sonner />
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <Suspense fallback={<PageLoader />}>
               <Routes>
@@ -105,6 +96,7 @@ const App = () => (
                           <Route path="/kultura" element={<Articles />} />
                           <Route path="/cestovani" element={<Articles />} />
                           <Route path="/kontakt" element={<Contact />} />
+                          <Route path="/autorka" element={<Author />} />
                           <Route path="/ochrana-soukromi" element={<Privacy />} />
                           <Route path="*" element={<NotFound />} />
                         </Routes>
@@ -119,10 +111,8 @@ const App = () => (
             </Suspense>
             <CookieConsent />
           </BrowserRouter>
-        </TooltipProvider>
-      </ThemeProvider>
-    </HelmetProvider>
-  </QueryClientProvider>
+    </ThemeProvider>
+  </HelmetProvider>
 );
 
 export default App;

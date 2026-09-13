@@ -19,9 +19,9 @@ All colors MUST be HSL.
     --popover-foreground: 222 20% 12%;
 
     /* Danish Red - Bold Primary */
-    --primary: 354 88% 50%;
+    --primary: 354 88% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 354 88% 45%;
+    --primary-hover: 354 88% 40%;
     --primary-light: 354 88% 95%;
     
     /* Warm Nordic Accents */
@@ -39,7 +39,7 @@ All colors MUST be HSL.
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 354 88% 50%;
+    --ring: 354 88% 45%;
 
     --radius: 1rem;
 
@@ -71,9 +71,9 @@ All colors MUST be HSL.
     --popover-foreground: 220 14% 96%;
 
     /* Danish Red - Adjusted for dark mode */
-    --primary: 354 88% 55%;
+    --primary: 354 88% 45%;
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 354 88% 60%;
+    --primary-hover: 354 88% 40%;
     --primary-light: 354 50% 15%;
 
     /* Warm Nordic Accents - Dark */
@@ -91,7 +91,7 @@ All colors MUST be HSL.
 
     --border: 222 20% 20%;
     --input: 222 20% 20%;
-    --ring: 354 88% 55%;
+    --ring: 354 88% 45%;
 
     /* Dark Gradients */
     --gradient-hero: linear-gradient(135deg, rgba(220, 38, 38, 0.9) 0%, rgba(185, 28, 28, 0.9) 100%);
@@ -548,4 +548,3 @@ All colors MUST be HSL.
     @apply mb-0;
   }
 }
-

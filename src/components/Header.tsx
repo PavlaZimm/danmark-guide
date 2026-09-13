@@ -31,7 +31,7 @@ const Header = () => {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
-        <Link to="/" className="group flex items-center space-x-2">
+        <Link to="/" className="group flex items-center space-x-2" aria-label="Kastrup.cz – domů">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg">
             <span className="text-xl font-bold text-primary-foreground">K</span>
           </div>
@@ -69,6 +69,8 @@ const Header = () => {
             size="icon"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {isMenuOpen ? (
               <X className="h-6 w-6" />
@@ -81,7 +83,7 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {isMenuOpen && (
-        <nav className="border-t bg-background md:hidden">
+        <nav id="mobile-navigation" className="border-t bg-background md:hidden">
           <div className="container mx-auto flex flex-col px-4 py-4">
             {navItems.map((item) => (
               <Link

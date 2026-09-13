@@ -4,12 +4,20 @@ import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import heroImage from "@/assets/hero-denmark.jpg";
 import heroImageWebP from "@/assets/hero-denmark.webp";
+import heroImage768WebP from "@/assets/hero-denmark-768.webp";
+import heroImage1280WebP from "@/assets/hero-denmark-1280.webp";
 import countrysideImage from "@/assets/countryside.jpg";
 import countrysideImageWebP from "@/assets/countryside.webp";
+import countrysideImage640WebP from "@/assets/countryside-640.webp";
+import countrysideImage768WebP from "@/assets/countryside-768.webp";
 import hyggeImage from "@/assets/hygge.jpg";
 import hyggeImageWebP from "@/assets/hygge.webp";
+import hyggeImage640WebP from "@/assets/hygge-640.webp";
+import hyggeImage768WebP from "@/assets/hygge-768.webp";
 import designImage from "@/assets/design.jpg";
 import designImageWebP from "@/assets/design.webp";
+import designImage640WebP from "@/assets/design-640.webp";
+import designImage768WebP from "@/assets/design-768.webp";
 import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
 
 const Home = () => {
@@ -49,20 +57,6 @@ const Home = () => {
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Kastrup.cz",
-            "description": "Váš průvodce po Dánsku - cestování, ubytování a kultura",
-            "url": "https://kastrup.cz",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://kastrup.cz/clanky?search={search_term_string}",
-              "query-input": "required name=search_term_string"
-            }
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Kastrup.cz",
             "url": "https://kastrup.cz",
@@ -87,12 +81,20 @@ const Home = () => {
       <section className="relative h-[75vh] min-h-[500px] w-full overflow-hidden sm:h-[85vh] sm:min-h-[600px] lg:h-[90vh]">
         <div className="absolute inset-0">
           <picture>
-            <source srcSet={heroImageWebP} type="image/webp" />
+            <source
+              srcSet={`${heroImage768WebP} 768w, ${heroImage1280WebP} 1280w, ${heroImageWebP} 1920w`}
+              sizes="100vw"
+              type="image/webp"
+            />
             <img
               src={heroImage}
               alt="Barevné historické domy v přístavu Nyhavn v Kodani, Dánsko - malebná turistická destinace s lodičkami a restauracemi"
               className="h-full w-full object-cover object-center"
               loading="eager"
+              width="1920"
+              height="1080"
+              fetchPriority="high"
+              decoding="async"
             />
           </picture>
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/60 to-black/40" />
@@ -155,11 +157,18 @@ const Home = () => {
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
                   <picture>
-                    <source srcSet={countrysideImageWebP} type="image/webp" />
+                    <source
+                      srcSet={`${countrysideImage640WebP} 640w, ${countrysideImage768WebP} 768w, ${countrysideImageWebP} 1024w`}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      type="image/webp"
+                    />
                     <img
                       src={countrysideImage}
                       alt="Malebná dánská krajina s zelenými poli a tradičními domy - ideální pro objevování venkova"
                       loading="lazy"
+                      width="1024"
+                      height="576"
+                      decoding="async"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </picture>
@@ -183,11 +192,18 @@ const Home = () => {
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
                   <picture>
-                    <source srcSet={hyggeImageWebP} type="image/webp" />
+                    <source
+                      srcSet={`${hyggeImage640WebP} 640w, ${hyggeImage768WebP} 768w, ${hyggeImageWebP} 1024w`}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      type="image/webp"
+                    />
                     <img
                       src={hyggeImage}
                       alt="Útulný interiér s horkým nápojem a svíčkami - ukázka dánského konceptu hygge, pohody a pohodlného života"
                       loading="lazy"
+                      width="1024"
+                      height="576"
+                      decoding="async"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </picture>
@@ -211,11 +227,18 @@ const Home = () => {
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
                   <picture>
-                    <source srcSet={designImageWebP} type="image/webp" />
+                    <source
+                      srcSet={`${designImage640WebP} 640w, ${designImage768WebP} 768w, ${designImageWebP} 1024w`}
+                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                      type="image/webp"
+                    />
                     <img
                       src={designImage}
                       alt="Minimalistický skandinávský interiér s elegantním nábytkem - příklad světově proslulého dánského designu"
                       loading="lazy"
+                      width="1024"
+                      height="576"
+                      decoding="async"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </picture>
