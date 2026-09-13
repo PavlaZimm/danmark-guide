@@ -1,10 +1,8 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   BedDouble,
   CalendarCheck,
   CheckCircle2,
-  ExternalLink,
   Map,
   MapPin,
   Plane,
@@ -43,8 +41,6 @@ const faqs = [
 ];
 
 const Accommodation = () => {
-  const [showMap, setShowMap] = useState(false);
-
   return (
     <>
       <Helmet>
@@ -136,40 +132,26 @@ const Accommodation = () => {
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <ShieldCheck className="h-5 w-5 text-primary" />
-                Mapa se načte až po vašem kliknutí
+                Partnerská mapa Stay22
               </div>
             </div>
 
-            {showMap ? (
-              <div className="overflow-hidden rounded-xl border bg-muted">
-                <iframe
-                  id="stay22-widget"
-                  width="100%"
-                  height="520"
-                  src={STAY22_EMBED_URL}
-                  frameBorder="0"
-                  title="Interaktivní mapa ubytování v Dánsku od Stay22"
-                  loading="lazy"
-                />
-              </div>
-            ) : (
-              <div className="flex min-h-[360px] flex-col items-center justify-center rounded-xl border border-dashed bg-muted/40 px-6 text-center">
-                <MapPin className="mb-5 h-12 w-12 text-primary" />
-                <h3 className="mb-3 text-2xl font-semibold">Vyhledat dostupné ubytování</h3>
-                <p className="mb-6 max-w-2xl text-muted-foreground">
-                  Po kliknutí se načte externí mapa Stay22. Tím navážete spojení se službou třetí strany,
-                  která může zpracovat technické údaje o zařízení podle svých pravidel soukromí.
-                </p>
-                <Button size="lg" onClick={() => setShowMap(true)}>
-                  Načíst mapu Stay22
-                  <ExternalLink className="ml-2 h-4 w-4" />
-                </Button>
-                <p className="mt-4 max-w-xl text-xs text-muted-foreground">
-                  Partnerské upozornění: pokud přes mapu dokončíte rezervaci, Kastrup.cz může získat provizi.
-                  Cenu a podmínky určuje rezervační partner.
-                </p>
-              </div>
-            )}
+            <div className="overflow-hidden rounded-xl border bg-muted">
+              <iframe
+                id="stay22-widget"
+                width="100%"
+                height="520"
+                src={STAY22_EMBED_URL}
+                frameBorder="0"
+                title="Interaktivní mapa ubytování v Dánsku od Stay22"
+                loading="eager"
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+            <p className="mt-4 text-center text-xs text-muted-foreground">
+              Partnerské upozornění: pokud přes mapu dokončíte rezervaci, Kastrup.cz může získat provizi.
+              Cenu a podmínky určuje rezervační partner.
+            </p>
           </section>
 
           <section className="py-16" aria-labelledby="vyber-title">
