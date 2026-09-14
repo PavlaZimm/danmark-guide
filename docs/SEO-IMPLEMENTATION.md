@@ -204,17 +204,12 @@ const warnings = validateMetaTags(formData.meta_title, formData.meta_description
 )}
 ```
 
-### **3. Spusť sitemap generator**
+### **3. Ověř dynamickou sitemapu**
 
-Po doplnění Supabase credentials v `.env`:
-
+Sitemapu generuje endpoint `api/sitemap.js` přímo z publikovaných článků v Supabase.
+Po nasazení zkontroluj výstup:
 ```bash
-npm run generate-sitemap
-```
-
-Zkontroluj výstup:
-```bash
-cat public/sitemap.xml | grep "clanek" | wc -l
+curl https://kastrup.cz/sitemap.xml | grep "clanek" | wc -l
 # Mělo by vrátit počet všech publikovaných článků
 ```
 

@@ -376,7 +376,7 @@ export default function routesHtmlPlugin() {
         const safeImage = escapeHtml(route.image || DEFAULT_SOCIAL_IMAGE);
         const safeType = route.type === 'article' ? 'article' : route.type === 'profile' ? 'profile' : 'website';
         const imageSizeMeta = safeImage === DEFAULT_SOCIAL_IMAGE
-          ? '\n    <meta property="og:image:width" content="1600" />\n    <meta property="og:image:height" content="1200" />'
+          ? '\n    <meta property="og:image:width" content="1600" data-rh="true" />\n    <meta property="og:image:height" content="1200" data-rh="true" />'
           : '';
 
         let routeHtml = indexHtml
@@ -387,27 +387,27 @@ export default function routesHtmlPlugin() {
         if (!routeHtml.includes('rel="canonical"')) {
           routeHtml = routeHtml.replace(
             '</head>',
-            `    <link rel="canonical" href="${safeCanonical}" />\n  </head>`
+            `    <link rel="canonical" href="${safeCanonical}" data-rh="true" />\n  </head>`
           );
         } else {
           routeHtml = routeHtml.replace(
             /<link rel="canonical" href=".*?".*?\/>/,
-            `<link rel="canonical" href="${safeCanonical}" />`
+            `<link rel="canonical" href="${safeCanonical}" data-rh="true" />`
           );
         }
 
         // Add OG tags
         routeHtml = routeHtml.replace(
           /<meta property="og:type".*?>/,
-          `<meta property="og:type" content="${safeType}" />
-    <meta property="og:url" content="${safeCanonical}" />
-    <meta property="og:title" content="${safeTitle}" />
-    <meta property="og:description" content="${safeDescription}" />
-    <meta property="og:image" content="${safeImage}" />${imageSizeMeta}
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="${safeTitle}" />
-    <meta name="twitter:description" content="${safeDescription}" />
-    <meta name="twitter:image" content="${safeImage}" />`
+          `<meta property="og:type" content="${safeType}" data-rh="true" />
+    <meta property="og:url" content="${safeCanonical}" data-rh="true" />
+    <meta property="og:title" content="${safeTitle}" data-rh="true" />
+    <meta property="og:description" content="${safeDescription}" data-rh="true" />
+    <meta property="og:image" content="${safeImage}" data-rh="true" />${imageSizeMeta}
+    <meta name="twitter:card" content="summary_large_image" data-rh="true" />
+    <meta name="twitter:title" content="${safeTitle}" data-rh="true" />
+    <meta name="twitter:description" content="${safeDescription}" data-rh="true" />
+    <meta name="twitter:image" content="${safeImage}" data-rh="true" />`
         );
 
         if (route.type === 'article' && route.article) {
@@ -449,12 +449,12 @@ export default function routesHtmlPlugin() {
           });
           const articleMeta = [
             article.created_at
-              ? `    <meta property="article:published_time" content="${escapeHtml(article.created_at)}" />`
+              ? `    <meta property="article:published_time" content="${escapeHtml(article.created_at)}" data-rh="true" />`
               : '',
             article.updated_at
-              ? `    <meta property="article:modified_time" content="${escapeHtml(article.updated_at)}" />`
+              ? `    <meta property="article:modified_time" content="${escapeHtml(article.updated_at)}" data-rh="true" />`
               : '',
-            `    <script id="server-article-schema" type="application/ld+json">${articleSchema}</script>`
+            `    <script id="server-article-schema" type="application/ld+json" data-rh="true">${articleSchema}</script>`
           ].filter(Boolean).join('\n');
 
           routeHtml = routeHtml.replace('</head>', `${articleMeta}\n  </head>`);

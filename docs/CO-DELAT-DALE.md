@@ -33,7 +33,7 @@
 **Co zahrnout do PR popisu:**
 ```markdown
 ## Změny
-- ✅ Sitemap generator (automaticky generuje sitemap při buildu)
+- ✅ Dynamická sitemapa (načítá publikované články ze Supabase při požadavku)
 - ✅ SEO helper funkce pro validaci title/description
 - ✅ Canonical tagy na všech stránkách
 - ✅ Optimalizované meta tagy v ArticleDetail

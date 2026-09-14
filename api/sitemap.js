@@ -30,6 +30,8 @@ export default async function handler(req, res) {
     '/kultura',
     '/hygge',
     '/kodan',
+    '/danstina',
+    '/danske-ostrovy',
     '/cestovani',
     '/kontakt',
     '/autorka',
