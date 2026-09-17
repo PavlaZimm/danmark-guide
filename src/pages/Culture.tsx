@@ -183,9 +183,10 @@ const Culture = () => (
               },
               {
                 icon: Landmark,
-                title: "Vánoce, design a Janteloven",
-                text: "Živé tradice, nepsaná pravidla a předměty, které vznikly z konkrétního společenského kontextu.",
-                status: "Připravujeme",
+                title: "Dánský design v Kodani",
+                text: "Slavné židle a lampy, muzeum designu a současné obchody. Ověřené ceny a adresy pro návštěvu.",
+                href: "/clanek/dansky-design",
+                status: "Nově",
               },
             ].map(({ icon: Icon, title, text, href, status }) => (
               <article key={title} className="rounded-2xl bg-muted/50 p-6">

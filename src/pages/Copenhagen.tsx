@@ -356,7 +356,7 @@ const Copenhagen = () => {
                   Počasí u Øresundu se může během dne rychle změnit. I v teplejší části roku se hodí lehká
                   nepromokavá vrstva a něco proti větru. Předpověď kontrolujte těsně před cestou; dlouhodobý
                   průměr nenahradí aktuální situaci. V dešti dejte přednost Rosenborgu, SMK, Glyptotéce,
-                  Designmuseum Danmark nebo Nationalmuseet.
+                  <Link to="/clanek/dansky-design" className="text-primary hover:underline">Designmuseum Danmark a dánský design</Link> nebo Nationalmuseet.
                 </p>
 
                 <h3>Kodaň levně: kde lze ubrat z rozpočtu</h3>

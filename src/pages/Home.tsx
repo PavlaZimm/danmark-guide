@@ -223,7 +223,7 @@ const Home = () => {
             </Link>
 
             {/* Design Card */}
-            <Link to="/o-dansku" className="group">
+            <Link to="/clanek/dansky-design" className="group">
               <div className="overflow-hidden rounded-2xl bg-card shadow-medium hover-lift">
                 <div className="relative h-64 overflow-hidden">
                   <picture>
@@ -245,13 +245,13 @@ const Home = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <Sparkles className="mb-2 h-8 w-8" />
-                    <h3 className="text-2xl font-bold">Moderní Design</h3>
+                    <h3 className="text-2xl font-bold">Moderní design</h3>
                   </div>
                 </div>
                 <div className="p-6">
                   <p className="text-muted-foreground">
-                    Objevte světově proslulý skandinávský minimalismus a
-                    funkční design.
+                    Dánský design od známých židlí po současné obchody.
+                    Kam za ním v Kodani a co stojí návštěva muzea.
                   </p>
                 </div>
               </div>

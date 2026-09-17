@@ -1,5 +1,22 @@
 // Optimalizované varianty vlastních fotografií; rozměry pocházejí z obrazového manifestu.
 const images: Record<string, { srcSet: string; width: number; height: number }> = {
+
+  "https://kastrup.cz/images/clanky/dansky-design/designmuseum-danmark-kodan-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/dansky-design/designmuseum-danmark-kodan-750.webp 750w, https://kastrup.cz/images/clanky/dansky-design/designmuseum-danmark-kodan-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/dansky-design/illums-bolighus-kodan-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/dansky-design/illums-bolighus-kodan-750.webp 750w, https://kastrup.cz/images/clanky/dansky-design/illums-bolighus-kodan-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/dansky-design/knihovna-designmuseum-danmark-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/dansky-design/knihovna-designmuseum-danmark-750.webp 750w, https://kastrup.cz/images/clanky/dansky-design/knihovna-designmuseum-danmark-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  }
+,
   "https://kastrup.cz/images/clanky/mosty-v-dansku/prejezd-mostu-1500.webp": {
     "srcSet": "https://kastrup.cz/images/clanky/mosty-v-dansku/prejezd-mostu-750.webp 562w, https://kastrup.cz/images/clanky/mosty-v-dansku/prejezd-mostu-1500.webp 1125w",
     "width": 1125,

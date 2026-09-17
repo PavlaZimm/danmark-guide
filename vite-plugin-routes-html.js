@@ -55,6 +55,7 @@ export default function routesHtmlPlugin() {
           <section style="margin-top: 2rem;">
             <h2>Dánská kultura v souvislostech</h2>
             <p>Dánsko nejsou jen barevné domy, designové židle a žebříčky štěstí. Poznejte jazyk, jídlo, tradice a každodenní zvyky, které pomáhají pochopit, jak se v zemi skutečně žije.</p>
+            <p><a href="/clanek/dansky-design">Dánský design: muzeum a obchody v Kodani</a></p>
             <h2>Začněte u hygge</h2>
             <p>Hygge je dánské označení pro příjemnou, bezpečnou a uvolněnou atmosféru. Není to výrobek ani pouze styl bydlení.</p>
             <p><a href="/hygge">Přečíst průvodce: co je hygge, jak se vyslovuje a jak ho zažít</a></p>
@@ -186,6 +187,7 @@ export default function routesHtmlPlugin() {
             <p>Při první návštěvě spojte <strong>Nyhavn, Amalienborg, Kastellet a Malou mořskou vílu</strong> do jedné pěší trasy. Druhý den projděte Rosenborg, Rundetårn, Christiansborg a Tivoli. Další čas věnujte Christianshavnu, Nørrebru nebo přístavnímu Refshaleøenu.</p>
             <h2>Co vidět v Kodani při první návštěvě</h2>
             <p>Kodaň je kompaktní, ale jednotlivé zajímavosti je nejlepší seskupit podle čtvrtí. Nyhavn spojte s královským Amalienborgem a pobřežní trasou přes Kastellet. Historické centrum projděte od Rosenborgu přes Rundetårn k Christiansborgu.</p>
+            <p><a href="/clanek/dansky-design">Dánský design v Kodani: ceny muzea a obchody</a></p>
             <h2>Kodaň mapa a praktické trasy</h2>
             <p>Dva dny stačí na hlavní památky. Třetí den přidejte Nørrebro, Christianshavn a Refshaleøen. Centrum lze projít pěšky; pro vzdálenější čtvrti využijte metro, autobus, přístavní autobus nebo kolo.</p>
             <h2>Kodaň letiště a cesta do centra</h2>
