@@ -709,6 +709,13 @@ const About = () => {
                   <Link to="/danske-ostrovy"> dánských ostrovů, mapy a dopravy</Link>.
                 </p>
 
+                <p>
+                  Pro cestu autem se hodí přehled <Link to="/clanek/mosty-v-dansku">mostů v Dánsku a mýtného</Link>.
+                  Konkrétní zastávky můžete naplánovat podle průvodců{" "}
+                  <Link to="/clanek/mons-klint">Møns Klint: parkování a schody na pláž</Link> a{" "}
+                  <Link to="/clanek/ribe">Ribe: parkování a procházka městem</Link>.
+                </p>
+
                 {/* Image - Troll */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
                   <picture>

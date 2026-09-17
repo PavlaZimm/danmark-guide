@@ -245,6 +245,11 @@ const DanishIslands = () => {
                   a mimo sezonu počítejte s řidší dopravou.
                 </p>
 
+                <p>
+                  Ceny parkování, schodiště na pláž a provoz GeoCenteru najdete v článku{" "}
+                  <Link to="/clanek/mons-klint">Møns Klint autem</Link>.
+                </p>
+
                 <h2 id="bornholm">Bornholm: ostrov na samostatnou dovolenou</h2>
                 <p>
                   Bornholm neleží „kousek vedle Kodaně“ — v Baltském moři je blíž jižnímu Švédsku.
@@ -261,6 +266,11 @@ const DanishIslands = () => {
                 </p>
 
                 <h2 id="doprava">Most, trajekt, vlak nebo kolo?</h2>
+                <p>
+                  Při cestě autem porovnejte <Link to="/clanek/mosty-v-dansku">ceny mostů Storebælt a Øresund</Link>.
+                  Pokud do itineráře přidáváte i jihozápadní Jutsko, využijte průvodce{" "}
+                  <Link to="/clanek/ribe">parkováním a procházkou v Ribe</Link>.
+                </p>
                 <ul>
                   <li><strong>Sjælland a Fyn:</strong> nejjednodušší je vlak; spojení vede přes most přes Velký Belt.</li>
                   <li><strong>Møn:</strong> největší flexibilitu dává auto; veřejná doprava vyžaduje plán.</li>

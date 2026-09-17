@@ -321,6 +321,11 @@ const Copenhagen = () => {
 
                 <h2 id="prakticky">Praktická Kodaň: letiště, doprava, počasí a rozpočet</h2>
 
+                <p>
+                  Pokud přijíždíte autem, podívejte se na <Link to="/clanek/mosty-v-dansku">mosty v Dánsku, ceny a platbu mýtného</Link>.
+                  Na delší přírodní výlet mimo město využijte průvodce <Link to="/clanek/mons-klint">Møns Klint autem</Link>.
+                </p>
+
                 <h3>Kodaň letiště a cesta do centra</h3>
                 <p>
                   Letiště leží na Amageru a je přímo napojené na metro i železnici. Metro se hodí pro

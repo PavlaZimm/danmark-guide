@@ -146,6 +146,7 @@ export default function routesHtmlPlugin() {
             <h2>Jak se na dánské ostrovy dostat</h2>
             <p>Sjælland a Fyn spojují mosty a vlaky. Na menší ostrovy jezdí trajekty; s autem je vhodné rezervovat místo předem.</p>
             <p><a href="/o-dansku">Kompletní průvodce Dánskem</a></p>
+          <p><a href="/clanek/mons-klint">Møns Klint: parkování a schody</a> · <a href="/clanek/mosty-v-dansku">Ceny mostů Storebælt a Øresund</a> · <a href="/clanek/ribe">Ribe při cestě Jutskem</a></p>
           </article>`
         },
         {
@@ -190,6 +191,7 @@ export default function routesHtmlPlugin() {
             <h2>Kodaň letiště a cesta do centra</h2>
             <p>Z terminálu 3 jezdí do centra metro i vlak. Jízdenku si kupte před nástupem a aktuální spojení ověřte v Rejseplanen.</p>
             <p><a href="/clanek/letiste-kodan-kastrup-doprava-do-centra">Podrobná doprava z letiště Kodaň do centra</a></p>
+          <p><a href="/clanek/mosty-v-dansku">Cesta autem do Dánska: ceny mostů</a> · <a href="/clanek/mons-klint">Výlet k Møns Klint autem</a></p>
           </article>`
         },
         {
@@ -221,6 +223,7 @@ export default function routesHtmlPlugin() {
           <section style="margin-top: 2rem;">
             <h2>Začněte plánovat cestu</h2>
             <p>Pro první návštěvu využijte průvodce <a href="/kodan">co vidět v Kodani</a>, praktický přehled <a href="/clanek/letiste-kodan-kastrup-doprava-do-centra">dopravy z letiště</a> a vysvětlení, <a href="/hygge">co je hygge</a>.</p>
+          <p><a href="/clanek/mosty-v-dansku">Mosty v Dánsku a mýtné</a> · <a href="/clanek/mons-klint">Møns Klint autem</a> · <a href="/clanek/ribe">Ribe: parkování a procházka</a></p>
           </section>`
         },
         {

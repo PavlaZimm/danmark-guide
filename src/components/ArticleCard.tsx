@@ -1,3 +1,4 @@
+import { getArticleImageProps } from "@/lib/article-images";
 import { Link } from "react-router-dom";
 import { Calendar } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -36,6 +37,7 @@ const ArticleCard = ({
             {imageUrl ? (
               <img
                 src={imageUrl}
+                {...getArticleImageProps(imageUrl, "(max-width: 640px) calc(100vw - 32px), (max-width: 1024px) 50vw, 33vw")}
                 alt={title}
                 className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"

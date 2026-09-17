@@ -1,3 +1,4 @@
+import { getArticleImageProps } from "@/lib/article-images";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { createRoot, type Root } from 'react-dom/client';
 import { useParams, Link } from "react-router-dom";
@@ -105,6 +106,11 @@ const ArticleDetail = () => {
       const images = document.querySelectorAll('.article-content img');
       images.forEach((img) => {
         img.setAttribute('loading', 'lazy');
+        const responsive = getArticleImageProps(img.getAttribute('src') || '');
+        Object.entries(responsive).forEach(([key, value]) => {
+          img.setAttribute(key === 'srcSet' ? 'srcset' : key, String(value));
+        });
+        img.setAttribute('decoding', 'async');
         if (!img.getAttribute('alt')) {
           img.setAttribute('alt', article.title);
         }
@@ -566,6 +572,7 @@ const ArticleDetail = () => {
               <div className="mb-12 overflow-hidden rounded-xl shadow-lg">
                 <img
                   src={article.image_url}
+                  {...getArticleImageProps(article.image_url)}
                   alt={article.title}
                   className="h-auto w-full object-cover"
                   loading="eager"
