@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
+import AdminMfa from "@/components/admin/AdminMfa";
 import { getErrorMessage } from "@/lib/errors";
 
 const ResetPassword = () => {
@@ -17,23 +18,31 @@ const ResetPassword = () => {
   const [hasToken, setHasToken] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const [needsMfa, setNeedsMfa] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
   useEffect(() => {
-    // Check if we have a recovery token in URL hash
-    const hash = window.location.hash;
-
-    if (hash && hash.includes('access_token') && hash.includes('type=recovery')) {
-      setHasToken(true);
-
-      // Supabase automatically parses the hash and logs in the user
-      // We just need to wait a moment for it to process
-      setTimeout(() => {
-        supabase.auth.getSession();
-      }, 500);
-    } else {
-      toast.error("Chybějící recovery token. Požádejte o nový reset hesla.");
-      setTimeout(() => navigate('/tajnedvere'), 3000);
-    }
-  }, [navigate]);
+    let active = true;
+    const check = async () => {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) throw new Error('missing session');
+        const { data, error: mfaError } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+        if (mfaError) throw mfaError;
+        if (active) {
+          setHasToken(true);
+          setNeedsMfa(data.nextLevel === 'aal2' && data.currentLevel !== 'aal2');
+        }
+      } catch {
+        if (active) setHasToken(false);
+      } finally {
+        if (active) setCheckingSession(false);
+      }
+    };
+    // getUser waits for the auth client to process the recovery URL.
+    void check();
+    return () => { active = false; };
+  }, []);
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,6 +85,9 @@ const ResetPassword = () => {
     }
   };
 
+  if (checkingSession) return <div className="flex min-h-screen items-center justify-center" role="status">Ověřuji odkaz pro obnovení hesla…</div>;
+  if (needsMfa) return <AdminMfa onVerified={() => setNeedsMfa(false)} />;
+
   if (!hasToken) {
     return (
       <>
@@ -87,7 +99,8 @@ const ResetPassword = () => {
           <div className="text-center">
             <Lock className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
             <h1 className="text-2xl font-bold mb-2">Chybějící token</h1>
-            <p className="text-muted-foreground">Přesměrovávám na přihlášení...</p>
+            <p className="text-muted-foreground">Odkaz chybí nebo vypršel. Požádejte o nový odkaz pro obnovení hesla.</p>
+            <Button className="mt-4" onClick={() => navigate("/tajnedvere")}>Zpět na přihlášení</Button>
           </div>
         </div>
       </>

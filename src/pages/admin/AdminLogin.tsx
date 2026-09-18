@@ -24,21 +24,15 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      console.log('🔄 Sending password reset email to:', resetEmail);
-      console.log('🔗 Redirect URL:', `${window.location.origin}/tajnedvere/reset-password`);
-
-      const { data, error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
         redirectTo: `${window.location.origin}/tajnedvere/reset-password`,
       });
-
-      console.log('📧 Supabase response:', { data, error });
 
       if (error) {
         console.error('❌ Supabase error:', error);
         throw error;
       }
 
-      console.log('✅ Password reset email sent successfully!');
       toast.success("Email s odkazem na reset hesla byl odeslán. Zkontrolujte schránku (i SPAM)!", {
         duration: 6000,
       });
@@ -65,7 +59,7 @@ const AdminLogin = () => {
 
     if (loginAttempts >= 5) {
       setIsBlocked(true);
-      toast.error("Příliš mnoho neúspěšných pokusů. Účet byl dočasně zablokován na 5 minut.");
+      toast.error("Příliš mnoho neúspěšných pokusů. Přihlašování v tomto okně je pozastavené na 5 minut.");
       setTimeout(() => {
         setIsBlocked(false);
         setLoginAttempts(0);
@@ -113,7 +107,8 @@ const AdminLogin = () => {
 
       // Úspěšné přihlášení - reset počítadla
       setLoginAttempts(0);
-      toast.success("Úspěšně přihlášen!");
+      setPassword("");
+      toast.success("Heslo ověřeno. Pokračujte dvoufaktorovým ověřením.");
       navigate("/tajnedvere/dashboard");
     } catch (error: unknown) {
       console.error("Login error:", error);
@@ -200,7 +195,7 @@ const AdminLogin = () => {
                 <div className="mt-4 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
                   <div className="flex items-center gap-2 text-sm text-red-700 dark:text-red-400">
                     <Lock className="h-4 w-4" />
-                    <span>Účet dočasně zablokován kvůli bezpečnosti (5 minut)</span>
+                    <span>Přihlašování v tomto okně pozastaveno (5 minut)</span>
                   </div>
                 </div>
               )}
@@ -263,7 +258,7 @@ const AdminLogin = () => {
 
           {/* Footer */}
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            🔒 Chráněno proti brute-force útokům. Maximálně 5 pokusů.
+            Administrace vyžaduje heslo a kód z ověřovací aplikace.
           </p>
         </div>
       </div>
