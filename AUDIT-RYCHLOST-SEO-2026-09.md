@@ -36,7 +36,7 @@
 
 ### 3. Nové články jsou do dalšího buildu 404
 - Předgenerují se jen články existující při buildu (`dist/clanek/<slug>/index.html`). `vercel.json` nemá SPA rewrite pro `/clanek/:slug`, takže článek publikovaný v adminu vrací Vercelu **404.html s `noindex`**, dokud neproběhne nový deploy. Sitemap ho přitom už obsahuje, takže Google dostane 404 nebo noindex.
-- V repozitáři jsem nenašla deploy hook.
+- V repozitáři není žádný deploy hook.
 - **Oprava (zvolit jednu):**
   - (a) Po publikaci v adminu zavolat Vercel Deploy Hook (nejjednodušší, zachová předgenerované meta).
   - (b) Přidat rewrite `/clanek/:slug` → serverless funkci, která vrátí HTML s meta tagy ze Supabase.
