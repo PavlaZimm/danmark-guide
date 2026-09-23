@@ -226,10 +226,10 @@ export default function routesHtmlPlugin() {
         },
         {
           path: 'o-dansku',
-          title: 'Dánsko: Kompletní průvodce | Kastrup.cz',
-          description: 'Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet.',
+          title: 'Co vidět v Dánsku: kompletní průvodce a tipy | Kastrup.cz',
+          description: 'Co vidět v Dánsku a co navštívit? Kodaň, Jutsko, ostrovy, hrady i příroda. Praktický průvodce s itineráři, dopravou a tipy, kdy jet.',
           canonical: 'https://kastrup.cz/o-dansku',
-          heading: 'Dánsko: kompletní průvodce',
+          heading: 'Co vidět v Dánsku: kompletní průvodce',
           fallbackHtml: `
           <section style="margin-top: 2rem;">
             <h2>Začněte plánovat cestu</h2>
@@ -383,6 +383,17 @@ export default function routesHtmlPlugin() {
         .replace('</head>', '    <meta name="robots" content="noindex, follow" />\n  </head>');
       fs.writeFileSync(path.join(distPath, '404.html'), notFoundHtml);
       console.log('✓ Generated 404.html');
+
+      // Shell for articles published after this build (vercel.json rewrites /clanek/:slug here
+      // when no prerendered file exists). It carries no canonical or og:url, so it never points
+      // Google at the homepage; ArticleDetail sets the real meta tags once the article loads.
+      const articleShellHtml = indexHtml
+        .replace(/<title>.*?<\/title>/, '<title>Článek | Kastrup.cz</title>')
+        .replace(/<meta name="description" content=".*?"/, '<meta name="description" content="Článek o Dánsku na Kastrup.cz."')
+        .replace(/\s*<link rel="canonical"[^>]*>/, '')
+        .replace(/\s*<meta property="og:url"[^>]*>/, '');
+      fs.writeFileSync(path.join(distPath, 'clanek-shell.html'), articleShellHtml);
+      console.log('✓ Generated clanek-shell.html');
 
       routes.forEach(route => {
         // For homepage, modify the main index.html directly

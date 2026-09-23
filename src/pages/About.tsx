@@ -10,30 +10,30 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>Dánsko: Kompletní průvodce | Kastrup.cz</title>
+        <title>Co vidět v Dánsku: kompletní průvodce a tipy | Kastrup.cz</title>
         <meta
           name="description"
-          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře, doprava a tipy kdy jet."
+          content="Co vidět v Dánsku a co navštívit? Kodaň, Jutsko, ostrovy, hrady i příroda. Praktický průvodce s itineráři, dopravou a tipy, kdy jet."
         />
         <link rel="canonical" href="https://kastrup.cz/o-dansku" />
 
         {/* Open Graph */}
         <meta property="og:type" content="article" />
         <meta property="og:url" content="https://kastrup.cz/o-dansku" />
-        <meta property="og:title" content="Dánsko: Kompletní průvodce" />
+        <meta property="og:title" content="Co vidět v Dánsku: kompletní průvodce" />
         <meta
           property="og:description"
-          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy."
+          content="Co vidět v Dánsku: Kodaň, Jutsko, ostrovy, hrady i příroda. Itineráře, doprava a tipy, kdy jet."
         />
         <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
         <meta property="og:locale" content="cs_CZ" />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Dánsko: Kompletní průvodce" />
+        <meta name="twitter:title" content="Co vidět v Dánsku: kompletní průvodce" />
         <meta
           name="twitter:description"
-          content="Kompletní průvodce po Dánsku: příroda, hrady, design, hygge."
+          content="Co vidět v Dánsku: Kodaň, Jutsko, ostrovy, hrady i příroda."
         />
         <meta name="twitter:image" content={DEFAULT_SOCIAL_IMAGE} />
 
@@ -42,8 +42,8 @@ const About = () => {
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Article",
-            "headline": "Dánsko: Kompletní průvodce",
-            "description": "Kompletní průvodce po Dánsku: příroda, hrady, design, hygge. Praktické informace, itineráře a tipy.",
+            "headline": "Co vidět v Dánsku: kompletní průvodce",
+            "description": "Co vidět v Dánsku a co navštívit: Kodaň, Jutsko, ostrovy, hrady i příroda. Itineráře, doprava a tipy, kdy jet.",
             "datePublished": "2025-10-23",
             "dateModified": "2026-09-13",
             "author": {
@@ -176,7 +176,7 @@ const About = () => {
             {/* Header */}
             <header className="mb-12">
               <h1 className="mb-6 text-4xl font-bold md:text-5xl">
-                Dánsko: Kompletní průvodce
+                Co vidět v Dánsku: kompletní průvodce
               </h1>
               <p className="mb-6 text-xl leading-relaxed text-muted-foreground">
                 Dánsko je kompaktní severská země, kde se setkává krása pobřeží, historické hrady,

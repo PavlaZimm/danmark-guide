@@ -6,6 +6,10 @@
       "destination": "/api/sitemap"
     },
     {
+      "source": "/clanek/:slug",
+      "destination": "/clanek-shell.html"
+    },
+    {
       "source": "/tajnedvere/:path*",
       "destination": "/index.html"
     },
