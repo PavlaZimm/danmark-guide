@@ -69,7 +69,7 @@ const DanishLanguage = () => {
       "@type": "Organization",
       name: "Kastrup.cz",
       url: "https://kastrup.cz",
-      logo: { "@type": "ImageObject", url: "https://kastrup.cz/icon-512.svg" },
+      logo: { "@type": "ImageObject", url: "https://kastrup.cz/icon-512.png" },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
   };

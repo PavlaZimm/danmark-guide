@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* About */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">O webu</h3>
+            <h2 className="mb-4 text-lg font-semibold">O webu</h2>
             <p className="text-sm text-muted-foreground">
               Váš průvodce po Dánsku. Objevujte kulturu, historii a nejlepší
               destinace v Dánsku.
@@ -17,7 +17,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Rychlé odkazy</h3>
+            <h2 className="mb-4 text-lg font-semibold">Rychlé odkazy</h2>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -72,7 +72,7 @@ const Footer = () => {
 
           {/* Topics */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Témata</h3>
+            <h2 className="mb-4 text-lg font-semibold">Témata</h2>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
@@ -119,7 +119,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Kontakt</h3>
+            <h2 className="mb-4 text-lg font-semibold">Kontakt</h2>
             <div className="flex gap-4">
               <a
                 href="mailto:zimmermannovap@gmail.com"

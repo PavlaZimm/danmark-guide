@@ -61,7 +61,7 @@
 
 | # | Nález | Oprava |
 |---|---|---|
-| 9 | **Výchozí OG obrázek je `atterseebook.jpg`** (kniha o Attersee v Rakousku). Použije se pro sdílení homepage, `/hygge` a všech stránek bez vlastní fotky. Pro web o Dánsku to působí nesouvisle. | Vytvořit brandový OG obrázek 1200×630 s dánským motivem a nastavit ho v `DEFAULT_SOCIAL_IMAGE` (`src/lib/seo-helpers.ts` i v pluginu). |
+| 9 | **Výchozí OG obrázek `atterseebook.jpg`** – fotka ve skutečnosti ukazuje Møns Klint, jen měla zavádějící název souboru. Měla ale rozměr 1600×1200 místo doporučených 1200×630. | ✅ Opraveno: přejmenováno na `mons-klint-utesy.*`, nový obrázek pro sdílení `og-kastrup.jpg` (1200×630). |
 | 10 | **Nesoulad H1** na homepage: předgenerované HTML má „Kastrup.cz – průvodce po Dánsku“, React „Objevte krásy Dánska“. Obecné H1 nenese žádné klíčové slovo. | Sjednotit na jedno H1 s klíčovým slovem, např. „Průvodce po Dánsku: Kodaň, hygge a cestování“. |
 | 11 | **Sitemap:** statické stránky nemají `<lastmod>` a `/cestovani` renderuje stejnou komponentu jako `/clanky` (`<Articles />`), takže hrozí duplicitní obsah. | Doplnit `lastmod`. `/cestovani` buď dát vlastní obsah a filtr kategorie, nebo nastavit canonical na `/clanky`. |
 | 12 | **Organization schema na homepage** obsahuje osobní e-mail a město. Konkrétní autor (Person) u článků chybí nebo ho nelze ověřit. | Pro E-E-A-T propojit `Article.author` → `Person` (`/autorka`, `sameAs` na sociální sítě). E-mail ve schématu je volitelný. |
@@ -78,6 +78,23 @@
 - `/kodan`: markery Leaflet jsou malé dotykové cíle a mají obecný `alt="Marker"`. Dát jim popisný `title`/`alt` (název místa).
 
 ---
+
+## ✅ Stav oprav (23. 9. 2026)
+
+Opraveno v tomto kroku:
+- **Kodaň:** menší verze úvodní fotky pro mobil (640/960 px, 62/132 kB místo 213 kB) a mapa se načítá až při doscrollování (i na `/o-dansku`, `/danske-ostrovy` a v článcích). Výkon **85 → 94**, LCP **4,1 → 3,0 s**.
+- **Homepage:** přednačtení úvodní fotky v HTML, nový H1 „Průvodce po Dánsku: Kodaň, hygge a cestování“ (stejný v HTML i v Reactu), bez animace nadpisu.
+- **Mezipaměť:** `Cache-Control` pro `/assets/*` (1 rok) a `/images/*` (7 dní) ve `vercel.json`.
+- **Písma:** odstraněné zbytečné připojení na Google Fonts a Unsplash, z CSS odstraněný nenačítaný font Inter.
+- **Ikony:** PNG `apple-touch-icon` (180 px), `icon-192.png`, `icon-512.png`, `favicon-32.png`. Manifest už nehází chybu. Logo ve strukturovaných datech je PNG (Google SVG logo nepodporuje).
+- **Obrázek pro sdílení:** `og-kastrup.jpg` 1200×630 (Møns Klint).
+- **Přístupnost:** popisek filtru kategorií, footer a prázdný stav článků používají `h2`, kontrast chybové hlášky, popisy značek na mapě. Přístupnost je teď 100 na všech měřených stránkách.
+
+Zkoušeno a vráceno: přednačtení fotky na `/hygge` a `/kodan` v měření zhoršilo LCP, takže zůstává jen na homepage.
+
+Zbývá:
+- **Bod 3** (nové články jsou 404 do dalšího nasazení): potřebuje Deploy Hook ve Vercelu.
+- `/cestovani` duplikuje `/clanky`, `lastmod` v sitemapě, nepoužívané CSS.
 
 ## Doporučené pořadí prací
 

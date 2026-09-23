@@ -3,7 +3,7 @@ import { ArrowRight, List, Plane, Train, Bus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import ArticleMap from "@/components/ArticleMap";
+import ArticleMap from "@/components/LazyArticleMap";
 import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
 
 const About = () => {
@@ -58,7 +58,7 @@ const About = () => {
               "url": "https://kastrup.cz",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://kastrup.cz/icon-512.svg"
+                "url": "https://kastrup.cz/icon-512.png"
               }
             },
             "mainEntityOfPage": {
@@ -380,9 +380,9 @@ const About = () => {
                 {/* Image - Møns Klint */}
                 <div className="my-8 overflow-hidden rounded-xl shadow-md">
                   <picture>
-                    <source srcSet="/images/atterseebook.webp" type="image/webp" />
+                    <source srcSet="/images/mons-klint-utesy.webp" type="image/webp" />
                     <img
-                      src="/images/atterseebook.jpg"
+                      src="/images/mons-klint-utesy.jpg"
                       alt="Møns Klint - nádherné bílé křídové útesy na ostrově Møn, Dánsko"
                       className="h-auto w-full object-cover"
                       loading="lazy"

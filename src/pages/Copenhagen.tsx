@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import ArticleMap from "@/components/ArticleMap";
+import ArticleMap from "@/components/LazyArticleMap";
 import { Button } from "@/components/ui/button";
 
 const PAGE_URL = "https://kastrup.cz/kodan";
@@ -85,7 +85,7 @@ const Copenhagen = () => {
       "@type": "Organization",
       name: "Kastrup.cz",
       url: "https://kastrup.cz",
-      logo: { "@type": "ImageObject", url: "https://kastrup.cz/icon-512.svg" },
+      logo: { "@type": "ImageObject", url: "https://kastrup.cz/icon-512.png" },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
   };
@@ -162,13 +162,19 @@ const Copenhagen = () => {
 
             <figure className="mb-10 overflow-hidden rounded-3xl border bg-card shadow-large">
               <picture>
-                <source srcSet="/images/20240813_130726.webp" type="image/webp" />
+                <source
+                  srcSet="/images/20240813_130726-640.webp 640w, /images/20240813_130726-960.webp 960w, /images/20240813_130726.webp 1400w"
+                  sizes="(min-width: 1024px) 1024px, 100vw"
+                  type="image/webp"
+                />
                 <img
                   src="/images/20240813_130726.jpg"
                   alt="Barevné historické domy, lodě a nábřeží Nyhavn v Kodani"
                   width="1400"
                   height="1050"
                   className="aspect-[16/9] w-full object-cover"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </picture>
               <figcaption className="px-5 py-3 text-sm text-muted-foreground">

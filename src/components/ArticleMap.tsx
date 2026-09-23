@@ -75,7 +75,12 @@ const ArticleMap = ({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {mapMarkers.map((marker, index) => (
-            <Marker key={index} position={[marker.lat, marker.lng]}>
+            <Marker
+              key={index}
+              position={[marker.lat, marker.lng]}
+              title={marker.title}
+              alt={marker.title ? `Na mapě: ${marker.title}` : 'Místo na mapě'}
+            >
               {(marker.title || marker.description) && (
                 <Popup>
                   {marker.title && <strong>{marker.title}</strong>}

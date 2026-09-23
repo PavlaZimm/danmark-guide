@@ -272,7 +272,7 @@ const Articles = () => {
           </div>
           {!routeCategory && (
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-[200px]">
+              <SelectTrigger className="w-full md:w-[200px]" aria-label="Filtrovat články podle kategorie">
                 <SelectValue placeholder="Vyberte kategorii" />
               </SelectTrigger>
               <SelectContent>
@@ -338,7 +338,7 @@ const Articles = () => {
           </div>
         ) : error ? (
           <div className="rounded-lg border-2 border-destructive/20 bg-destructive/5 p-12 text-center">
-            <p className="mb-4 text-lg font-semibold text-destructive">
+            <p className="mb-4 text-lg font-semibold text-red-700 dark:text-red-300">
               {error}
             </p>
             <Button onClick={fetchArticles} variant="outline">
@@ -362,7 +362,7 @@ const Articles = () => {
           </div>
         ) : articles.length === 0 ? (
           <div className="rounded-lg bg-gradient-card p-12 text-center">
-            <h3 className="mb-4 text-2xl font-bold">Zatím zde nejsou žádné články</h3>
+            <h2 className="mb-4 text-2xl font-bold">Zatím zde nejsou žádné články</h2>
             <p className="mb-6 text-lg text-muted-foreground">
               Pracujeme na skvělém obsahu o Dánsku. Brzy zde najdete zajímavé články
               o kultuře, cestování a životě v Dánsku.
