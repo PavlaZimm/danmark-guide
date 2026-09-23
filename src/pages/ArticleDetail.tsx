@@ -10,7 +10,8 @@ import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import DOMPurify from "dompurify";
-import ArticleMap, { MapMarker } from "@/components/ArticleMap";
+import ArticleMap from "@/components/LazyArticleMap";
+import type { MapMarker } from "@/components/ArticleMap";
 import { DEFAULT_SOCIAL_IMAGE, optimizeTitle, optimizeDescription, calculateReadingTime } from "@/lib/seo-helpers";
 
 interface Article {
@@ -461,7 +462,7 @@ const ArticleDetail = () => {
               "name": "Kastrup.cz",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://kastrup.cz/icon-512.svg",
+                "url": "https://kastrup.cz/icon-512.png",
                 "width": 512,
                 "height": 512
               }

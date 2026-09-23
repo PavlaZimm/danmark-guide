@@ -22,11 +22,11 @@ const Author = () => (
         property="og:description"
         content="Autorka praktických průvodců a inspirace pro cesty po Dánsku."
       />
-      <meta property="og:image" content="https://kastrup.cz/images/atterseebook.jpg" />
+      <meta property="og:image" content="https://kastrup.cz/images/og-kastrup.jpg" />
       <meta property="og:locale" content="cs_CZ" />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content="Pavla Zimmermannová – autorka Kastrup.cz" />
-      <meta name="twitter:image" content="https://kastrup.cz/images/atterseebook.jpg" />
+      <meta name="twitter:image" content="https://kastrup.cz/images/og-kastrup.jpg" />
 
       <script type="application/ld+json">
         {JSON.stringify({

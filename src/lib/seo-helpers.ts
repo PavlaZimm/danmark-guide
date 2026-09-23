@@ -3,7 +3,7 @@
  * Validates and optimizes meta tags for search engines
  */
 
-export const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/atterseebook.jpg';
+export const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/og-kastrup.jpg';
 
 /**
  * Truncate text to max length with ellipsis

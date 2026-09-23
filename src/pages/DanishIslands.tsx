@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Bike, ExternalLink, MapPinned, Mountain, Ship, Waves } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import ArticleMap from "@/components/ArticleMap";
+import ArticleMap from "@/components/LazyArticleMap";
 import { Button } from "@/components/ui/button";
 
 const PAGE_URL = "https://kastrup.cz/danske-ostrovy";
@@ -68,7 +68,7 @@ const DanishIslands = () => {
       "@type": "Organization",
       name: "Kastrup.cz",
       url: "https://kastrup.cz",
-      logo: { "@type": "ImageObject", url: "https://kastrup.cz/icon-512.svg" },
+      logo: { "@type": "ImageObject", url: "https://kastrup.cz/icon-512.png" },
     },
     mainEntityOfPage: { "@type": "WebPage", "@id": PAGE_URL },
   };

@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 
-const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/atterseebook.jpg';
+const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/og-kastrup.jpg';
 
 const escapeHtml = (value = '') => String(value)
   .replaceAll('&', '&amp;')
@@ -35,8 +35,17 @@ export default function routesHtmlPlugin() {
           title: 'Kastrup.cz - Váš průvodce po Dánsku | Cestování, Ubytování, Kultura',
           description: 'Objevte krásy Dánska s Kastrup.cz. Najděte nejlepší ubytování, poznejte dánskou kulturu, hygge a moderní design. Praktický průvodce pro cestovatele.',
           canonical: 'https://kastrup.cz/',
-          heading: 'Kastrup.cz – průvodce po Dánsku',
-          isHomepage: true
+          heading: 'Průvodce po Dánsku: Kodaň, hygge a cestování',
+          isHomepage: true,
+          // Hashed file names are resolved from dist/assets after the build
+          preloadImage: {
+            assets: [
+              { pattern: /^hero-denmark-768-[\w-]{8}\.webp$/, width: 768 },
+              { pattern: /^hero-denmark-1280-[\w-]{8}\.webp$/, width: 1280 },
+              { pattern: /^hero-denmark-[\w-]{8}\.webp$/, width: 1920 }
+            ],
+            sizes: '100vw'
+          }
         },
         {
           path: 'clanky',
@@ -352,6 +361,21 @@ export default function routesHtmlPlugin() {
       }
 
       const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+      const assetFiles = fs.readdirSync(path.join(distPath, 'assets'));
+
+      const buildPreloadTag = (preload) => {
+        const entries = preload.assets.map(({ pattern, width }) => {
+          const file = assetFiles.find(name => pattern.test(name));
+          return file ? { url: `/assets/${file}`, width } : null;
+        });
+        if (entries.some(entry => !entry)) {
+          console.warn('Hero image for preload not found in dist/assets');
+          return '';
+        }
+        const href = entries[0].url;
+        const srcset = entries.map(entry => `${entry.url} ${entry.width}w`).join(', ');
+        return `    <link rel="preload" as="image" type="image/webp" href="${escapeHtml(href)}" imagesrcset="${escapeHtml(srcset)}" imagesizes="${escapeHtml(preload.sizes)}" fetchpriority="high" />\n`;
+      };
 
       const notFoundHtml = indexHtml
         .replace(/<title>.*?<\/title>/, '<title>404 - Stránka nenalezena | Kastrup.cz</title>')
@@ -381,7 +405,7 @@ export default function routesHtmlPlugin() {
         const safeImage = escapeHtml(route.image || DEFAULT_SOCIAL_IMAGE);
         const safeType = route.type === 'article' ? 'article' : route.type === 'profile' ? 'profile' : 'website';
         const imageSizeMeta = safeImage === DEFAULT_SOCIAL_IMAGE
-          ? '\n    <meta property="og:image:width" content="1600" data-rh="true" />\n    <meta property="og:image:height" content="1200" data-rh="true" />'
+          ? '\n    <meta property="og:image:width" content="1200" data-rh="true" />\n    <meta property="og:image:height" content="630" data-rh="true" />'
           : '';
 
         let routeHtml = indexHtml
@@ -415,6 +439,10 @@ export default function routesHtmlPlugin() {
     <meta name="twitter:image" content="${safeImage}" data-rh="true" />`
         );
 
+        if (route.preloadImage) {
+          routeHtml = routeHtml.replace('</head>', `${buildPreloadTag(route.preloadImage)}  </head>`);
+        }
+
         if (route.type === 'article' && route.article) {
           const article = route.article;
           const articleUrl = route.canonical;
@@ -439,7 +467,7 @@ export default function routesHtmlPlugin() {
               url: 'https://kastrup.cz',
               logo: {
                 '@type': 'ImageObject',
-                url: 'https://kastrup.cz/icon-512.svg',
+                url: 'https://kastrup.cz/icon-512.png',
                 width: 512,
                 height: 512
               }

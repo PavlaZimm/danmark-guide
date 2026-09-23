@@ -60,7 +60,7 @@ const Home = () => {
             "@type": "Organization",
             "name": "Kastrup.cz",
             "url": "https://kastrup.cz",
-            "logo": "https://kastrup.cz/icon-512.svg",
+            "logo": "https://kastrup.cz/icon-512.png",
             "description": "Průvodce po Dánsku - cestování, kultura a ubytování",
             "address": {
               "@type": "PostalAddress",
@@ -103,8 +103,8 @@ const Home = () => {
         <div className="relative z-10 flex h-full items-center justify-center">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-3xl text-center text-white">
-              <h1 className="mb-4 animate-fade-in text-balance text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
-                Objevte krásy Dánska
+              <h1 className="mb-4 text-balance text-3xl font-bold leading-tight sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
+                Průvodce po Dánsku: Kodaň, hygge a cestování
               </h1>
               <p className="mb-6 text-base leading-relaxed text-white/95 sm:mb-8 sm:text-lg md:text-xl lg:text-2xl">
                 Zažijte zemi vikingů, hygge a moderního designu. Od barevných
