@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/sitemap.xml",
@@ -7,7 +8,7 @@
     },
     {
       "source": "/clanek/:slug",
-      "destination": "/clanek-shell.html"
+      "destination": "/api/article?slug=:slug"
     },
     {
       "source": "/tajnedvere/:path*",
