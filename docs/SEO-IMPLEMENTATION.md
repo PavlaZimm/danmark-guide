@@ -243,3 +243,21 @@ curl https://kastrup.cz/sitemap.xml | grep "clanek" | wc -l
 **Vytvořeno:** 26. 11. 2025
 **Poslední update:** 26. 11. 2025
 **Autor:** Claude (SEO audit & implementace)
+
+## Články pro vyhledávače a AI crawlery (od 24. 9. 2026)
+
+Každou adresu `/clanek/:slug` obsluhuje funkce `api/article.js` (rewrite ve `vercel.json`). Statické soubory článků se při buildu už negenerují.
+
+- **Existující publikovaný článek:** 200, titulek, meta, canonical, OG, schema Article a **celý text článku** v HTML. Text leží ve skrytém záložním bloku `.fallback-content`. Návštěvník s JavaScriptem ho nevidí, React ho nahradí. Roboti bez JS (ChatGPT, Perplexity, Claude) ho přečtou.
+- **Neexistující nebo nepublikovaný slug:** skutečná **404** + `noindex` (šablona `404.html`).
+- **Výpadek databáze:** 200 s obecnou šablonou článku a krátkou cache (30 s). Nikdy 404, aby Google kvůli výpadku nevyřadil živý článek.
+- **Cache:** CDN 5 minut + `stale-while-revalidate` 1 den. Úprava v administraci se robotům ukáže do 5 minut, bez nového deploye.
+
+Hlavičku a schema generuje sdílený modul `api/_lib/article-html.js`, který používá i `vite-plugin-routes-html.js` pro pevné stránky. Změnu meta dělej tam. Šablony pro funkci zapisuje build do `api/_generated/templates.js` (není v Gitu). HTML článku prochází allowlist filtrem `sanitizeArticleHtml`, testy jsou v `tests/article-html.test.mjs` (`npm test`).
+
+Ověření po deployi:
+
+```bash
+curl -sI https://kastrup.cz/clanek/neexistuje | head -1
+curl -s https://kastrup.cz/clanek/ribe | grep -c "<article"
+```

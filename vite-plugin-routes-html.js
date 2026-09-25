@@ -1,16 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
-
-const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/og-kastrup.jpg';
-
-const escapeHtml = (value = '') => String(value)
-  .replaceAll('&', '&amp;')
-  .replaceAll('"', '&quot;')
-  .replaceAll('<', '&lt;')
-  .replaceAll('>', '&gt;');
-
-const serializeJsonLd = (value) => JSON.stringify(value).replaceAll('<', '\\u003c');
+import {
+  DEFAULT_SOCIAL_IMAGE,
+  applyRouteMeta,
+  escapeHtml,
+} from './api/_lib/article-html.js';
 
 /**
  * Vite plugin to generate separate HTML files for each route with proper meta tags
@@ -303,7 +298,7 @@ export default function routesHtmlPlugin() {
           const supabase = createClient(supabaseUrl, supabaseKey);
           const { data: articles, error } = await supabase
             .from('articles')
-            .select('slug, title, perex, meta_title, meta_description, image_url, og_image, created_at, updated_at, focus_keyword, categories(name)')
+            .select('slug, title')
             .eq('published', true)
             .order('created_at', { ascending: false });
 
@@ -312,44 +307,24 @@ export default function routesHtmlPlugin() {
           } else if (articles && articles.length > 0) {
             console.log(`Found ${articles.length} published articles`);
 
-            articles.forEach(article => {
-              articlesList.push(article); // Store for article links
-              routes.push({
-                path: `clanek/${article.slug}`,
-                title: article.meta_title || `${article.title} | Kastrup.cz`,
-                description: article.meta_description || article.perex || `Přečtěte si článek ${article.title} na Kastrup.cz`,
-                canonical: `https://kastrup.cz/clanek/${article.slug}`,
-                image: article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE,
-                type: 'article',
-                heading: article.title,
-                article
-              });
-            });
+            // Articles are not written as static files: api/article.js renders them on request
+            // (always current text, real 404 for unknown slugs). The list feeds /clanky.
+            articlesList.push(...articles);
           } else {
             console.log('No published articles found');
           }
         } else {
-          console.warn('Supabase credentials not found - skipping article prerendering');
+          console.warn('Supabase credentials not found - /clanky gets the fallback article list');
         }
       } catch (error) {
         console.error('Error fetching articles:', error);
       }
 
       // Fallback: If no articles were fetched (build environment without network),
-      // use the fallback article to ensure at least one article link exists
+      // use the fallback article to ensure at least one article link exists on /clanky
       if (articlesList.length === 0) {
         console.log('Using fallback article for build');
         articlesList.push(fallbackArticle);
-        routes.push({
-          path: `clanek/${fallbackArticle.slug}`,
-          title: fallbackArticle.meta_title,
-          description: fallbackArticle.meta_description,
-          canonical: `https://kastrup.cz/clanek/${fallbackArticle.slug}`,
-          image: fallbackArticle.image_url,
-          type: 'article',
-          heading: fallbackArticle.title,
-          article: fallbackArticle
-        });
       }
 
       const distPath = path.resolve(process.cwd(), 'dist');
@@ -384,9 +359,8 @@ export default function routesHtmlPlugin() {
       fs.writeFileSync(path.join(distPath, '404.html'), notFoundHtml);
       console.log('✓ Generated 404.html');
 
-      // Shell for articles published after this build (vercel.json rewrites /clanek/:slug here
-      // when no prerendered file exists). It carries no canonical or og:url, so it never points
-      // Google at the homepage; ArticleDetail sets the real meta tags once the article loads.
+      // Template for api/article.js. It carries no canonical or og:url; the function
+      // fills in the real meta tags, schema and article text for each request.
       const articleShellHtml = indexHtml
         .replace(/<title>.*?<\/title>/, '<title>Článek | Kastrup.cz</title>')
         .replace(/<meta name="description" content=".*?"/, '<meta name="description" content="Článek o Dánsku na Kastrup.cz."')
@@ -394,6 +368,18 @@ export default function routesHtmlPlugin() {
         .replace(/\s*<meta property="og:url"[^>]*>/, '');
       fs.writeFileSync(path.join(distPath, 'clanek-shell.html'), articleShellHtml);
       console.log('✓ Generated clanek-shell.html');
+
+      // Vercel bundles functions after the build command, so api/article.js can import
+      // the templates of this exact build (the folder is git-ignored)
+      const generatedDir = path.resolve(process.cwd(), 'api', '_generated');
+      fs.mkdirSync(generatedDir, { recursive: true });
+      fs.writeFileSync(
+        path.join(generatedDir, 'templates.js'),
+        `// Generated by vite-plugin-routes-html.js during the build. Do not edit.\n` +
+        `export const articleShellHtml = ${JSON.stringify(articleShellHtml)};\n` +
+        `export const notFoundHtml = ${JSON.stringify(notFoundHtml)};\n`
+      );
+      console.log('✓ Generated api/_generated/templates.js');
 
       routes.forEach(route => {
         // For homepage, modify the main index.html directly
@@ -409,111 +395,11 @@ export default function routesHtmlPlugin() {
           targetHtmlPath = path.join(routeDir, 'index.html');
         }
 
-        // Modify HTML with route-specific meta tags
-        const safeTitle = escapeHtml(route.title);
-        const safeDescription = escapeHtml(route.description);
-        const safeCanonical = escapeHtml(route.canonical);
-        const safeImage = escapeHtml(route.image || DEFAULT_SOCIAL_IMAGE);
-        const safeType = route.type === 'article' ? 'article' : route.type === 'profile' ? 'profile' : 'website';
-        const imageSizeMeta = safeImage === DEFAULT_SOCIAL_IMAGE
-          ? '\n    <meta property="og:image:width" content="1200" data-rh="true" />\n    <meta property="og:image:height" content="630" data-rh="true" />'
-          : '';
-
-        let routeHtml = indexHtml
-          .replace(/<title>.*?<\/title>/, `<title>${safeTitle}</title>`)
-          .replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${safeDescription}"`);
-
-        // Add canonical link if not present
-        if (!routeHtml.includes('rel="canonical"')) {
-          routeHtml = routeHtml.replace(
-            '</head>',
-            `    <link rel="canonical" href="${safeCanonical}" data-rh="true" />\n  </head>`
-          );
-        } else {
-          routeHtml = routeHtml.replace(
-            /<link rel="canonical" href=".*?".*?\/>/,
-            `<link rel="canonical" href="${safeCanonical}" data-rh="true" />`
-          );
-        }
-
-        // Add OG tags
-        routeHtml = routeHtml.replace(
-          /<meta property="og:type".*?>/,
-          `<meta property="og:type" content="${safeType}" data-rh="true" />
-    <meta property="og:url" content="${safeCanonical}" data-rh="true" />
-    <meta property="og:title" content="${safeTitle}" data-rh="true" />
-    <meta property="og:description" content="${safeDescription}" data-rh="true" />
-    <meta property="og:image" content="${safeImage}" data-rh="true" />${imageSizeMeta}
-    <meta name="twitter:card" content="summary_large_image" data-rh="true" />
-    <meta name="twitter:title" content="${safeTitle}" data-rh="true" />
-    <meta name="twitter:description" content="${safeDescription}" data-rh="true" />
-    <meta name="twitter:image" content="${safeImage}" data-rh="true" />`
-        );
+        let routeHtml = applyRouteMeta(indexHtml, route);
 
         if (route.preloadImage) {
           routeHtml = routeHtml.replace('</head>', `${buildPreloadTag(route.preloadImage)}  </head>`);
         }
-
-        if (route.type === 'article' && route.article) {
-          const article = route.article;
-          const articleUrl = route.canonical;
-          const articleImage = article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE;
-          const articleSchema = serializeJsonLd({
-            '@context': 'https://schema.org',
-            '@type': 'Article',
-            '@id': `${articleUrl}#article`,
-            headline: article.title,
-            description: article.meta_description || article.perex,
-            image: articleImage,
-            datePublished: article.created_at,
-            dateModified: article.updated_at || article.created_at,
-            author: {
-              '@type': 'Person',
-              name: 'Pavla Zimmermannová',
-              url: 'https://kastrup.cz/autorka'
-            },
-            publisher: {
-              '@type': 'Organization',
-              name: 'Kastrup.cz',
-              url: 'https://kastrup.cz',
-              logo: {
-                '@type': 'ImageObject',
-                url: 'https://kastrup.cz/icon-512.png',
-                width: 512,
-                height: 512
-              }
-            },
-            mainEntityOfPage: {
-              '@type': 'WebPage',
-              '@id': articleUrl
-            },
-            articleSection: article.categories?.name,
-            keywords: article.focus_keyword || undefined,
-            inLanguage: 'cs-CZ'
-          });
-          const articleMeta = [
-            article.created_at
-              ? `    <meta property="article:published_time" content="${escapeHtml(article.created_at)}" data-rh="true" />`
-              : '',
-            article.updated_at
-              ? `    <meta property="article:modified_time" content="${escapeHtml(article.updated_at)}" data-rh="true" />`
-              : '',
-            `    <script id="server-article-schema" type="application/ld+json" data-rh="true">${articleSchema}</script>`
-          ].filter(Boolean).join('\n');
-
-          routeHtml = routeHtml.replace('</head>', `${articleMeta}\n  </head>`);
-        }
-
-        const safeHeading = escapeHtml(route.heading || route.title);
-        routeHtml = routeHtml
-          .replace(
-            /<h1>Kastrup\.cz - Váš průvodce po Dánsku<\/h1>/,
-            `<h1>${safeHeading}</h1>`
-          )
-          .replace(
-            /<p>Načítání stránky\.\.\. Pro plné zobrazení prosím zapněte JavaScript\.<\/p>/,
-            `<p>${safeDescription}</p>`
-          );
 
         // For /clanky page, add list of article links for crawlers
         if (route.path === 'clanky' && articlesList.length > 0) {
