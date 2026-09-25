@@ -1,5 +1,5 @@
 import { getArticleImageProps } from "@/lib/article-images";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { createRoot, type Root } from 'react-dom/client';
 import { useParams, Link } from "react-router-dom";
 import { Calendar, ArrowLeft, Share2, ArrowRight, List } from "lucide-react";
@@ -56,7 +56,6 @@ const ArticleDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tableOfContents, setTableOfContents] = useState<TocItem[]>([]);
   const [maps, setMaps] = useState<ArticleMapData[]>([]);
   const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -65,40 +64,19 @@ const ArticleDetail = () => {
     document.getElementById("server-article-schema")?.remove();
   }, [slug]);
 
-  // Generate table of contents from article headings
-  useEffect(() => {
-    if (article && article.content) {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(article.content, 'text/html');
-      const headings = doc.querySelectorAll('h2, h3');
-
-      const toc: TocItem[] = [];
-      headings.forEach((heading, index) => {
-        const text = heading.textContent || '';
-        let id = heading.id || text.toLowerCase()
-          .replace(/[^\w\s-]/g, '')
-          .replace(/\s+/g, '-')
-          .replace(/^-+|-+$/g, '');
-
-        // Ensure unique IDs
-        if (!id) {
-          id = `heading-${index}`;
-        }
-
-        toc.push({
-          id,
-          text,
-          level: parseInt(heading.tagName.charAt(1))
-        });
-
-        // Add ID to heading in actual content if it doesn't have one
-        if (!heading.id) {
-          heading.id = id;
-        }
-      });
-
-      setTableOfContents(toc);
-    }
+  // Table of contents is derived during render, so it appears together with the article
+  // instead of being inserted above the hero image afterwards (layout shift, CLS)
+  const tableOfContents = useMemo<TocItem[]>(() => {
+    if (!article?.content) return [];
+    const doc = new DOMParser().parseFromString(article.content, 'text/html');
+    return Array.from(doc.querySelectorAll('h2, h3')).map((heading, index) => {
+      const text = heading.textContent || '';
+      const id = heading.id || text.toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/^-+|-+$/g, '') || `heading-${index}`;
+      return { id, text, level: parseInt(heading.tagName.charAt(1)) };
+    });
   }, [article]);
 
   // Add lazy loading to images in article content
