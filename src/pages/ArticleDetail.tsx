@@ -352,13 +352,15 @@ const ArticleDetail = () => {
   const readingTime = calculateReadingTime(article.content);
   const isAirportGuide = article.slug === "letiste-kodan-kastrup-doprava-do-centra";
   const isKastrupGuide = article.slug === "kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti";
-  const relatedGuide = isAirportGuide || isKastrupGuide
+  // Any article about Copenhagen points readers (and Google) to the main Copenhagen guide
+  const mentionsCopenhagen = /Kodaň|Kodan[ěi]|Kodaní/.test(`${article.title} ${article.content}`);
+  const relatedGuide = isAirportGuide || isKastrupGuide || mentionsCopenhagen
     ? {
         href: "/kodan",
         title: "Co vidět v Kodani",
-        description: isKastrupGuide
-          ? "Navazující trasy, mapa památek a praktický plán pro první návštěvu Kodaně."
-          : "Po příletu si naplánujte památky a čtvrti pomocí mapy a navazujících pěších tras.",
+        description: isAirportGuide
+          ? "Po příletu si naplánujte památky a čtvrti pomocí mapy a navazujících pěších tras."
+          : "Navazující trasy, mapa památek a praktický plán pro první návštěvu Kodaně.",
         button: "Otevřít průvodce Kodaní",
       }
     : {
