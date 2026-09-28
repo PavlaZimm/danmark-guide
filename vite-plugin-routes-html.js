@@ -45,8 +45,16 @@ const toPolishTemplate = (html) => {
     .replace(/<html lang="[a-z-]+">/, '<html lang="pl">')
     .replace(/<meta property="og:locale" content="[^"]*"/, `<meta property="og:locale" content="${SITES.pl.locale}"`)
     .replace(/<meta property="og:site_name" content="[^"]*"/, `<meta property="og:site_name" content="${SITES.pl.name}"`)
+    .replace(/<meta name="apple-mobile-web-app-title" content="[^"]*"/, `<meta name="apple-mobile-web-app-title" content="${SITES.pl.name}"`)
+    .replace(/"name": "Kastrup\.cz"/g, `"name": "${SITES.pl.name}"`)
+    .replace('"url": "https://kastrup.cz",', `"url": "${SITES.pl.origin}",`)
+    .replace(/"description": "Váš průvodce po Dánsku[^"]*"/, '"description": "Twój przewodnik po Danii – Kopenhaga, noclegi, kultura, podróże"')
     .replace(/<div class="fallback-content">[\s\S]*?<\/footer>\s*<\/div>/, fallback);
   if (!polished.includes('Główne sekcje')) throw new Error('Polish fallback navigation was not inserted into index.html');
+  // (the Czech H1 placeholder in the fallback is intended: applyRouteMeta replaces it per page)
+  if (/"url": "https:\/\/kastrup\.cz"|"name": "Kastrup\.cz"|content="Kastrup\.cz"|"description": "Váš/.test(polished)) {
+    throw new Error('Czech site identity left in the Polish index.html (WebSite schema or app title)');
+  }
   return polished;
 };
 
