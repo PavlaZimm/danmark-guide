@@ -4,7 +4,9 @@
 
 export const SITES = {
   cs: { lang: 'cs', origin: 'https://kastrup.cz', host: 'kastrup.cz', locale: 'cs_CZ', name: 'Kastrup.cz', articlePrefix: '/clanek/' },
-  pl: { lang: 'pl', origin: 'https://kastrup.pl', host: 'kastrup.pl', locale: 'pl_PL', name: 'Kastrup.pl', articlePrefix: '/artykul/' },
+  pl: { lang: 'pl', origin: 'https://kastrup.pl', host: 'kastrup.pl', locale: 'pl_PL', name: 'Kastrup.pl', articlePrefix: '/artykul/',
+    // Search Console, property https://kastrup.pl/ (HTML tag method)
+    googleSiteVerification: 'SdAXeSrD2B_XNMGzT2yKQbXwrUrAAGZagRy8gnCFNGk' },
 };
 
 // On since kastrup.pl serves the Polish site. Turning it off removes every hreflang link,
