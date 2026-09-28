@@ -125,6 +125,7 @@ export type Database = {
           focus_keyword: string | null
           id: string
           image_url: string | null
+          lang: string
           meta_description: string | null
           meta_title: string | null
           og_image: string | null
@@ -132,6 +133,7 @@ export type Database = {
           published: boolean
           slug: string
           title: string
+          translation_of: string | null
           updated_at: string
         }
         Insert: {
@@ -142,6 +144,7 @@ export type Database = {
           focus_keyword?: string | null
           id?: string
           image_url?: string | null
+          lang?: string
           meta_description?: string | null
           meta_title?: string | null
           og_image?: string | null
@@ -149,6 +152,7 @@ export type Database = {
           published?: boolean
           slug: string
           title: string
+          translation_of?: string | null
           updated_at?: string
         }
         Update: {
@@ -159,6 +163,7 @@ export type Database = {
           focus_keyword?: string | null
           id?: string
           image_url?: string | null
+          lang?: string
           meta_description?: string | null
           meta_title?: string | null
           og_image?: string | null
@@ -166,6 +171,7 @@ export type Database = {
           published?: boolean
           slug?: string
           title?: string
+          translation_of?: string | null
           updated_at?: string
         }
         Relationships: [

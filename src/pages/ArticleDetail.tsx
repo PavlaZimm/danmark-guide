@@ -13,6 +13,9 @@ import DOMPurify from "dompurify";
 import ArticleMap from "@/components/LazyArticleMap";
 import type { MapMarker } from "@/components/ArticleMap";
 import { DEFAULT_SOCIAL_IMAGE, optimizeTitle, optimizeDescription, calculateReadingTime } from "@/lib/seo-helpers";
+import { ui } from "@/lib/i18n";
+import { LANG, SITE, absoluteUrl, articleAlternates, articlePath, categoryName, pathTo } from "@/lib/site";
+import { HREFLANG_LIVE } from "../../api/_lib/sites.js";
 
 interface Article {
   id: string;
@@ -26,8 +29,10 @@ interface Article {
   meta_title: string | null;
   meta_description: string | null;
   og_image: string | null;
+  translation_of: string | null;
   categories: {
     name: string;
+    slug: string;
   };
 }
 
@@ -58,6 +63,7 @@ const ArticleDetail = () => {
   const [loading, setLoading] = useState(true);
   const [maps, setMaps] = useState<ArticleMapData[]>([]);
   const [faqItems, setFaqItems] = useState<FAQItem[]>([]);
+  const [alternates, setAlternates] = useState<{ hreflang: string; href: string }[]>([]);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -258,19 +264,33 @@ const ArticleDetail = () => {
           meta_title,
           meta_description,
           og_image,
+          translation_of,
           categories (
-            name
+            name,
+            slug
           )
         `)
+        .eq("lang", LANG)
         .eq("slug", slug)
         .eq("published", true)
         .single();
 
       if (error) throw error;
       setArticle(data);
+
+      // Same article in the other language, for hreflang (only once the Polish site is live)
+      if (HREFLANG_LIVE) {
+        const originalId = data.translation_of || data.id;
+        const { data: versions } = await supabase
+          .from("articles")
+          .select("lang, slug")
+          .eq("published", true)
+          .or(`id.eq.${originalId},translation_of.eq.${originalId}`);
+        setAlternates(articleAlternates(Object.fromEntries((versions || []).map((row) => [row.lang, row.slug]))));
+      }
     } catch (error) {
       console.error("Error fetching article:", error);
-      toast.error("Článek se nepodařilo načíst");
+      toast.error(ui.article.loadError);
     } finally {
       setLoading(false);
     }
@@ -288,12 +308,12 @@ const ArticleDetail = () => {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      toast.success("Odkaz zkopírován do schránky");
+      toast.success(ui.article.linkCopied);
     }
   };
 
   const formattedDate = article
-    ? new Date(article.created_at).toLocaleDateString("cs-CZ", {
+    ? new Date(article.created_at).toLocaleDateString(ui.dateLocale, {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -323,20 +343,20 @@ const ArticleDetail = () => {
     return (
       <>
         <Helmet>
-          <title>Článek nenalezen | Kastrup.cz</title>
+          <title>{`${ui.article.notFoundTitle} | ${SITE.name}`}</title>
           <meta name="robots" content="noindex, follow" />
         </Helmet>
         <div className="min-h-screen py-12">
           <div className="container mx-auto px-4 md:px-6">
             <div className="mx-auto max-w-4xl text-center">
-              <h1 className="mb-4 text-4xl font-bold">Článek nenalezen</h1>
+              <h1 className="mb-4 text-4xl font-bold">{ui.article.notFoundTitle}</h1>
               <p className="mb-8 text-muted-foreground">
-                Omlouváme se, ale článek, který hledáte, neexistuje.
+                {ui.article.notFoundText}
               </p>
-              <Link to="/clanky">
+              <Link to={pathTo("articles")}>
                 <Button>
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Zpět na články
+                  {ui.article.backToArticles}
                 </Button>
               </Link>
             </div>
@@ -350,36 +370,32 @@ const ArticleDetail = () => {
   const pageTitle = optimizeTitle(article.meta_title || article.title);
   const pageDescription = optimizeDescription(article.meta_description || article.perex);
   const readingTime = calculateReadingTime(article.content);
-  const isAirportGuide = article.slug === "letiste-kodan-kastrup-doprava-do-centra";
-  const isKastrupGuide = article.slug === "kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti";
+  const isAirportGuide = article.slug === ui.article.airportSlug;
+  const isKastrupGuide = article.slug === ui.article.kastrupSlug;
   const relatedGuide = isAirportGuide || isKastrupGuide
     ? {
-        href: "/kodan",
-        title: "Co vidět v Kodani",
+        href: pathTo("copenhagen"),
+        title: ui.article.copenhagenCard.title,
         description: isKastrupGuide
-          ? "Navazující trasy, mapa památek a praktický plán pro první návštěvu Kodaně."
-          : "Po příletu si naplánujte památky a čtvrti pomocí mapy a navazujících pěších tras.",
-        button: "Otevřít průvodce Kodaní",
+          ? ui.article.copenhagenCard.fromKastrup
+          : ui.article.copenhagenCard.fromAirport,
+        button: ui.article.copenhagenCard.button,
       }
     : {
-        href: "/clanky",
-        title: "Další průvodci po Dánsku",
-        description: "Pokračujte na přehled ověřených článků o cestování a dánské kultuře.",
-        button: "Prohlédnout průvodce",
+        href: pathTo("articles"),
+        ...ui.article.moreGuidesCard,
       };
   const secondaryGuide = isKastrupGuide
     ? {
-        href: "/clanek/letiste-kodan-kastrup-doprava-do-centra",
-        title: "Doprava z letiště Kodaň",
-        description: "Porovnejte metro, vlak, autobus a taxi mezi Kastrupem a centrem Kodaně.",
-        button: "Naplánovat cestu z letiště",
+        href: articlePath(ui.article.airportSlug),
+        ...ui.article.airportCard,
       }
     : {
-        href: "/ubytovani",
-        title: "Ubytování v Kodani a Dánsku",
-        description: "Porovnejte polohu hotelů a apartmánů přímo na interaktivní mapě.",
-        button: "Zobrazit mapu ubytování",
+        href: pathTo("accommodation"),
+        ...ui.article.accommodationCard,
       };
+  const articleUrl = absoluteUrl(articlePath(article.slug));
+  const sectionName = categoryName(article.categories);
 
   return (
     <>
@@ -389,11 +405,14 @@ const ArticleDetail = () => {
           name="description"
           content={pageDescription}
         />
-        <link rel="canonical" href={`https://kastrup.cz/clanek/${article.slug}`} />
+        <link rel="canonical" href={articleUrl} />
+        {alternates.map((alt) => (
+          <link key={alt.hreflang} rel="alternate" hrefLang={alt.hreflang} href={alt.href} />
+        ))}
 
         {/* Open Graph */}
         <meta property="og:type" content="article" />
-        <meta property="og:url" content={`https://kastrup.cz/clanek/${article.slug}`} />
+        <meta property="og:url" content={articleUrl} />
         <meta property="og:title" content={pageTitle} />
         <meta
           property="og:description"
@@ -404,8 +423,9 @@ const ArticleDetail = () => {
           content={article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE}
         />
         <meta property="article:published_time" content={article.created_at} />
-        <meta property="article:section" content={article.categories?.name} />
-        <meta property="og:site_name" content="Kastrup.cz" />
+        <meta property="article:section" content={sectionName} />
+        <meta property="og:site_name" content={SITE.name} />
+        <meta property="og:locale" content={SITE.locale} />
 
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
@@ -432,26 +452,26 @@ const ArticleDetail = () => {
             "author": {
               "@type": "Person",
               "name": "Pavla Zimmermannová",
-              "url": "https://kastrup.cz/autorka",
+              "url": absoluteUrl(pathTo("author")),
               "email": "zimmermannovap@gmail.com"
             },
             "publisher": {
               "@type": "Organization",
-              "name": "Kastrup.cz",
+              "name": SITE.name,
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://kastrup.cz/icon-512.png",
+                "url": absoluteUrl("/icon-512.png"),
                 "width": 512,
                 "height": 512
               }
             },
             "mainEntityOfPage": {
               "@type": "WebPage",
-              "@id": `https://kastrup.cz/clanek/${article.slug}`
+              "@id": articleUrl
             },
-            "articleSection": article.categories?.name,
-            "inLanguage": "cs-CZ",
-            "keywords": `${article.categories?.name}, Dánsko, cestování, kultura`
+            "articleSection": sectionName,
+            "inLanguage": ui.inLanguage,
+            "keywords": `${sectionName}, ${ui.article.keywords}`
           })}
         </script>
 
@@ -464,20 +484,20 @@ const ArticleDetail = () => {
               {
                 "@type": "ListItem",
                 "position": 1,
-                "name": "Domů",
-                "item": "https://kastrup.cz"
+                "name": ui.breadcrumbHome,
+                "item": SITE.origin
               },
               {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "Průvodce",
-                "item": "https://kastrup.cz/clanky"
+                "name": ui.article.guides,
+                "item": absoluteUrl(pathTo("articles"))
               },
               {
                 "@type": "ListItem",
                 "position": 3,
                 "name": article.title,
-                "item": `https://kastrup.cz/clanek/${article.slug}`
+                "item": articleUrl
               }
             ]
           })}
@@ -507,7 +527,7 @@ const ArticleDetail = () => {
           <article className="mx-auto max-w-4xl">
             <Breadcrumbs
               items={[
-                { label: "Průvodce", href: "/clanky" },
+                { label: ui.article.guides, href: pathTo("articles") },
                 { label: article.title }
               ]}
             />
@@ -526,10 +546,10 @@ const ArticleDetail = () => {
 
             {/* Table of Contents */}
             {tableOfContents.length > 0 && (
-              <nav className="mb-12 rounded-lg border bg-card p-6 shadow-sm" aria-label="Obsah článku">
+              <nav className="mb-12 rounded-lg border bg-card p-6 shadow-sm" aria-label={ui.article.toc}>
                 <div className="mb-4 flex items-center gap-2">
                   <List className="h-5 w-5 text-primary" />
-                  <h2 className="text-lg font-semibold">Obsah článku</h2>
+                  <h2 className="text-lg font-semibold">{ui.article.toc}</h2>
                 </div>
                 <ul className="grid gap-2 md:grid-cols-2">
                   {tableOfContents.map((item) => (
@@ -615,7 +635,7 @@ const ArticleDetail = () => {
                 <div className="flex-shrink-0">
                   <div
                     role="img"
-                    aria-label="Iniciály Pavly Zimmermannové"
+                    aria-label={ui.article.authorInitials}
                     className="flex h-32 w-32 items-center justify-center rounded-full border-4 border-primary/20 bg-primary text-3xl font-bold text-primary-foreground shadow-xl"
                   >
                     PZ
@@ -625,28 +645,26 @@ const ArticleDetail = () => {
                 {/* Author Info */}
                 <div className="flex-1 text-center md:text-left">
                   <h3 className="mb-2 text-2xl font-bold">
-                    <Link to="/autorka" className="hover:text-primary hover:underline">
+                    <Link to={pathTo("author")} className="hover:text-primary hover:underline">
                       Pavla Zimmermannová
                     </Link>
                   </h3>
                   <div className="mb-4 h-1 w-16 bg-primary/30 mx-auto md:mx-0"></div>
                   <p className="mb-4 leading-relaxed text-muted-foreground">
-                    Dánsko mám ráda a vracím se sem pro kombinaci klidu, přírody, designu a laskavé atmosféry.
-                    S láskou k severské kultuře a hygge filosofii vám přináším praktické tipy a inspiraci
-                    pro vaše cesty po Dánsku.
+                    {ui.article.authorBio}
                   </p>
                   <div className="flex flex-wrap justify-center gap-3 md:justify-start">
                     <a
                       href="mailto:zimmermannovap@gmail.com"
                       className="inline-flex items-center gap-2 rounded-lg bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/20"
                     >
-                      📧 Kontakt
+                      📧 {ui.article.contact}
                     </a>
                     <Link
-                      to="/autorka"
+                      to={pathTo("author")}
                       className="inline-flex items-center gap-2 rounded-lg bg-muted px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/80"
                     >
-                      👤 O autorce
+                      👤 {ui.article.aboutAuthor}
                     </Link>
                   </div>
                 </div>

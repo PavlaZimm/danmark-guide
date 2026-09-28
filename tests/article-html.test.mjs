@@ -10,7 +10,10 @@ const shell = indexHtml
   .replace(/<title>.*?<\/title>/, '<title>Článek | Kastrup.cz</title>')
   .replace(/\s*<link rel="canonical"[^>]*>/, '')
   .replace(/\s*<meta property="og:url"[^>]*>/, '');
-const templates = { articleShellHtml: shell, notFoundHtml: '<title>404 - Stránka nenalezena | Kastrup.cz</title>' };
+const templates = {
+  cs: { articleShellHtml: shell, notFoundHtml: '<title>404 - Stránka nenalezena | Kastrup.cz</title>' },
+  pl: { articleShellHtml: shell.replace('<html lang="cs">', '<html lang="pl">'), notFoundHtml: '<title>404 - Nie znaleziono strony | Kastrup.pl</title>' },
+};
 
 const article = {
   slug: 'ribe',
@@ -26,7 +29,7 @@ const article = {
   created_at: '2026-09-17T10:00:00+00:00',
   updated_at: '2026-09-20T10:00:00+00:00',
   focus_keyword: 'Ribe',
-  categories: { name: 'Cestování' },
+  categories: { name: 'Cestování', slug: 'cestovani' },
 };
 
 test('sanitizer keeps article markup', () => {
@@ -129,7 +132,7 @@ test('database failure never turns an article into a 404', async () => {
       fetchArticle: async () => { throw new Error('timeout'); },
     });
     assert.equal(result.status, 200);
-    assert.equal(result.html, shell);
+    assert.equal(result.html, templates.cs.articleShellHtml);
     assert.match(result.cache, /s-maxage=30\b/);
   } finally {
     console.error = original;

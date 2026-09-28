@@ -10,6 +10,64 @@ import { toast } from "sonner";
 import { Helmet } from "react-helmet-async";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { DEFAULT_SOCIAL_IMAGE } from "@/lib/seo-helpers";
+import { LANG, SITE, absoluteUrl, articlePath, categoryName, pathTo } from "@/lib/site";
+
+const TEXT = {
+  cs: {
+    title: "Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz",
+    description: "Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska.",
+    ogTitle: "Články o Dánsku - Kastrup.cz",
+    heading: "Články o Dánsku",
+    lead: "Prozkoumejte naše články o Dánsku",
+    loadError: "Nepodařilo se načíst články. Zkontrolujte prosím připojení k internetu.",
+    loadErrorShort: "Nepodařilo se načíst články",
+    search: "Hledat články...",
+    filterLabel: "Filtrovat články podle kategorie",
+    choose: "Vyberte kategorii",
+    allCategories: "Všechny kategorie",
+    activeFilters: "Aktivní filtry:",
+    searching: "Hledání",
+    cancelSearch: "Zrušit vyhledávání",
+    category: "Kategorie",
+    cancelCategory: "Zrušit filtr kategorie",
+    clearAll: "Vymazat vše",
+    retry: "Zkusit znovu",
+    noCategory: "Bez kategorie",
+    emptyTitle: "Zatím zde nejsou žádné články",
+    emptyText: "Pracujeme na skvělém obsahu o Dánsku. Brzy zde najdete zajímavé články o kultuře, cestování a životě v Dánsku.",
+    moreAbout: "Více o Dánsku",
+    browseAccommodation: "Prohlédnout ubytování",
+    noMatch: "Nenalezeny žádné články odpovídající vašemu hledání.",
+    clearFilters: "Vymazat filtry",
+  },
+  pl: {
+    title: "Artykuły o Danii: podróże, kultura, praktyczne porady | Kastrup.pl",
+    description: "Artykuły o Danii: Kopenhaga, duńskie wyspy, hygge, mosty i promy. Sprawdzone ceny i praktyczne wskazówki na podróż do Danii.",
+    ogTitle: "Artykuły o Danii - Kastrup.pl",
+    heading: "Artykuły o Danii",
+    lead: "Przewodniki i praktyczne porady na podróż do Danii",
+    loadError: "Nie udało się wczytać artykułów. Sprawdź połączenie z internetem.",
+    loadErrorShort: "Nie udało się wczytać artykułów",
+    search: "Szukaj artykułów...",
+    filterLabel: "Filtruj artykuły według kategorii",
+    choose: "Wybierz kategorię",
+    allCategories: "Wszystkie kategorie",
+    activeFilters: "Aktywne filtry:",
+    searching: "Szukasz",
+    cancelSearch: "Wyczyść wyszukiwanie",
+    category: "Kategoria",
+    cancelCategory: "Wyczyść filtr kategorii",
+    clearAll: "Wyczyść wszystko",
+    retry: "Spróbuj ponownie",
+    noCategory: "Bez kategorii",
+    emptyTitle: "Nie ma tu jeszcze artykułów",
+    emptyText: "Przygotowujemy artykuły o Danii. Wkrótce znajdziesz tu przewodniki o kulturze, podróżach i codziennym życiu w Danii.",
+    moreAbout: "Więcej o Danii",
+    browseAccommodation: "Zobacz noclegi",
+    noMatch: "Nie znaleziono artykułów pasujących do wyszukiwania.",
+    clearFilters: "Wyczyść filtry",
+  },
+}[LANG];
 import {
   Select,
   SelectContent,
@@ -68,11 +126,11 @@ const Articles = () => {
       };
     } else {
       return {
-        title: "Články o Dánsku | Cestování, Kultura, Tipy | Kastrup.cz",
-        description: "Čtěte zajímavé články o Dánsku, dánské kultuře, cestování, hygge a životě v severní Evropě. Praktické tipy a inspirace pro vaši cestu do Dánska.",
-        canonical: "https://kastrup.cz/clanky",
-        ogTitle: "Články o Dánsku - Kastrup.cz",
-        heading: "Články o Dánsku"
+        title: TEXT.title,
+        description: TEXT.description,
+        canonical: absoluteUrl(pathTo("articles")),
+        ogTitle: TEXT.ogTitle,
+        heading: TEXT.heading
       };
     }
   };
@@ -125,6 +183,7 @@ const Articles = () => {
             slug
           )
         `)
+        .eq("lang", LANG)
         .eq("published", true)
         .order("created_at", { ascending: false });
 
@@ -139,8 +198,8 @@ const Articles = () => {
       }
     } catch (error) {
       console.error("Error fetching articles:", error);
-      setError("Nepodařilo se načíst články. Zkontrolujte prosím připojení k internetu.");
-      toast.error("Nepodařilo se načíst články");
+      setError(TEXT.loadError);
+      toast.error(TEXT.loadErrorShort);
     } finally {
       setLoading(false);
     }
@@ -185,8 +244,8 @@ const Articles = () => {
             "url": pageMeta.canonical,
             "isPartOf": {
               "@type": "WebSite",
-              "name": "Kastrup.cz",
-              "url": "https://kastrup.cz"
+              "name": SITE.name,
+              "url": SITE.origin
             }
           })}
         </script>
@@ -202,11 +261,11 @@ const Articles = () => {
                 "position": index + 1,
                 "item": {
                   "@type": "Article",
-                  "@id": `https://kastrup.cz/clanek/${article.slug}`,
+                  "@id": absoluteUrl(articlePath(article.slug)),
                   "headline": article.title,
                   "description": article.perex,
                   "image": article.image_url || DEFAULT_SOCIAL_IMAGE,
-                  "url": `https://kastrup.cz/clanek/${article.slug}`
+                  "url": absoluteUrl(articlePath(article.slug))
                 }
               }))
             })}
@@ -224,7 +283,7 @@ const Articles = () => {
           <p className="text-lg text-muted-foreground">
             {location.pathname === "/cestovani"
               ? "Praktické tipy a inspirace pro vaši cestu do Dánska"
-              : "Prozkoumejte naše články o Dánsku"}
+              : TEXT.lead}
           </p>
         </div>
 
@@ -264,7 +323,7 @@ const Articles = () => {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Hledat články..."
+              placeholder={TEXT.search}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -272,14 +331,14 @@ const Articles = () => {
           </div>
           {!routeCategory && (
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-[200px]" aria-label="Filtrovat články podle kategorie">
-                <SelectValue placeholder="Vyberte kategorii" />
+              <SelectTrigger className="w-full md:w-[200px]" aria-label={TEXT.filterLabel}>
+                <SelectValue placeholder={TEXT.choose} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Všechny kategorie</SelectItem>
+                <SelectItem value="all">{TEXT.allCategories}</SelectItem>
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.slug}>
-                    {category.name}
+                    {categoryName(category)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -290,14 +349,14 @@ const Articles = () => {
         {/* Active Filters */}
         {(searchTerm || (!routeCategory && selectedCategory !== "all")) && (
           <div className="mb-6 flex flex-wrap items-center gap-2">
-            <span className="text-sm text-muted-foreground">Aktivní filtry:</span>
+            <span className="text-sm text-muted-foreground">{TEXT.activeFilters}</span>
             {searchTerm && (
               <Badge variant="secondary" className="gap-1">
-                Hledání: "{searchTerm}"
+                {TEXT.searching}: "{searchTerm}"
                 <button
                   onClick={() => setSearchTerm("")}
                   className="ml-1 rounded-full hover:bg-muted"
-                  aria-label="Zrušit vyhledávání"
+                  aria-label={TEXT.cancelSearch}
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -305,11 +364,11 @@ const Articles = () => {
             )}
             {selectedCategory !== "all" && (
               <Badge variant="secondary" className="gap-1">
-                Kategorie: {categories.find((c) => c.slug === selectedCategory)?.name}
+                {TEXT.category}: {categoryName(categories.find((c) => c.slug === selectedCategory))}
                 <button
                   onClick={() => setSelectedCategory("all")}
                   className="ml-1 rounded-full hover:bg-muted"
-                  aria-label="Zrušit filtr kategorie"
+                  aria-label={TEXT.cancelCategory}
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -324,7 +383,7 @@ const Articles = () => {
               }}
               className="h-7 text-xs"
             >
-              Vymazat vše
+              {TEXT.clearAll}
             </Button>
           </div>
         )}
@@ -342,7 +401,7 @@ const Articles = () => {
               {error}
             </p>
             <Button onClick={fetchArticles} variant="outline">
-              Zkusit znovu
+              {TEXT.retry}
             </Button>
           </div>
         ) : filteredArticles.length > 0 ? (
@@ -355,27 +414,26 @@ const Articles = () => {
                 slug={article.slug}
                 perex={article.perex}
                 imageUrl={article.image_url || undefined}
-                category={article.categories?.name || "Bez kategorie"}
+                category={categoryName(article.categories) || TEXT.noCategory}
                 createdAt={article.created_at}
               />
             ))}
           </div>
         ) : articles.length === 0 ? (
           <div className="rounded-lg bg-gradient-card p-12 text-center">
-            <h2 className="mb-4 text-2xl font-bold">Zatím zde nejsou žádné články</h2>
+            <h2 className="mb-4 text-2xl font-bold">{TEXT.emptyTitle}</h2>
             <p className="mb-6 text-lg text-muted-foreground">
-              Pracujeme na skvělém obsahu o Dánsku. Brzy zde najdete zajímavé články
-              o kultuře, cestování a životě v Dánsku.
+              {TEXT.emptyText}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/o-dansku">
+              <Link to={pathTo("about")}>
                 <Button variant="default">
-                  Více o Dánsku
+                  {TEXT.moreAbout}
                 </Button>
               </Link>
-              <Link to="/ubytovani">
+              <Link to={pathTo("accommodation")}>
                 <Button variant="outline">
-                  Prohlédnout ubytování
+                  {TEXT.browseAccommodation}
                 </Button>
               </Link>
             </div>
@@ -383,7 +441,7 @@ const Articles = () => {
         ) : (
           <div className="rounded-lg bg-muted p-12 text-center">
             <p className="mb-4 text-lg text-muted-foreground">
-              Nenalezeny žádné články odpovídající vašemu hledání.
+              {TEXT.noMatch}
             </p>
             <Button
               onClick={() => {
@@ -392,7 +450,7 @@ const Articles = () => {
               }}
               variant="outline"
             >
-              Vymazat filtry
+              {TEXT.clearFilters}
             </Button>
           </div>
         )}

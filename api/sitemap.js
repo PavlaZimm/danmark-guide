@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { LANGS, SITES, STATIC_PAGES } from './_lib/sites.js';
 
 const escapeXml = (value) => String(value)
   .replaceAll('&', '&amp;')
@@ -21,28 +22,18 @@ export default async function handler(req, res) {
   }
 
   const supabase = createClient(supabaseUrl, supabaseKey);
-  const baseUrl = 'https://kastrup.cz';
-  const staticPages = [
-    '/',
-    '/clanky',
-    '/ubytovani',
-    '/o-dansku',
-    '/kultura',
-    '/hygge',
-    '/kodan',
-    '/danstina',
-    '/danske-ostrovy',
-    '/cestovani',
-    '/kontakt',
-    '/autorka',
-    '/ochrana-soukromi',
-  ];
+  // kastrup.cz → Czech sitemap; kastrup.pl → ?lang=pl from middleware.js
+  const lang = LANGS.includes(String(req.query.lang)) ? String(req.query.lang) : 'cs';
+  const site = SITES[lang];
+  const baseUrl = site.origin;
+  const staticPages = STATIC_PAGES.map((page) => page[lang]).filter(Boolean);
 
   try {
     // Fetch published articles
     const { data: articles, error: articlesError } = await supabase
       .from('articles')
       .select('slug, created_at, updated_at')
+      .eq('lang', lang)
       .eq('published', true)
       .order('created_at', { ascending: false });
 
@@ -66,7 +57,7 @@ export default async function handler(req, res) {
       articles.forEach(article => {
         const lastmod = (article.updated_at || article.created_at).split('T')[0];
         xml += '  <url>\n';
-        xml += `    <loc>${escapeXml(`${baseUrl}/clanek/${article.slug}`)}</loc>\n`;
+        xml += `    <loc>${escapeXml(`${baseUrl}${site.articlePrefix}${article.slug}`)}</loc>\n`;
         xml += `    <lastmod>${escapeXml(lastmod)}</lastmod>\n`;
         xml += '  </url>\n';
       });

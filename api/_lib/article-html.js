@@ -2,12 +2,19 @@
 // and by the article function (api/article.js), so both produce the same markup.
 // Files and folders starting with "_" inside api/ are not deployed as endpoints.
 
+import { SITES, categoryName, pagePath } from './sites.js';
+
 export const SITE_URL = 'https://kastrup.cz';
 export const DEFAULT_SOCIAL_IMAGE = 'https://kastrup.cz/images/og-kastrup.jpg';
 export const AUTHOR_NAME = 'Pavla Zimmermannová';
 
 export const ARTICLE_SELECT =
-  'slug, title, perex, content, meta_title, meta_description, image_url, og_image, created_at, updated_at, focus_keyword, categories(name)';
+  'id, lang, translation_of, slug, title, perex, content, meta_title, meta_description, image_url, og_image, created_at, updated_at, focus_keyword, categories(name, slug)';
+
+const TEXT = {
+  cs: { author: 'Autorka', published: 'publikováno', updated: 'aktualizováno', readArticle: 'Přečtěte si článek', on: 'na', dateLocale: 'cs-CZ', inLanguage: 'cs-CZ' },
+  pl: { author: 'Autorka', published: 'opublikowano', updated: 'zaktualizowano', readArticle: 'Przeczytaj artykuł', on: 'na', dateLocale: 'pl-PL', inLanguage: 'pl-PL' },
+};
 
 export const escapeHtml = (value = '') => String(value)
   .replaceAll('&', '&amp;')
@@ -99,21 +106,26 @@ export const sanitizeArticleHtml = (html = '') => {
 
 // ---------------------------------------------------------------------------
 
-export const articleRoute = (article) => ({
-  path: `clanek/${article.slug}`,
-  title: article.meta_title || `${article.title} | Kastrup.cz`,
-  description: article.meta_description || article.perex || `Přečtěte si článek ${article.title} na Kastrup.cz`,
-  canonical: `${SITE_URL}/clanek/${article.slug}`,
-  image: article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE,
-  type: 'article',
-  heading: article.title,
-  article,
-});
+export const articleRoute = (article, lang = 'cs') => {
+  const site = SITES[lang];
+  const text = TEXT[lang];
+  return {
+    lang,
+    path: `${site.articlePrefix.slice(1)}${article.slug}`,
+    title: article.meta_title || `${article.title} | ${site.name}`,
+    description: article.meta_description || article.perex || `${text.readArticle} ${article.title} ${text.on} ${site.name}`,
+    canonical: `${site.origin}${site.articlePrefix}${article.slug}`,
+    image: article.og_image || article.image_url || DEFAULT_SOCIAL_IMAGE,
+    type: 'article',
+    heading: article.title,
+    article,
+  };
+};
 
-const formatCzechDate = (value) => {
+const formatDate = (value, lang) => {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '';
-  return date.toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Prague' });
+  return date.toLocaleDateString(TEXT[lang].dateLocale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Prague' });
 };
 
 /**
@@ -130,7 +142,13 @@ export function applyRouteMeta(templateHtml, route) {
     ? '\n    <meta property="og:image:width" content="1200" data-rh="true" />\n    <meta property="og:image:height" content="630" data-rh="true" />'
     : '';
 
+  const lang = route.lang || 'cs';
+  const site = SITES[lang];
+
   let html = templateHtml
+    .replace(/<html lang="[a-z-]+">/, () => `<html lang="${lang}">`)
+    .replace(/<meta property="og:locale" content="[^"]*"/, () => `<meta property="og:locale" content="${site.locale}"`)
+    .replace(/<meta property="og:site_name" content="[^"]*"/, () => `<meta property="og:site_name" content="${site.name}"`)
     .replace(/<title>.*?<\/title>/, () => `<title>${safeTitle}</title>`)
     .replace(/<meta name="description" content=".*?"/, () => `<meta name="description" content="${safeDescription}"`);
 
@@ -141,6 +159,15 @@ export function applyRouteMeta(templateHtml, route) {
       /<link rel="canonical" href=".*?".*?\/>/,
       () => `<link rel="canonical" href="${safeCanonical}" data-rh="true" />`
     );
+  }
+
+  // hreflang links to the other language versions (empty until the Polish site is live)
+  html = html.replace(/\s*<link rel="alternate" hreflang="[^"]*"[^>]*>/g, '');
+  if (route.alternates?.length) {
+    const links = route.alternates
+      .map((alt) => `    <link rel="alternate" hreflang="${escapeHtml(alt.hreflang)}" href="${escapeHtml(alt.href)}" data-rh="true" />`)
+      .join('\n');
+    html = html.replace('</head>', () => `${links}\n  </head>`);
   }
 
   // The article shell template has no og:url; drop any leftover so it is never duplicated
@@ -172,15 +199,15 @@ export function applyRouteMeta(templateHtml, route) {
       author: {
         '@type': 'Person',
         name: AUTHOR_NAME,
-        url: `${SITE_URL}/autorka`
+        url: `${site.origin}${pagePath('author', lang) || '/autorka'}`
       },
       publisher: {
         '@type': 'Organization',
-        name: 'Kastrup.cz',
-        url: SITE_URL,
+        name: site.name,
+        url: site.origin,
         logo: {
           '@type': 'ImageObject',
-          url: `${SITE_URL}/icon-512.png`,
+          url: `${site.origin}/icon-512.png`,
           width: 512,
           height: 512
         }
@@ -189,9 +216,9 @@ export function applyRouteMeta(templateHtml, route) {
         '@type': 'WebPage',
         '@id': route.canonical
       },
-      articleSection: article.categories?.name,
+      articleSection: categoryName(article.categories, lang) || undefined,
       keywords: article.focus_keyword || undefined,
-      inLanguage: 'cs-CZ'
+      inLanguage: TEXT[lang].inLanguage
     });
     const articleMeta = [
       article.created_at
@@ -216,25 +243,27 @@ export function applyRouteMeta(templateHtml, route) {
 }
 
 /** Full article text for crawlers that do not run JavaScript (hidden for normal visitors). */
-export function renderArticleBody(article) {
-  const published = formatCzechDate(article.created_at);
-  const updated = article.updated_at ? formatCzechDate(article.updated_at) : '';
+export function renderArticleBody(article, lang = 'cs') {
+  const text = TEXT[lang];
+  const published = formatDate(article.created_at, lang);
+  const updated = article.updated_at ? formatDate(article.updated_at, lang) : '';
   const dates = [
-    published ? `publikováno <time datetime="${escapeHtml(article.created_at)}">${published}</time>` : '',
-    updated && updated !== published ? `aktualizováno <time datetime="${escapeHtml(article.updated_at)}">${updated}</time>` : '',
+    published ? `${text.published} <time datetime="${escapeHtml(article.created_at)}">${published}</time>` : '',
+    updated && updated !== published ? `${text.updated} <time datetime="${escapeHtml(article.updated_at)}">${updated}</time>` : '',
   ].filter(Boolean).join(', ');
   const perex = article.perex ? `\n            <p><strong>${escapeHtml(article.perex)}</strong></p>` : '';
+  const authorPath = pagePath('author', lang) || '/autorka';
 
   return `
           <article style="margin-top: 2rem;">
-            <p>Autorka: <a href="/autorka">${escapeHtml(AUTHOR_NAME)}</a>${dates ? ` · ${dates}` : ''}</p>${perex}
+            <p>${text.author}: <a href="${authorPath}">${escapeHtml(AUTHOR_NAME)}</a>${dates ? ` · ${dates}` : ''}</p>${perex}
             ${sanitizeArticleHtml(article.content || '')}
           </article>`;
 }
 
-/** Complete HTML document of one article, built from the article shell template. */
-export function renderArticlePage(templateHtml, article) {
-  const html = applyRouteMeta(templateHtml, articleRoute(article));
+/** Complete HTML document of one article, built from the article shell template of its language. */
+export function renderArticlePage(templateHtml, article, { lang = 'cs', alternates = [] } = {}) {
+  const html = applyRouteMeta(templateHtml, { ...articleRoute(article, lang), alternates });
   // Article text goes right after the fallback H1 and lead paragraph
-  return html.replace(/(<main[^>]*>\s*<h1>[\s\S]*?<\/h1>\s*<p>[\s\S]*?<\/p>)/, (block) => `${block}${renderArticleBody(article)}`);
+  return html.replace(/(<main[^>]*>\s*<h1>[\s\S]*?<\/h1>\s*<p>[\s\S]*?<\/p>)/, (block) => `${block}${renderArticleBody(article, lang)}`);
 }
