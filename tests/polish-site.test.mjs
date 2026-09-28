@@ -68,10 +68,21 @@ test('hreflang links are written only when alternates are given', () => {
   assert.doesNotMatch(renderArticlePage(shell, polishArticle, { lang: 'pl' }), /hreflang=/);
 });
 
-test('hreflang stays off until the Polish site is live', () => {
-  assert.equal(HREFLANG_LIVE, false);
-  assert.deepEqual(staticAlternates('copenhagen'), []);
-  assert.deepEqual(articleAlternates({ cs: 'ribe', pl: 'ribe' }), []);
+test('hreflang pairs Czech and Polish pages, x-default is the Czech original', () => {
+  assert.equal(HREFLANG_LIVE, true);
+  assert.deepEqual(staticAlternates('copenhagen'), [
+    { hreflang: 'cs', href: 'https://kastrup.cz/kodan' },
+    { hreflang: 'pl', href: 'https://kastrup.pl/kopenhaga' },
+    { hreflang: 'x-default', href: 'https://kastrup.cz/kodan' },
+  ]);
+  assert.deepEqual(articleAlternates({ cs: 'mosty-v-dansku', pl: 'mosty-w-danii' }), [
+    { hreflang: 'cs', href: 'https://kastrup.cz/clanek/mosty-v-dansku' },
+    { hreflang: 'pl', href: 'https://kastrup.pl/artykul/mosty-w-danii' },
+    { hreflang: 'x-default', href: 'https://kastrup.cz/clanek/mosty-v-dansku' },
+  ]);
+  // Untranslated page or article: no hreflang at all
+  assert.deepEqual(staticAlternates('travel'), []);
+  assert.deepEqual(articleAlternates({ cs: 'jen-cesky' }), []);
 });
 
 test('unknown Polish article is a Polish 404', async () => {
