@@ -81,6 +81,96 @@ const images: Record<string, { srcSet: string; width: number; height: number }> 
     "srcSet": "https://kastrup.cz/images/clanky/ribe/lomme-ulrik-2024-750.webp 750w, https://kastrup.cz/images/clanky/ribe/lomme-ulrik-2024-1500.webp 1500w",
     "width": 1500,
     "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kopenhaga/wejscie-vesterbrogade-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kopenhaga/wejscie-vesterbrogade-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kopenhaga/wejscie-vesterbrogade-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kopenhaga/rutschebanen-snieg-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kopenhaga/rutschebanen-snieg-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kopenhaga/rutschebanen-snieg-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kopenhaga/halloween-dynie-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kopenhaga/halloween-dynie-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kopenhaga/halloween-dynie-1500.webp 1200w",
+    "width": 1200,
+    "height": 800
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kopenhaga/jarmark-swiateczny-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kopenhaga/jarmark-swiateczny-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kopenhaga/jarmark-swiateczny-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kopenhaga/jezioro-noca-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kopenhaga/jezioro-noca-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kopenhaga/jezioro-noca-1500.webp 1500w",
+    "width": 1500,
+    "height": 960
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kopenhaga/himmelskibet-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kopenhaga/himmelskibet-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kopenhaga/himmelskibet-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/legoland-dania/wejscie-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/legoland-dania/wejscie-750.webp 750w, https://kastrup.cz/images/clanky/legoland-dania/wejscie-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/legoland-dania/miniland-port-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/legoland-dania/miniland-port-750.webp 750w, https://kastrup.cz/images/clanky/legoland-dania/miniland-port-1500.webp 1050w",
+    "width": 1050,
+    "height": 700
+  },
+  "https://kastrup.cz/images/clanky/legoland-dania/miniland-lotnisko-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/legoland-dania/miniland-lotnisko-750.webp 750w, https://kastrup.cz/images/clanky/legoland-dania/miniland-lotnisko-1500.webp 1050w",
+    "width": 1050,
+    "height": 700
+  },
+  "https://kastrup.cz/images/clanky/legoland-dania/lego-house-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/legoland-dania/lego-house-750.webp 750w, https://kastrup.cz/images/clanky/legoland-dania/lego-house-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/legoland-dania/minifigure-speedway-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/legoland-dania/minifigure-speedway-750.webp 750w, https://kastrup.cz/images/clanky/legoland-dania/minifigure-speedway-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/den-bla-planet-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/den-bla-planet-750.webp 750w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/den-bla-planet-1500.webp 1500w",
+    "width": 1500,
+    "height": 1001
+  },
+  "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rundetaarn-rampa-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rundetaarn-rampa-750.webp 750w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rundetaarn-rampa-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/zoo-wieza-wielblad-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/zoo-wieza-wielblad-750.webp 569w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/zoo-wieza-wielblad-1500.webp 1138w",
+    "width": 1138,
+    "height": 1500
+  },
+  "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/experimentarium-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/experimentarium-750.webp 750w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/experimentarium-1500.webp 1350w",
+    "width": 1350,
+    "height": 900
+  },
+  "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/nationalmuseet-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/nationalmuseet-750.webp 750w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/nationalmuseet-1500.webp 1350w",
+    "width": 1350,
+    "height": 900
+  },
+  "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/islands-brygge-kapielisko-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/islands-brygge-kapielisko-750.webp 750w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/islands-brygge-kapielisko-1500.webp 1200w",
+    "width": 1200,
+    "height": 898
+  },
+  "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rejs-kanalami-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rejs-kanalami-750.webp 750w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rejs-kanalami-1500.webp 1350w",
+    "width": 1350,
+    "height": 1013
   }
 };
 
