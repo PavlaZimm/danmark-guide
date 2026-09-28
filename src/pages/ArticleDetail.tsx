@@ -367,7 +367,7 @@ const ArticleDetail = () => {
   }
 
   // SEO-optimized meta tags with validation
-  const pageTitle = optimizeTitle(article.meta_title || article.title);
+  const pageTitle = optimizeTitle(article.meta_title || article.title, SITE.name);
   const pageDescription = optimizeDescription(article.meta_description || article.perex);
   const readingTime = calculateReadingTime(article.content);
   const isAirportGuide = article.slug === ui.article.airportSlug;
