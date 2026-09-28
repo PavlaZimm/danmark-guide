@@ -178,3 +178,20 @@ export function getArticleImageProps(src: string, sizes = "(max-width: 768px) ca
   const image = images[src];
   return image ? { ...image, sizes } : {};
 }
+
+const escapeAttr = (value: string) => value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+
+/**
+ * Adds srcset, sizes and intrinsic size to known article photos directly in the HTML string,
+ * so the small variant is used on phones even before any effect runs.
+ */
+export function withResponsiveImages(html: string, sizes = "(max-width: 768px) calc(100vw - 32px), 896px") {
+  return html.replace(/<img\b([^>]*?)\ssrc="([^"]+)"([^>]*)>/g, (tag, before: string, src: string, after: string) => {
+    const image = images[src.replace(/&amp;/g, "&")];
+    if (!image || /\ssrcset=/.test(tag)) return tag;
+    const extra = ` srcset="${escapeAttr(image.srcSet)}" sizes="${escapeAttr(sizes)}"`
+      + (/\swidth=/.test(tag) ? "" : ` width="${image.width}"`)
+      + (/\sheight=/.test(tag) ? "" : ` height="${image.height}"`);
+    return `<img${before} src="${src}"${extra}${after}>`;
+  });
+}
