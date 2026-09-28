@@ -1,4 +1,4 @@
-import { getArticleImageProps } from "@/lib/article-images";
+import { getArticleImageProps, withResponsiveImages } from "@/lib/article-images";
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
 import { createRoot, type Root } from 'react-dom/client';
 import { useParams, Link } from "react-router-dom";
@@ -166,10 +166,10 @@ const ArticleDetail = () => {
 
       // Update the article content with placeholders
       if (parsedMaps.length > 0 && contentRef.current) {
-        contentRef.current.innerHTML = DOMPurify.sanitize(doc.body.innerHTML, {
+        contentRef.current.innerHTML = withResponsiveImages(DOMPurify.sanitize(doc.body.innerHTML, {
           ADD_TAGS: ['details', 'summary'],
           ADD_ATTR: ['open', 'id', 'class', 'data-map-id']
-        });
+        }));
       }
     }
   }, [article]);
@@ -591,10 +591,10 @@ const ArticleDetail = () => {
               <div
                 className="prose prose-lg max-w-none article-content"
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(article.content, {
+                  __html: withResponsiveImages(DOMPurify.sanitize(article.content, {
                     ADD_TAGS: ['details', 'summary'],
                     ADD_ATTR: ['open']
-                  })
+                  }))
                 }}
               />
             )}
