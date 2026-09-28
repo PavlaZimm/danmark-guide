@@ -30,12 +30,15 @@ chová jako kastrup.pl. `?lang=cs` přepne zpět. Na produkčních doménách pa
    **Před ní se nesmí nasadit kód** — každý dotaz na články filtruje `lang`, bez sloupce by
    český web přestal načítat články.
 2. `content/articles-pl/insert-pl-articles.sql` — 6 polských článků (generuje
-   `node scripts/pl-articles-sql.mjs`). Lze pustit opakovaně.
+   `node scripts/pl-articles-sql.mjs`). Lze pustit opakovaně. Vkládá je **nezveřejněné**:
+   starý kód na kastrup.cz ještě nefiltruje jazyk a zveřejněné polské články by ukázal
+   v české sitemapě a u shodných adres (`ribe`, `mons-klint`) by rozbil české články.
 3. Sloučit PR → nasazení. kastrup.cz se viditelně nezmění.
-4. Vercel → Settings → Domains → přidat `kastrup.pl` a `www.kastrup.pl` (www → přesměrovat).
-   U Forpsi nastavit DNS přesně podle Vercelu. **Ne dřív než bod 3**, jinak by kastrup.pl
+4. Teprve teď zveřejnit: `update public.articles set published = true where lang = 'pl';`
+5. Vercel → Settings → Domains → přidat `kastrup.pl` a `www.kastrup.pl` (www → přesměrovat).
+   U Forpsi nastavit DNS přesně podle Vercelu. **Ne dřív než bod 4**, jinak by kastrup.pl
    ukazovala český web.
-5. Ověřit kastrup.pl, pak `HREFLANG_LIVE = true`, nasadit, přidat kastrup.pl do Search Console
+6. Ověřit kastrup.pl, pak `HREFLANG_LIVE = true`, nasadit, přidat kastrup.pl do Search Console
    a odeslat sitemapu.
 
 ## Právo
