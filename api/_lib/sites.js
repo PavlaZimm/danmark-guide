@@ -7,9 +7,9 @@ export const SITES = {
   pl: { lang: 'pl', origin: 'https://kastrup.pl', host: 'kastrup.pl', locale: 'pl_PL', name: 'Kastrup.pl', articlePrefix: '/artykul/' },
 };
 
-// Switch on once kastrup.pl serves the Polish site (DNS + approval). Until then no page
-// announces the other language, so Google never sees hreflang pointing to a dead domain.
-export const HREFLANG_LIVE = false;
+// On since kastrup.pl serves the Polish site. Turning it off removes every hreflang link,
+// e.g. if kastrup.pl ever stops resolving (hreflang to a dead domain is worse than none).
+export const HREFLANG_LIVE = true;
 
 // Static pages. `pl: null` = not translated yet (no Polish page, no hreflang).
 export const STATIC_PAGES = [
