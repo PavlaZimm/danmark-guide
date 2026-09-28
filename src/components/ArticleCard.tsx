@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Calendar } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { ui } from "@/lib/i18n";
+import { articlePath } from "@/lib/site";
 
 interface ArticleCardProps {
   id: string;
@@ -23,14 +25,14 @@ const ArticleCard = ({
   category,
   createdAt,
 }: ArticleCardProps) => {
-  const formattedDate = new Date(createdAt).toLocaleDateString("cs-CZ", {
+  const formattedDate = new Date(createdAt).toLocaleDateString(ui.dateLocale, {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 
   return (
-    <Link to={`/clanek/${slug}`}>
+    <Link to={articlePath(slug)}>
       <Card className="group h-full overflow-hidden transition-all hover:shadow-medium">
         <CardHeader className="p-0">
           <div className="relative aspect-[16/9] overflow-hidden bg-muted">

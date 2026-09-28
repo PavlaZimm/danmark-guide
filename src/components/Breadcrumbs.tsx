@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
+import { ui } from "@/lib/i18n";
 
 interface BreadcrumbItem {
   label: string;
@@ -19,10 +20,10 @@ const Breadcrumbs = ({ items }: BreadcrumbsProps) => {
           <Link
             to="/"
             className="flex items-center gap-1 transition-colors hover:text-primary"
-            aria-label="Domů"
+            aria-label={ui.breadcrumbHome}
           >
             <Home className="h-4 w-4" />
-            <span>Domů</span>
+            <span>{ui.breadcrumbHome}</span>
           </Link>
           {items.length > 0 && <ChevronRight className="h-4 w-4" />}
         </li>

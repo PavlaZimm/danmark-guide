@@ -11,6 +11,7 @@ interface Article {
   id: string;
   title: string;
   slug: string;
+  lang: string;
   published: boolean;
   created_at: string;
   categories: {
@@ -35,6 +36,7 @@ const AdminArticles = () => {
           id,
           title,
           slug,
+          lang,
           published,
           created_at,
           categories (
@@ -162,7 +164,10 @@ const AdminArticles = () => {
                         <td className="px-4 py-4">
                           <div className="font-medium">{article.title}</div>
                           <div className="text-sm text-muted-foreground">
-                            /{article.slug}
+                            {article.lang === "pl" ? (
+                              <Badge variant="outline" className="mr-2">PL</Badge>
+                            ) : null}
+                            {article.lang === "pl" ? "/artykul/" : "/clanek/"}{article.slug}
                           </div>
                         </td>
                         <td className="px-4 py-4">
@@ -182,11 +187,19 @@ const AdminArticles = () => {
                         </td>
                         <td className="px-4 py-4">
                           <div className="flex items-center justify-end gap-2">
-                            <Link to={`/clanek/${article.slug}`} target="_blank">
-                              <Button variant="ghost" size="sm">
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            </Link>
+                            {article.lang === "pl" ? (
+                              <a href={`https://kastrup.pl/artykul/${article.slug}`} target="_blank" rel="noopener noreferrer">
+                                <Button variant="ghost" size="sm">
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              </a>
+                            ) : (
+                              <Link to={`/clanek/${article.slug}`} target="_blank">
+                                <Button variant="ghost" size="sm">
+                                  <Eye className="h-4 w-4" />
+                                </Button>
+                              </Link>
+                            )}
                             <Link to={`/tajnedvere/articles/edit/${article.id}`}>
                               <Button variant="ghost" size="sm">
                                 <Edit className="h-4 w-4" />

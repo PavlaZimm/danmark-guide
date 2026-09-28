@@ -6,6 +6,49 @@ import {
   applyRouteMeta,
   escapeHtml,
 } from './api/_lib/article-html.js';
+import { SITES, findStaticPage, staticAlternates } from './api/_lib/sites.js';
+import { PL_ROUTES, PL_FALLBACK_LINKS } from './seo/pl-routes.js';
+
+// Polish variant of the built index.html: document language, Open Graph locale and the
+// no-JS fallback navigation. The H1/lead placeholders stay so applyRouteMeta fills them.
+const toPolishTemplate = (html) => {
+  const navLinks = PL_FALLBACK_LINKS
+    .map(([href, label]) => `<a href="${href}" style="margin: 0 0.5rem; color: var(--fg, inherit);">${escapeHtml(label)}</a>`)
+    .join('\n            ');
+  const sectionLinks = PL_FALLBACK_LINKS.slice(1)
+    .map(([href, label]) => `<li><a href="${href}">${escapeHtml(label)}</a></li>`)
+    .join('\n              ');
+  const fallback = `<div class="fallback-content">
+        <header style="padding: 1rem; background: var(--bg, #f5f5f5); border-bottom: 2px solid #dc2626;">
+          <nav>
+            <a href="/" style="margin: 0 1rem; color: #dc2626; font-weight: bold;">Kastrup.pl</a>
+            ${navLinks}
+          </nav>
+        </header>
+        <main style="padding: 2rem; max-width: 1200px; margin: 0 auto;">
+          <h1>Kastrup.cz - Váš průvodce po Dánsku</h1>
+          <p>Načítání stránky... Pro plné zobrazení prosím zapněte JavaScript.</p>
+          <nav style="margin-top: 2rem;">
+            <h2>Główne sekcje:</h2>
+            <ul>
+              ${sectionLinks}
+            </ul>
+          </nav>
+        </main>
+        <footer style="padding: 2rem; background: #1f2937; color: white; margin-top: 3rem;">
+          <div style="max-width: 1200px; margin: 0 auto;">
+            <p>&copy; ${new Date().getFullYear()} Kastrup.pl - Twój przewodnik po Danii</p>
+          </div>
+        </footer>
+      </div>`;
+  const polished = html
+    .replace(/<html lang="[a-z-]+">/, '<html lang="pl">')
+    .replace(/<meta property="og:locale" content="[^"]*"/, `<meta property="og:locale" content="${SITES.pl.locale}"`)
+    .replace(/<meta property="og:site_name" content="[^"]*"/, `<meta property="og:site_name" content="${SITES.pl.name}"`)
+    .replace(/<div class="fallback-content">[\s\S]*?<\/footer>\s*<\/div>/, fallback);
+  if (!polished.includes('Główne sekcje')) throw new Error('Polish fallback navigation was not inserted into index.html');
+  return polished;
+};
 
 /**
  * Vite plugin to generate separate HTML files for each route with proper meta tags
@@ -250,28 +293,16 @@ export default function routesHtmlPlugin() {
         }
       ];
 
-      // Store articles list for later use
-      let articlesList = [];
+      // Published articles per language, for the article lists (/clanky, /artykuly)
+      const articlesByLang = { cs: [], pl: [] };
 
       // Fallback article (in case Supabase fetch fails in build environment)
-      // This will be replaced by actual articles from Supabase in production
       const fallbackArticle = {
         slug: 'kastrup-kodansky-poklad-moderni-architektury-more-a-volnosti',
         title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti',
-        meta_title: 'Kastrup: Kodaňský poklad moderní architektury, moře a volnosti | Kastrup.cz',
-        meta_description: 'Objevte Kastrup - kodaňskou čtvrť u moře s moderní architekturou, plážemi a unikátní atmosférou. Průvodce po klidné části Kodaně blízko letiště.',
-        image_url: DEFAULT_SOCIAL_IMAGE,
-        og_image: null,
-        created_at: '2025-12-01T00:00:00+01:00',
-        updated_at: '2025-12-01T00:00:00+01:00',
-        focus_keyword: 'Kastrup',
-        categories: { name: 'Cestování' }
       };
 
-      // Fetch all published articles from Supabase and add them to routes
       try {
-        // Try to read env from process.env (works in production/CI)
-        // or import.meta.env (not available here), so we'll try to read .env file directly
         let supabaseUrl = process.env.VITE_SUPABASE_URL;
         let supabaseKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
@@ -298,20 +329,17 @@ export default function routesHtmlPlugin() {
           const supabase = createClient(supabaseUrl, supabaseKey);
           const { data: articles, error } = await supabase
             .from('articles')
-            .select('slug, title')
+            .select('slug, title, lang')
             .eq('published', true)
             .order('created_at', { ascending: false });
 
           if (error) {
             console.warn('Failed to fetch articles from Supabase:', error.message);
-          } else if (articles && articles.length > 0) {
-            console.log(`Found ${articles.length} published articles`);
-
-            // Articles are not written as static files: api/article.js renders them on request
-            // (always current text, real 404 for unknown slugs). The list feeds /clanky.
-            articlesList.push(...articles);
           } else {
-            console.log('No published articles found');
+            // Articles are not written as static files: api/article.js renders them on request
+            // (always current text, real 404 for unknown slugs). The lists feed /clanky and /artykuly.
+            (articles || []).forEach((article) => articlesByLang[article.lang || 'cs']?.push(article));
+            console.log(`Found ${articlesByLang.cs.length} Czech and ${articlesByLang.pl.length} Polish published articles`);
           }
         } else {
           console.warn('Supabase credentials not found - /clanky gets the fallback article list');
@@ -320,11 +348,9 @@ export default function routesHtmlPlugin() {
         console.error('Error fetching articles:', error);
       }
 
-      // Fallback: If no articles were fetched (build environment without network),
-      // use the fallback article to ensure at least one article link exists on /clanky
-      if (articlesList.length === 0) {
+      if (articlesByLang.cs.length === 0) {
         console.log('Using fallback article for build');
-        articlesList.push(fallbackArticle);
+        articlesByLang.cs.push(fallbackArticle);
       }
 
       const distPath = path.resolve(process.cwd(), 'dist');
@@ -336,6 +362,7 @@ export default function routesHtmlPlugin() {
       }
 
       const indexHtml = fs.readFileSync(indexHtmlPath, 'utf-8');
+      const indexHtmlPl = toPolishTemplate(indexHtml);
       const assetFiles = fs.readdirSync(path.join(distPath, 'assets'));
 
       const buildPreloadTag = (preload) => {
@@ -352,21 +379,34 @@ export default function routesHtmlPlugin() {
         return `    <link rel="preload" as="image" type="image/webp" href="${escapeHtml(href)}" imagesrcset="${escapeHtml(srcset)}" imagesizes="${escapeHtml(preload.sizes)}" fetchpriority="high" />\n`;
       };
 
-      const notFoundHtml = indexHtml
-        .replace(/<title>.*?<\/title>/, '<title>404 - Stránka nenalezena | Kastrup.cz</title>')
-        .replace(/<meta name="description" content=".*?"/, '<meta name="description" content="Požadovaná stránka na Kastrup.cz nebyla nalezena."')
+      const buildNotFound = (template, title, description) => template
+        .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+        .replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${description}"`)
         .replace('</head>', '    <meta name="robots" content="noindex, follow" />\n  </head>');
-      fs.writeFileSync(path.join(distPath, '404.html'), notFoundHtml);
-      console.log('✓ Generated 404.html');
-
-      // Template for api/article.js. It carries no canonical or og:url; the function
+      // Templates for api/article.js. They carry no canonical or og:url; the function
       // fills in the real meta tags, schema and article text for each request.
-      const articleShellHtml = indexHtml
-        .replace(/<title>.*?<\/title>/, '<title>Článek | Kastrup.cz</title>')
-        .replace(/<meta name="description" content=".*?"/, '<meta name="description" content="Článek o Dánsku na Kastrup.cz."')
+      const buildArticleShell = (template, title, description) => template
+        .replace(/<title>.*?<\/title>/, `<title>${title}</title>`)
+        .replace(/<meta name="description" content=".*?"/, `<meta name="description" content="${description}"`)
         .replace(/\s*<link rel="canonical"[^>]*>/, '')
         .replace(/\s*<meta property="og:url"[^>]*>/, '');
-      fs.writeFileSync(path.join(distPath, 'clanek-shell.html'), articleShellHtml);
+
+      const templates = {
+        cs: {
+          notFoundHtml: buildNotFound(indexHtml, '404 - Stránka nenalezena | Kastrup.cz', 'Požadovaná stránka na Kastrup.cz nebyla nalezena.'),
+          articleShellHtml: buildArticleShell(indexHtml, 'Článek | Kastrup.cz', 'Článek o Dánsku na Kastrup.cz.'),
+        },
+        pl: {
+          notFoundHtml: buildNotFound(indexHtmlPl, '404 - Nie znaleziono strony | Kastrup.pl', 'Nie znaleziono strony na Kastrup.pl.')
+            .replace('<h1>Kastrup.cz - Váš průvodce po Dánsku</h1>', '<h1>Nie znaleziono strony</h1>')
+            .replace('<p>Načítání stránky... Pro plné zobrazení prosím zapněte JavaScript.</p>', '<p>Strona, której szukasz, nie istnieje.</p>'),
+          articleShellHtml: buildArticleShell(indexHtmlPl, 'Artykuł | Kastrup.pl', 'Artykuł o Danii na Kastrup.pl.'),
+        },
+      };
+
+      fs.writeFileSync(path.join(distPath, '404.html'), templates.cs.notFoundHtml);
+      console.log('✓ Generated 404.html');
+      fs.writeFileSync(path.join(distPath, 'clanek-shell.html'), templates.cs.articleShellHtml);
       console.log('✓ Generated clanek-shell.html');
 
       // Vercel bundles functions after the build command, so api/article.js can import
@@ -376,67 +416,62 @@ export default function routesHtmlPlugin() {
       fs.writeFileSync(
         path.join(generatedDir, 'templates.js'),
         `// Generated by vite-plugin-routes-html.js during the build. Do not edit.\n` +
-        `export const articleShellHtml = ${JSON.stringify(articleShellHtml)};\n` +
-        `export const notFoundHtml = ${JSON.stringify(notFoundHtml)};\n`
+        `export const templates = ${JSON.stringify(templates)};\n`
       );
       console.log('✓ Generated api/_generated/templates.js');
 
-      routes.forEach(route => {
-        // For homepage, modify the main index.html directly
-        let targetHtmlPath;
-        if (route.isHomepage) {
-          targetHtmlPath = indexHtmlPath;
-        } else {
-          // Create directory for other routes
-          const routeDir = path.join(distPath, route.path);
-          if (!fs.existsSync(routeDir)) {
-            fs.mkdirSync(routeDir, { recursive: true });
-          }
-          targetHtmlPath = path.join(routeDir, 'index.html');
-        }
+      const articleListHtml = (lang, heading) => {
+        const list = articlesByLang[lang];
+        if (!list.length) return '';
+        return `
+          <section style="margin-top: 2rem;">
+            <h2>${heading}</h2>
+            <ul>
+              ${list.map(article => `<li><a href="${SITES[lang].articlePrefix}${encodeURIComponent(article.slug)}">${escapeHtml(article.title)}</a></li>`).join('\n              ')}
+            </ul>
+          </section>`;
+      };
 
-        let routeHtml = applyRouteMeta(indexHtml, route);
+      const writeRoute = (route, lang, template) => {
+        const rootDir = lang === 'pl' ? path.join(distPath, 'pl') : distPath;
+        const targetDir = route.isHomepage ? rootDir : path.join(rootDir, route.path);
+        fs.mkdirSync(targetDir, { recursive: true });
+        const targetHtmlPath = path.join(targetDir, 'index.html');
+
+        const page = findStaticPage(route.isHomepage ? '/' : `/${route.path}`, lang);
+        let routeHtml = applyRouteMeta(template, {
+          ...route,
+          lang,
+          alternates: page ? staticAlternates(page.key) : [],
+        });
 
         if (route.preloadImage) {
           routeHtml = routeHtml.replace('</head>', `${buildPreloadTag(route.preloadImage)}  </head>`);
         }
 
-        // For /clanky page, add list of article links for crawlers
-        if (route.path === 'clanky' && articlesList.length > 0) {
-          const articlesLinksHtml = `
-          <section style="margin-top: 2rem;">
-            <h2>Naše články:</h2>
-            <ul>
-              ${articlesList.map(article => `<li><a href="/clanek/${encodeURIComponent(article.slug)}">${escapeHtml(article.title)}</a></li>`).join('\n              ')}
-            </ul>
-          </section>`;
-
-          // Insert article links before the closing </main> tag
-          routeHtml = routeHtml.replace(
-            /<\/nav>\s*<\/main>/,
-            `</nav>${articlesLinksHtml}\n      </main>`
-          );
+        // Article lists for crawlers
+        const listPath = lang === 'pl' ? 'artykuly' : 'clanky';
+        if (route.path === listPath) {
+          const listHtml = articleListHtml(lang, lang === 'pl' ? 'Nasze artykuły:' : 'Naše články:');
+          routeHtml = routeHtml.replace(/<\/nav>\s*<\/main>/, `</nav>${listHtml}\n      </main>`);
         }
 
         if (route.fallbackHtml) {
-          routeHtml = routeHtml.replace(
-            '</main>',
-            `${route.fallbackHtml}\n        </main>`
-          );
+          routeHtml = routeHtml.replace('</main>', `${route.fallbackHtml}\n        </main>`);
         }
 
-        // Note: Basic HTML structure with links is now in index.html
-        // React will replace the content of #root when JS loads
-        // Crawlers that don't execute JS will see the fallback content with links
-
-        // Write the HTML file
         fs.writeFileSync(targetHtmlPath, routeHtml);
-        if (route.isHomepage) {
-          console.log(`✓ Updated index.html (homepage)`);
-        } else {
-          console.log(`✓ Generated ${route.path}/index.html`);
-        }
-      });
+        console.log(`✓ Generated ${path.relative(distPath, targetHtmlPath)}`);
+      };
+
+      routes.forEach(route => writeRoute(route, 'cs', indexHtml));
+      PL_ROUTES.forEach(route => writeRoute(route, 'pl', indexHtmlPl));
+
+      fs.writeFileSync(
+        path.join(distPath, 'pl', 'robots.txt'),
+        'User-agent: *\nAllow: /\n\nSitemap: https://kastrup.pl/sitemap.xml\n'
+      );
+      console.log('✓ Generated pl/robots.txt');
     }
   };
 }

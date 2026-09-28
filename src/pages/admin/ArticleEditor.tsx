@@ -67,6 +67,9 @@ const ArticleEditor = () => {
   const [perex, setPerex] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [lang, setLang] = useState<"cs" | "pl">("cs");
+  const [translationOf, setTranslationOf] = useState("");
+  const [originals, setOriginals] = useState<{ id: string; title: string }[]>([]);
   const [published, setPublished] = useState(false);
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDescription, setMetaDescription] = useState("");
@@ -105,6 +108,16 @@ const ArticleEditor = () => {
     setCategories(data || []);
   }, []);
 
+  // Czech articles that a Polish article can be a translation of (for hreflang)
+  const fetchOriginals = useCallback(async () => {
+    const { data } = await supabase
+      .from("articles")
+      .select("id, title")
+      .eq("lang", "cs")
+      .order("title");
+    setOriginals(data || []);
+  }, []);
+
   const fetchAuthorId = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) setAuthorId(user.id);
@@ -127,6 +140,8 @@ const ArticleEditor = () => {
       setPerex(data.perex);
       setImageUrl(data.image_url || "");
       setCategoryId(data.category_id);
+      setLang(data.lang === "pl" ? "pl" : "cs");
+      setTranslationOf(data.translation_of || "");
       setPublished(data.published);
       setMetaTitle(data.meta_title || "");
       setMetaDescription(data.meta_description || "");
@@ -141,15 +156,17 @@ const ArticleEditor = () => {
 
   useEffect(() => {
     fetchCategories();
+    fetchOriginals();
     fetchAuthorId();
     if (isEditMode) {
       fetchArticle();
     }
-  }, [fetchArticle, fetchAuthorId, fetchCategories, isEditMode]);
+  }, [fetchArticle, fetchAuthorId, fetchCategories, fetchOriginals, isEditMode]);
 
   const generateSlug = (text: string) => {
     return text
       .toLowerCase()
+      .replace(/ł/g, "l")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/[^a-z0-9]+/g, "-")
@@ -206,6 +223,8 @@ const ArticleEditor = () => {
         perex,
         content,
         category_id: categoryId,
+        lang,
+        translation_of: lang === "pl" && translationOf ? translationOf : null,
         image_url: imageUrl || null,
         published: shouldPublish !== undefined ? shouldPublish : published,
         author_id: authorId,
@@ -456,7 +475,7 @@ const ArticleEditor = () => {
                       className="mt-2"
                     />
                     <p className="mt-1 text-sm text-muted-foreground">
-                      URL: /clanek/{slug || "url-adresa"}
+                      URL: {lang === "pl" ? "kastrup.pl/artykul/" : "/clanek/"}{slug || "url-adresa"}
                     </p>
                     <p className="mt-1 text-xs text-amber-600">
                       💡 Slug se automaticky převede na URL-friendly formát (malá písmena, pomlčky místo mezer)
@@ -493,6 +512,41 @@ const ArticleEditor = () => {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  <div>
+                    <Label htmlFor="lang">Jazyk a web *</Label>
+                    <Select value={lang} onValueChange={(value) => setLang(value as "cs" | "pl")}>
+                      <SelectTrigger id="lang" className="mt-2">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="cs">Čeština – kastrup.cz</SelectItem>
+                        <SelectItem value="pl">Polština – kastrup.pl</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {lang === "pl" && (
+                    <div>
+                      <Label htmlFor="translationOf">Překlad českého článku</Label>
+                      <Select value={translationOf || "none"} onValueChange={(value) => setTranslationOf(value === "none" ? "" : value)}>
+                        <SelectTrigger id="translationOf" className="mt-2">
+                          <SelectValue placeholder="Vyberte originál" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">Není překlad (samostatný polský článek)</SelectItem>
+                          {originals.map((original) => (
+                            <SelectItem key={original.id} value={original.id}>
+                              {original.title}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Propojí obě jazykové verze pro Google (hreflang).
+                      </p>
+                    </div>
+                  )}
 
                   <div>
                     <Label htmlFor="image">URL hlavního obrázku</Label>

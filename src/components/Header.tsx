@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/ThemeToggle";
+import { ui } from "@/lib/i18n";
+import { pathTo } from "@/lib/site";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,11 +13,11 @@ const Header = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { label: "Domů", path: "/" },
-    { label: "O Dánsku", path: "/o-dansku" },
-    { label: "Průvodce", path: "/clanky" },
-    { label: "Ubytování", path: "/ubytovani" },
-    { label: "Kontakt", path: "/kontakt" },
+    { label: ui.nav.home, path: pathTo("home") },
+    { label: ui.nav.about, path: pathTo("about") },
+    { label: ui.nav.guides, path: pathTo("articles") },
+    { label: ui.nav.accommodation, path: pathTo("accommodation") },
+    { label: ui.nav.contact, path: pathTo("contact") },
   ];
 
   return (
@@ -25,18 +27,18 @@ const Header = () => {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       >
-        Přeskočit na hlavní obsah
+        {ui.skipToContent}
       </a>
 
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
-        <Link to="/" className="group flex items-center space-x-2" aria-label="Kastrup.cz – domů">
+        <Link to="/" className="group flex items-center space-x-2" aria-label={ui.logoLabel}>
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary transition-transform duration-300 group-hover:scale-110 group-hover:shadow-lg">
             <span className="text-xl font-bold text-primary-foreground">K</span>
           </div>
           <span className="hidden text-xl font-bold transition-colors md:inline-block">
-            Kastrup<span className="text-primary transition-colors group-hover:text-primary-hover">.cz</span>
+            Kastrup<span className="text-primary transition-colors group-hover:text-primary-hover">{ui.logoTld}</span>
           </span>
         </Link>
 
@@ -68,7 +70,7 @@ const Header = () => {
             variant="ghost"
             size="icon"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
+            aria-label={ui.toggleMenu}
             aria-expanded={isMenuOpen}
             aria-controls="mobile-navigation"
           >

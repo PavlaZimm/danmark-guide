@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 import { Mail, Coffee, Heart } from "lucide-react";
+import { ui } from "@/lib/i18n";
+import { COOKIE_SETTINGS_EVENT } from "@/lib/analytics";
+import { LANG, SITE, pathTo } from "@/lib/site";
 
 const Footer = () => {
   return (
@@ -8,110 +11,122 @@ const Footer = () => {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* About */}
           <div>
-            <h2 className="mb-4 text-lg font-semibold">O webu</h2>
+            <h2 className="mb-4 text-lg font-semibold">{ui.footer.aboutTitle}</h2>
             <p className="text-sm text-muted-foreground">
-              Váš průvodce po Dánsku. Objevujte kulturu, historii a nejlepší
-              destinace v Dánsku.
+              {ui.footer.aboutText}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h2 className="mb-4 text-lg font-semibold">Rychlé odkazy</h2>
+            <h2 className="mb-4 text-lg font-semibold">{ui.footer.quickLinks}</h2>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/o-dansku"
+                  to={pathTo("about")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  O Dánsku
+                  {ui.nav.about}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/clanky"
+                  to={pathTo("articles")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Průvodce
+                  {ui.nav.guides}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/ubytovani"
+                  to={pathTo("accommodation")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Ubytování
+                  {ui.nav.accommodation}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/autorka"
+                  to={pathTo("author")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  O autorce
+                  {ui.footer.author}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/kontakt"
+                  to={pathTo("contact")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Kontakt
+                  {ui.nav.contact}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/ochrana-soukromi"
+                  to={pathTo("privacy")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Soukromí a cookies
+                  {ui.footer.privacy}
                 </Link>
               </li>
+              {LANG === "pl" && (
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))}
+                    className="text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    Ustawienia cookies
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
 
           {/* Topics */}
           <div>
-            <h2 className="mb-4 text-lg font-semibold">Témata</h2>
+            <h2 className="mb-4 text-lg font-semibold">{ui.footer.topics}</h2>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  to="/kultura"
+                  to={pathTo("culture")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Dánská kultura
+                  {ui.footer.culture}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/hygge"
+                  to={pathTo("hygge")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Co je hygge
+                  {ui.footer.hygge}
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/kodan"
+                  to={pathTo("copenhagen")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Co vidět v Kodani
+                  {ui.footer.copenhagen}
                 </Link>
               </li>
+              {LANG === "cs" && (
+                <li>
+                  <Link
+                    to="/cestovani"
+                    className="text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {ui.footer.travel}
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link
-                  to="/cestovani"
+                  to={pathTo("articles")}
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
-                  Cestování
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/clanky"
-                  className="text-muted-foreground transition-colors hover:text-primary"
-                >
-                  Všechny články
+                  {ui.footer.allArticles}
                 </Link>
               </li>
             </ul>
@@ -119,7 +134,7 @@ const Footer = () => {
 
           {/* Contact */}
           <div>
-            <h2 className="mb-4 text-lg font-semibold">Kontakt</h2>
+            <h2 className="mb-4 text-lg font-semibold">{ui.footer.contactTitle}</h2>
             <div className="flex gap-4">
               <a
                 href="mailto:zimmermannovap@gmail.com"
@@ -133,13 +148,13 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p className="mb-3">&copy; {new Date().getFullYear()} Kastrup.cz. Všechna práva vyhrazena.</p>
+          <p className="mb-3">&copy; {new Date().getFullYear()} {SITE.name}. {ui.footer.rights}</p>
           <p className="flex items-center justify-center gap-2 text-xs">
-            Vytvořeno s
+            {ui.footer.madeWith}
             <Heart className="h-3 w-3 fill-red-500 text-red-500 animate-pulse" />
-            a spoustou
+            {ui.footer.andLots}
             <Coffee className="h-3 w-3" />
-            kávou •
+            {ui.footer.coffee} •
             <a
               href="https://linklady.cz"
               target="_blank"

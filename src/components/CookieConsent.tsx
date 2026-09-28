@@ -8,6 +8,8 @@ import {
   loadGoogleAnalytics,
   setAnalyticsConsent,
 } from "@/lib/analytics";
+import { ui } from "@/lib/i18n";
+import { pathTo } from "@/lib/site";
 
 const CookieConsent = () => {
   const [showBanner, setShowBanner] = useState(false);
@@ -49,16 +51,14 @@ const CookieConsent = () => {
                 <Cookie className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="mb-1 font-semibold">Používáme cookies</h3>
+                <h3 className="mb-1 font-semibold">{ui.cookies.title}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Nezbytné technické cookies zajišťují fungování webu. Po vašem
-                  souhlasu můžeme zapnout Google Analytics, který nám pomáhá web
-                  zlepšovat. Analytiku bez souhlasu nenačítáme.{" "}
+                  {ui.cookies.text}{" "}
                   <Link
-                    to="/ochrana-soukromi"
+                    to={pathTo("privacy")}
                     className="underline hover:text-primary"
                   >
-                    Více informací
+                    {ui.cookies.more}
                   </Link>
                 </p>
               </div>
@@ -72,14 +72,14 @@ const CookieConsent = () => {
                 onClick={declineCookies}
                 className="w-full md:w-auto"
               >
-                Odmítnout
+                {ui.cookies.decline}
               </Button>
               <Button
                 size="sm"
                 onClick={acceptCookies}
                 className="w-full md:w-auto"
               >
-                Přijmout
+                {ui.cookies.accept}
               </Button>
             </div>
           </div>
