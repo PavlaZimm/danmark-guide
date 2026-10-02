@@ -171,7 +171,54 @@ const images: Record<string, { srcSet: string; width: number; height: number }> 
     "srcSet": "https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rejs-kanalami-750.webp 750w, https://kastrup.cz/images/clanky/kopenhaga-z-dziecmi/rejs-kanalami-1500.webp 1350w",
     "width": 1350,
     "height": 1013
+  },
+
+  "https://kastrup.cz/images/clanky/metro-kodan/metro-1-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/metro-kodan/metro-1-750.webp 750w, https://kastrup.cz/images/clanky/metro-kodan/metro-1-1500.webp 1500w",
+    "width": 1500,
+    "height": 1129
+  },
+  "https://kastrup.cz/images/clanky/metro-kodan/metro-2-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/metro-kodan/metro-2-750.webp 750w, https://kastrup.cz/images/clanky/metro-kodan/metro-2-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/dansko-autem/prejezd-mostu-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/dansko-autem/prejezd-mostu-750.webp 562w, https://kastrup.cz/images/clanky/dansko-autem/prejezd-mostu-1500.webp 1125w",
+    "width": 1125,
+    "height": 1500
+  },
+  "https://kastrup.cz/images/clanky/dansko-autem/trajekt-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/dansko-autem/trajekt-750.webp 562w, https://kastrup.cz/images/clanky/dansko-autem/trajekt-1500.webp 1125w",
+    "width": 1125,
+    "height": 1500
+  },
+  "https://kastrup.cz/images/clanky/dansko-autem/more-z-trajektu-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/dansko-autem/more-z-trajektu-750.webp 562w, https://kastrup.cz/images/clanky/dansko-autem/more-z-trajektu-1500.webp 1125w",
+    "width": 1125,
+    "height": 1500
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kodan/wejscie-vesterbrogade-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kodan/wejscie-vesterbrogade-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kodan/wejscie-vesterbrogade-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kodan/halloween-dynie-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kodan/halloween-dynie-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kodan/halloween-dynie-1500.webp 1200w",
+    "width": 1200,
+    "height": 800
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kodan/jarmark-swiateczny-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kodan/jarmark-swiateczny-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kodan/jarmark-swiateczny-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/tivoli-kodan/himmelskibet-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/tivoli-kodan/himmelskibet-750.webp 750w, https://kastrup.cz/images/clanky/tivoli-kodan/himmelskibet-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
   }
+
 };
 
 export function getArticleImageProps(src: string, sizes = "(max-width: 768px) calc(100vw - 32px), 896px") {

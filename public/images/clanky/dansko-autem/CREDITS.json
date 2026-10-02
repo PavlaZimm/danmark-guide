@@ -1,0 +1,50 @@
+[
+  {
+    "file": "prejezd-mostu-1500.webp",
+    "alt": "Pohled z auta na visutý most nad mořem",
+    "caption": "Pohled z auta na visutý most nad mořem. Vlastní archiv, 2024.",
+    "artist": "Vlastní archiv",
+    "license": "Vlastní archiv projektu; neveřejná licence",
+    "source": "Clanky/fotografie.json a existující fotografie článku mosty-v-dansku",
+    "changes": "Existující optimalizovaná fotografie, beze změny.",
+    "role": "hero",
+    "location_note": "Konkrétní trajektová linka ani místo pořízení se z fotografie neurčují.",
+    "width": 1125,
+    "height": 1500,
+    "bytes": 138328,
+    "visually_checked": "2026-10-02",
+    "local_path": "images/prejezd-mostu-1500.webp"
+  },
+  {
+    "file": "trajekt-1500.webp",
+    "alt": "Paluba trajektu za večerního světla",
+    "caption": "Paluba trajektu za večerního světla. Vlastní archiv, 2023.",
+    "artist": "Vlastní archiv",
+    "license": "Vlastní archiv projektu; neveřejná licence",
+    "source": "Clanky/fotografie.json a existující fotografie článku mosty-v-dansku",
+    "changes": "Existující optimalizovaná fotografie, beze změny.",
+    "role": "body",
+    "location_note": "Konkrétní trajektová linka ani místo pořízení se z fotografie neurčují.",
+    "width": 1125,
+    "height": 1500,
+    "bytes": 76350,
+    "visually_checked": "2026-10-02",
+    "local_path": "images/trajekt-1500.webp"
+  },
+  {
+    "file": "more-z-trajektu-1500.webp",
+    "alt": "Moře a lodní brázda při plavbě trajektem",
+    "caption": "Moře a lodní brázda při plavbě trajektem. Vlastní archiv, 2023.",
+    "artist": "Vlastní archiv",
+    "license": "Vlastní archiv projektu; neveřejná licence",
+    "source": "Clanky/nasazeni-2026-09-17/obrazky-rozsirene.json; vlastní archiv, photo_year 2023",
+    "changes": "Existující optimalizovaná fotografie, beze změny.",
+    "role": "body",
+    "location_note": "Konkrétní trajektová linka ani místo pořízení se z fotografie neurčují.",
+    "width": 1125,
+    "height": 1500,
+    "bytes": 149220,
+    "visually_checked": "2026-10-02",
+    "local_path": "images/more-z-trajektu-1500.webp"
+  }
+]
