@@ -251,6 +251,7 @@ export default function routesHtmlPlugin() {
             <p>Z terminálu 3 jezdí do centra metro i vlak. Jízdenku si kupte před nástupem a aktuální spojení ověřte v Rejseplanen.</p>
             <p><a href="/clanek/letiste-kodan-kastrup-doprava-do-centra">Podrobná doprava z letiště Kodaň do centra</a></p>
           <p><a href="/clanek/mosty-v-dansku">Cesta autem do Dánska: ceny mostů</a> · <a href="/clanek/mons-klint">Výlet k Møns Klint autem</a></p>
+          <p>Plánování pobytu: <a href="/clanek/metro-kodan">metro v Kodani a City Pass</a> · <a href="/clanek/tivoli-kodan">vstupenky do Tivoli</a> · <a href="/clanek/dansko-autem">cesta do Dánska autem</a>.</p>
           </article>`
         },
         {

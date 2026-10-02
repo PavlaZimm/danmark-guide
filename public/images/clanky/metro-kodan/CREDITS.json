@@ -1,0 +1,34 @@
+[
+  {
+    "file": "metro-1-1500.webp",
+    "alt": "Nástupiště linek M3 a M4 ve stanici Kongens Nytorv",
+    "caption": "Nástupiště na Kongens Nytorv, archivní snímek z roku 2022.",
+    "artist": "davwheat",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AKongens_Nytorv_%28M3_and_M4%29_on_the_Copenhagen_Metro_-_52473214441.jpg",
+    "changes": "Zmenšení a převod do WebP.",
+    "role": "hero",
+    "width": 1500,
+    "height": 1129,
+    "bytes": 142712,
+    "visually_checked": "2026-10-02",
+    "local_path": "images/metro-1-1500.webp"
+  },
+  {
+    "file": "metro-2-1500.webp",
+    "alt": "Vstup do stanice metra Kongens Nytorv z náměstí",
+    "caption": "Vstup do metra na Kongens Nytorv, archivní snímek z roku 2014.",
+    "artist": "Daniel from Melrose, United Kingdom",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AKongens_Nytorv_metro_station.jpg",
+    "changes": "Zmenšení a převod do WebP.",
+    "role": "body",
+    "width": 1500,
+    "height": 1000,
+    "bytes": 154306,
+    "visually_checked": "2026-10-02",
+    "local_path": "images/metro-2-1500.webp"
+  }
+]
