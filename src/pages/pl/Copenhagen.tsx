@@ -333,6 +333,8 @@ const Copenhagen = () => {
                 <p>
                   Jeśli przyjeżdżasz samochodem, sprawdź <Link to="/artykul/mosty-w-danii">mosty w Danii, ceny i opłaty za przejazd</Link>.
                   Na dłuższą wycieczkę za miasto przyda się przewodnik <Link to="/artykul/mons-klint">Møns Klint samochodem</Link>.
+                  Na jednodniową wycieczkę do Szwecji zawiezie Cię pociąg do Malmö, bilet, dokumenty i trasę opisuje tekst{" "}
+                  <Link to="/artykul/malmo-z-kopenhagi">Malmö z Kopenhagi</Link>.
                 </p>
 
                 <h3>Lotnisko w Kopenhadze i dojazd do centrum</h3>
@@ -377,6 +379,8 @@ const Copenhagen = () => {
                   atrakcji. Nyhavn, Kastellet, Ogród Królewski, Superkilen i długie spacery wzdłuż portu
                   są bezpłatne. Do tego dochodzi darmowy taras widokowy na Christiansborgu. Copenhagen Card
                   porównuj z konkretną listą atrakcji, które chcesz odwiedzić, a nie z obietnicą ogólnej zniżki.
+                  Ceny, zasady i trzy gotowe wyliczenia znajdziesz w tekście{" "}
+                  <Link to="/artykul/copenhagen-card">Copenhagen Card: czy się opłaca</Link>.
                 </p>
 
                 <h3>Noclegi w Kopenhadze: wybieraj według trasy</h3>
