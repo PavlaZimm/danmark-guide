@@ -16,6 +16,7 @@ import { DEFAULT_SOCIAL_IMAGE, optimizeTitle, optimizeDescription, calculateRead
 import { ui } from "@/lib/i18n";
 import { LANG, SITE, absoluteUrl, articleAlternates, articlePath, categoryName, pathTo } from "@/lib/site";
 import { HREFLANG_LIVE } from "../../api/_lib/sites.js";
+import { withTableLabels } from "../../api/_lib/table-labels.js";
 
 interface Article {
   id: string;
@@ -166,10 +167,10 @@ const ArticleDetail = () => {
 
       // Update the article content with placeholders
       if (parsedMaps.length > 0 && contentRef.current) {
-        contentRef.current.innerHTML = withResponsiveImages(DOMPurify.sanitize(doc.body.innerHTML, {
+        contentRef.current.innerHTML = withTableLabels(withResponsiveImages(DOMPurify.sanitize(doc.body.innerHTML, {
           ADD_TAGS: ['details', 'summary'],
           ADD_ATTR: ['open', 'id', 'class', 'data-map-id']
-        }));
+        })));
       }
     }
   }, [article]);
@@ -593,10 +594,10 @@ const ArticleDetail = () => {
               <div
                 className="prose prose-lg max-w-none article-content"
                 dangerouslySetInnerHTML={{
-                  __html: withResponsiveImages(DOMPurify.sanitize(article.content, {
+                  __html: withTableLabels(withResponsiveImages(DOMPurify.sanitize(article.content, {
                     ADD_TAGS: ['details', 'summary'],
                     ADD_ATTR: ['open']
-                  }))
+                  })))
                 }}
               />
             )}

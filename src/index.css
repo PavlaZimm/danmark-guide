@@ -397,6 +397,47 @@ All colors MUST be HSL.
     @apply border-b transition-colors hover:bg-muted/20;
   }
 
+  /* Tables with 3+ columns become cards on phones (columns labelled by api/_lib/table-labels.js) */
+  @media (max-width: 640px) {
+    .prose table.mtab {
+      @apply block overflow-visible border-0 bg-transparent shadow-none;
+    }
+
+    .prose table.mtab thead {
+      @apply sr-only;
+    }
+
+    .prose table.mtab tbody {
+      @apply block;
+    }
+
+    .prose table.mtab tr {
+      @apply mb-3 block overflow-hidden rounded-lg border bg-card shadow-sm;
+    }
+
+    .prose table.mtab td {
+      @apply flex items-baseline justify-between gap-4 border-b border-border/60 px-3 py-2 text-right;
+    }
+
+    .prose table.mtab td:last-child {
+      @apply border-b-0;
+    }
+
+    .prose table.mtab td::before {
+      content: attr(data-label);
+      @apply shrink-0 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground;
+    }
+
+    /* Cells without a column label (first column of comparison tables) act as the card title */
+    .prose table.mtab td:not([data-label]) {
+      @apply block bg-muted/50 text-left font-semibold;
+    }
+
+    .prose table.mtab td:empty {
+      @apply hidden;
+    }
+  }
+
   .prose blockquote {
     @apply my-6 border-l-4 border-primary pl-6 italic text-muted-foreground;
   }
