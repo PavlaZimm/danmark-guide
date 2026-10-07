@@ -367,7 +367,9 @@ const ArticleDetail = () => {
   }
 
   // SEO-optimized meta tags with validation
-  const pageTitle = optimizeTitle(article.meta_title || article.title, SITE.name);
+  // Same rule as the server-rendered HTML (api/_lib/article-html.js): an editor-written
+  // meta_title is used whole; cutting it to 60 chars left titles ending in "..." after hydration.
+  const pageTitle = article.meta_title || optimizeTitle(article.title, SITE.name);
   const pageDescription = optimizeDescription(article.meta_description || article.perex);
   const readingTime = calculateReadingTime(article.content);
   const isAirportGuide = article.slug === ui.article.airportSlug;
