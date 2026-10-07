@@ -336,6 +336,8 @@ const Copenhagen = () => {
                   Při plánování pobytu porovnejte <Link to="/clanek/metro-kodan">jízdenky a City Pass pro metro v Kodani</Link>.
                   Před návštěvou zábavního parku si projděte <Link to="/clanek/tivoli-kodan">vstupenky do Tivoli a Ride Pass</Link>.
                   Pro příjezd z Česka využijte <Link to="/clanek/dansko-autem">srovnání cest do Dánska autem</Link>.
+                  Na jednodenní výlet do Švédska vás doveze vlak do Malmö, jízdenky, doklady a trasu popisuje{" "}
+                  <Link to="/clanek/vylet-z-kodane-do-malmo">výlet z Kodaně do Malmö</Link>.
                 </p>
 
                 <h3>Kodaň letiště a cesta do centra</h3>
