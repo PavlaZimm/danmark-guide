@@ -112,6 +112,61 @@ const images: Record<string, { srcSet: string; width: number; height: number }> 
     "width": 1500,
     "height": 1125
   },
+  "https://kastrup.cz/images/clanky/copenhagen-card/rosenborg-jesien-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/copenhagen-card/rosenborg-jesien-750.webp 750w, https://kastrup.cz/images/clanky/copenhagen-card/rosenborg-jesien-1500.webp 1300w",
+    "width": 1300,
+    "height": 862
+  },
+  "https://kastrup.cz/images/clanky/copenhagen-card/kronborg-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/copenhagen-card/kronborg-750.webp 750w, https://kastrup.cz/images/clanky/copenhagen-card/kronborg-1500.webp 1500w",
+    "width": 1500,
+    "height": 938
+  },
+  "https://kastrup.cz/images/clanky/copenhagen-card/frederiksborg-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/copenhagen-card/frederiksborg-750.webp 750w, https://kastrup.cz/images/clanky/copenhagen-card/frederiksborg-1500.webp 1500w",
+    "width": 1500,
+    "height": 991
+  },
+  "https://kastrup.cz/images/clanky/copenhagen-card/glyptoteka-ogrod-zimowy-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/copenhagen-card/glyptoteka-ogrod-zimowy-750.webp 750w, https://kastrup.cz/images/clanky/copenhagen-card/glyptoteka-ogrod-zimowy-1500.webp 1100w",
+    "width": 1100,
+    "height": 825
+  },
+  "https://kastrup.cz/images/clanky/copenhagen-card/thorvaldsens-museum-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/copenhagen-card/thorvaldsens-museum-750.webp 750w, https://kastrup.cz/images/clanky/copenhagen-card/thorvaldsens-museum-1500.webp 1500w",
+    "width": 1500,
+    "height": 1000
+  },
+  "https://kastrup.cz/images/clanky/malmo/most-oresund-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/malmo/most-oresund-750.webp 750w, https://kastrup.cz/images/clanky/malmo/most-oresund-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/malmo/oresundstag-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/malmo/oresundstag-750.webp 750w, https://kastrup.cz/images/clanky/malmo/oresundstag-1500.webp 1400w",
+    "width": 1400,
+    "height": 1054
+  },
+  "https://kastrup.cz/images/clanky/malmo/lilla-torg-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/malmo/lilla-torg-750.webp 750w, https://kastrup.cz/images/clanky/malmo/lilla-torg-1500.webp 1100w",
+    "width": 1100,
+    "height": 825
+  },
+  "https://kastrup.cz/images/clanky/malmo/malmohus-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/malmo/malmohus-750.webp 750w, https://kastrup.cz/images/clanky/malmo/malmohus-1500.webp 1300w",
+    "width": 1300,
+    "height": 861
+  },
+  "https://kastrup.cz/images/clanky/malmo/turning-torso-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/malmo/turning-torso-750.webp 750w, https://kastrup.cz/images/clanky/malmo/turning-torso-1500.webp 1500w",
+    "width": 1500,
+    "height": 1125
+  },
+  "https://kastrup.cz/images/clanky/malmo/kallbadhus-1500.webp": {
+    "srcSet": "https://kastrup.cz/images/clanky/malmo/kallbadhus-750.webp 750w, https://kastrup.cz/images/clanky/malmo/kallbadhus-1500.webp 1500w",
+    "width": 1500,
+    "height": 985
+  },
   "https://kastrup.cz/images/clanky/legoland-dania/wejscie-1500.webp": {
     "srcSet": "https://kastrup.cz/images/clanky/legoland-dania/wejscie-750.webp 750w, https://kastrup.cz/images/clanky/legoland-dania/wejscie-1500.webp 1500w",
     "width": 1500,
